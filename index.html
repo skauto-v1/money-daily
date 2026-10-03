@@ -2,7 +2,10 @@
 <html lang="lo">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <title>ແອັບບັນທຶກລາຍຮັບ-ລາຍຈ່າຍ</title>
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#667eea">
@@ -20,10 +23,12 @@
       background-color: #f0f2f5;
       color: #333333;
       min-height: 100vh;
+      min-height: 100dvh;
       display: flex;
       justify-content: center;
       align-items: flex-start;
       padding: 20px 12px;
+      -webkit-tap-highlight-color: transparent;
     }
 
     .container {
@@ -34,6 +39,30 @@
       box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
       overflow: hidden;
       padding: 24px 20px;
+    }
+
+    /* Mobile Full Screen (<= 520px) */
+    @media (max-width: 520px) {
+      body {
+        padding: 0;
+        background-color: #ffffff;
+        align-items: stretch;
+      }
+
+      .container {
+        max-width: 100%;
+        border-radius: 0;
+        box-shadow: none;
+        min-height: 100vh;
+        min-height: 100dvh;
+        padding: max(16px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) max(24px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
+        display: flex;
+        flex-direction: column;
+      }
+
+      .list-section {
+        flex: 1;
+      }
     }
 
     /* 1. Header */
