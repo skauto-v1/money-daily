@@ -8,40 +8,62 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <title>ແອັບບັນທຶກລາຍຮັບ-ລາຍຈ່າຍ</title>
   <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#667eea">
+  <meta name="theme-color" content="#4f46e5">
   <link rel="apple-touch-icon" href="icon-192.png">
   <link rel="icon" type="image/png" href="icon-192.png">
   <style>
+    :root {
+      --primary: #4f46e5;
+      --primary-gradient: linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #9333ea 100%);
+      --expense: #ef4444;
+      --expense-gradient: linear-gradient(135deg, #f87171 0%, #ef4444 100%);
+      --income: #10b981;
+      --income-gradient: linear-gradient(135deg, #34d399 0%, #10b981 100%);
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 20px;
+      --radius-xl: 24px;
+      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 4px 12px rgba(15, 23, 42, 0.06);
+      --shadow-lg: 0 10px 25px -5px rgba(79, 70, 229, 0.15);
+      --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: 'Phetsarath OT', 'Saysettha OT', 'Segoe UI', Tahoma, sans-serif;
+      font-family: 'Phetsarath OT', 'Saysettha OT', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      -webkit-tap-highlight-color: transparent;
     }
 
     body {
-      background-color: #f0f2f5;
-      color: #333333;
+      background-color: var(--bg);
+      color: var(--text-main);
       min-height: 100vh;
       min-height: 100dvh;
       display: flex;
       justify-content: center;
       align-items: flex-start;
-      padding: 20px 12px;
-      -webkit-tap-highlight-color: transparent;
+      padding: 24px 14px;
     }
 
     .container {
       width: 100%;
       max-width: 480px;
-      background: #ffffff;
-      border-radius: 16px;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
-      overflow: hidden;
-      padding: 24px 20px;
+      background: var(--card-bg);
+      border-radius: var(--radius-xl);
+      box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.07), 0 0 1px 1px rgba(0, 0, 0, 0.03);
+      padding: 24px 22px;
+      position: relative;
     }
 
-    /* Mobile Full Screen (<= 520px) */
+    /* Mobile Full Screen */
     @media (max-width: 520px) {
       body {
         padding: 0;
@@ -55,7 +77,7 @@
         box-shadow: none;
         min-height: 100vh;
         min-height: 100dvh;
-        padding: max(16px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) max(24px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
+        padding: max(16px, env(safe-area-inset-top)) max(18px, env(safe-area-inset-right)) max(28px, env(safe-area-inset-bottom)) max(18px, env(safe-area-inset-left));
         display: flex;
         flex-direction: column;
       }
@@ -65,33 +87,124 @@
       }
     }
 
-    /* 1. Header */
-    .header-title {
-      text-align: center;
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: #1f2937;
+    /* PWA Install Banner */
+    .install-banner {
+      display: none;
+      justify-content: space-between;
+      align-items: center;
+      background: linear-gradient(135deg, #e0e7ff 0%, #ede9fe 100%);
+      padding: 12px 16px;
+      border-radius: var(--radius-md);
       margin-bottom: 20px;
+      border: 1px solid #c7d2fe;
+      animation: fadeIn 0.3s ease;
     }
 
-    /* 2. Summary Box */
-    .summary-box {
-      background: linear-gradient(135deg, #667eea, #764ba2);
+    .install-banner-text {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #3730a3;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .install-btn {
+      background: #4f46e5;
       color: #ffffff;
-      border-radius: 14px;
-      padding: 18px 20px;
-      margin-bottom: 24px;
-      box-shadow: 0 6px 16px rgba(102, 126, 234, 0.28);
+      border: none;
+      padding: 7px 16px;
+      border-radius: var(--radius-sm);
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(79, 70, 229, 0.3);
+      transition: var(--transition);
     }
 
-    /* Summary Currency Tabs */
+    .install-btn:active {
+      transform: scale(0.96);
+    }
+
+    /* 1. Header */
+    .app-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 22px;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .app-logo {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      object-fit: cover;
+      box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25);
+    }
+
+    .app-title-group {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .header-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--text-main);
+      line-height: 1.2;
+    }
+
+    .header-subtitle {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .date-badge {
+      background: #f1f5f9;
+      color: #475569;
+      font-size: 0.78rem;
+      font-weight: 600;
+      padding: 5px 10px;
+      border-radius: 20px;
+    }
+
+    /* 2. Hero Summary Card */
+    .hero-card {
+      background: var(--primary-gradient);
+      color: #ffffff;
+      border-radius: var(--radius-lg);
+      padding: 20px 20px 18px 20px;
+      margin-bottom: 24px;
+      box-shadow: 0 12px 28px -6px rgba(124, 58, 237, 0.35);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-card::after {
+      content: '';
+      position: absolute;
+      top: -30%;
+      right: -20%;
+      width: 180px;
+      height: 180px;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.18) 0%, rgba(255, 255, 255, 0) 70%);
+      pointer-events: none;
+    }
+
     .summary-currency-tabs {
       display: flex;
-      background: rgba(0, 0, 0, 0.15);
-      padding: 4px;
+      background: rgba(0, 0, 0, 0.22);
+      padding: 3px;
       border-radius: 10px;
-      gap: 4px;
-      margin-bottom: 14px;
+      gap: 3px;
+      margin-bottom: 16px;
     }
 
     .summary-curr-tab {
@@ -99,211 +212,369 @@
       padding: 6px 0;
       border: none;
       background: transparent;
-      color: rgba(255, 255, 255, 0.8);
-      font-size: 0.85rem;
+      color: rgba(255, 255, 255, 0.75);
+      font-size: 0.82rem;
       font-weight: 600;
       border-radius: 7px;
       cursor: pointer;
-      transition: all 0.2s ease;
+      transition: var(--transition);
+      text-align: center;
     }
 
     .summary-curr-tab.active {
       background: #ffffff;
       color: #5b21b6;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
     }
 
-    .summary-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 10px;
-      font-size: 0.95rem;
+    .balance-section {
+      text-align: center;
+      margin-bottom: 16px;
     }
 
-    .summary-row span:first-child {
+    .balance-label {
+      font-size: 0.85rem;
       color: #e0e7ff;
+      font-weight: 500;
+      margin-bottom: 4px;
     }
 
-    .summary-row.total-row {
-      margin-top: 12px;
-      margin-bottom: 0;
-      padding-top: 12px;
-      border-top: 1px solid rgba(255, 255, 255, 0.25);
-      font-size: 1.15rem;
-      font-weight: 700;
-    }
-
-    .summary-row.total-row span:first-child {
+    .balance-amount {
+      font-size: 1.85rem;
+      font-weight: 800;
       color: #ffffff;
+      letter-spacing: -0.5px;
+      line-height: 1.1;
     }
 
-    /* 3. Type Toggle */
-    .type-toggle {
-      display: flex;
+    .summary-stats-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
       gap: 10px;
+      padding-top: 14px;
+      border-top: 1px solid rgba(255, 255, 255, 0.18);
+    }
+
+    .stat-pill {
+      background: rgba(255, 255, 255, 0.12);
+      backdrop-filter: blur(8px);
+      padding: 10px 12px;
+      border-radius: var(--radius-md);
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .stat-title {
+      font-size: 0.75rem;
+      color: #e0e7ff;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .stat-title .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+    }
+
+    .stat-title .dot.green { background: #34d399; }
+    .stat-title .dot.red { background: #f87171; }
+
+    .stat-val {
+      font-size: 0.98rem;
+      font-weight: 700;
+      color: #ffffff;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* 3. Transaction Type Segmented Toggle */
+    .type-segmented-control {
+      display: flex;
+      background: #f1f5f9;
+      padding: 4px;
+      border-radius: var(--radius-md);
       margin-bottom: 18px;
+      gap: 4px;
     }
 
-    .toggle-btn {
+    .segment-btn {
       flex: 1;
-      padding: 10px 0;
-      font-size: 1rem;
+      padding: 11px 0;
+      font-size: 0.95rem;
       font-weight: 600;
-      border-radius: 10px;
-      border: 1px solid #e2e8f0;
-      background: #f8fafc;
-      color: #64748b;
+      border-radius: 9px;
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
       cursor: pointer;
-      transition: all 0.2s ease;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
     }
 
-    .toggle-btn:hover {
-      background: #edf2f7;
-    }
-
-    .toggle-btn.active.expense {
-      background-color: #ef4444;
-      border-color: #ef4444;
+    .segment-btn.active.expense {
+      background: var(--expense-gradient);
       color: #ffffff;
-      box-shadow: 0 4px 10px rgba(239, 68, 68, 0.25);
+      box-shadow: 0 4px 12px rgba(239, 68, 68, 0.28);
     }
 
-    .toggle-btn.active.income {
-      background-color: #10b981;
-      border-color: #10b981;
+    .segment-btn.active.income {
+      background: var(--income-gradient);
       color: #ffffff;
-      box-shadow: 0 4px 10px rgba(16, 185, 129, 0.25);
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.28);
     }
 
-    /* 4. Form */
+    /* 4. Form Section */
     .entry-form {
       display: flex;
       flex-direction: column;
-      gap: 14px;
+      gap: 16px;
       margin-bottom: 28px;
     }
 
     .form-group {
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: 7px;
     }
 
-    .form-group label {
-      font-size: 0.88rem;
+    .form-group-label {
+      font-size: 0.85rem;
       font-weight: 600;
-      color: #4b5563;
+      color: #334155;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
 
-    /* Currency selector buttons in form */
+    /* Currency selector pills */
     .currency-selector {
       display: flex;
-      gap: 8px;
+      gap: 6px;
     }
 
     .curr-btn {
       flex: 1;
       padding: 8px 0;
-      font-size: 0.88rem;
+      font-size: 0.84rem;
       font-weight: 600;
-      border-radius: 8px;
-      border: 1.5px solid #e2e8f0;
-      background: #f8fafc;
+      border-radius: 9px;
+      border: 1.5px solid var(--border);
+      background: #ffffff;
       color: #475569;
       cursor: pointer;
-      transition: all 0.2s ease;
+      transition: var(--transition);
+      text-align: center;
     }
 
-    .curr-btn:hover {
-      background: #f1f5f9;
+    .curr-btn:active {
+      transform: scale(0.97);
     }
 
     .curr-btn.active {
-      border-color: #4f46e5;
+      border-color: #6366f1;
       background: #eef2ff;
-      color: #4f46e5;
+      color: #4338ca;
       font-weight: 700;
     }
 
-    .form-control {
+    /* Amount Input Box */
+    .amount-input-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .currency-indicator {
+      position: absolute;
+      left: 14px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #6366f1;
+      pointer-events: none;
+    }
+
+    .amount-input {
       width: 100%;
-      padding: 11px 14px;
-      border-radius: 10px;
-      border: 1.5px solid #e5e7eb;
-      font-size: 0.95rem;
-      color: #1f2937;
+      padding: 13px 14px 13px 40px;
+      border-radius: var(--radius-md);
+      border: 1.5px solid var(--border);
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--text-main);
       background-color: #ffffff;
       outline: none;
-      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+      transition: var(--transition);
     }
 
-    .form-control:focus {
-      border-color: #667eea;
-      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.15);
+    .amount-input:focus {
+      border-color: #6366f1;
+      box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.12);
     }
 
-    select.form-control {
+    .amount-input::placeholder {
+      color: #cbd5e1;
+      font-weight: 500;
+    }
+
+    /* Category Visual Chips */
+    .category-chips-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .category-chip {
+      padding: 7px 12px;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      background: #f8fafc;
+      color: #475569;
+      font-size: 0.85rem;
+      font-weight: 500;
       cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      transition: var(--transition);
     }
 
+    .category-chip:active {
+      transform: scale(0.96);
+    }
+
+    .category-chip.active {
+      background: #4f46e5;
+      border-color: #4f46e5;
+      color: #ffffff;
+      font-weight: 600;
+      box-shadow: 0 3px 8px rgba(79, 70, 229, 0.25);
+    }
+
+    /* Standard Select Fallback / Sync */
+    .hidden-select {
+      display: none;
+    }
+
+    .note-input {
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: var(--radius-md);
+      border: 1.5px solid var(--border);
+      font-size: 0.95rem;
+      color: var(--text-main);
+      background-color: #ffffff;
+      outline: none;
+      transition: var(--transition);
+    }
+
+    .note-input:focus {
+      border-color: #6366f1;
+      box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.12);
+    }
+
+    .note-input::placeholder {
+      color: #94a3b8;
+    }
+
+    /* Submit Button */
     .submit-btn {
       width: 100%;
-      padding: 12px;
+      padding: 14px;
       border: none;
-      border-radius: 10px;
-      background: #4f46e5;
+      border-radius: var(--radius-md);
+      background: var(--primary-gradient);
       color: #ffffff;
       font-size: 1.05rem;
-      font-weight: 600;
+      font-weight: 700;
       cursor: pointer;
-      margin-top: 4px;
-      box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25);
-      transition: background-color 0.2s ease, transform 0.1s ease;
+      box-shadow: 0 8px 18px -4px rgba(79, 70, 229, 0.4);
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
     }
 
     .submit-btn:hover {
-      background: #4338ca;
+      opacity: 0.95;
+      transform: translateY(-1px);
     }
 
     .submit-btn:active {
-      transform: scale(0.99);
+      transform: scale(0.98);
     }
 
     /* 6. List Section */
+    .list-section {
+      display: flex;
+      flex-direction: column;
+    }
+
     .list-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 12px;
+      margin-bottom: 14px;
+    }
+
+    .list-title-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
 
     .list-title {
       font-size: 1.1rem;
       font-weight: 700;
-      color: #1f2937;
+      color: var(--text-main);
+    }
+
+    .item-count-badge {
+      font-size: 0.75rem;
+      font-weight: 600;
+      background: #e2e8f0;
+      color: #475569;
+      padding: 2px 8px;
+      border-radius: 12px;
     }
 
     .delete-all-btn {
       background: none;
       border: none;
-      color: #9ca3af;
+      color: #94a3b8;
       font-size: 0.85rem;
+      font-weight: 500;
       cursor: pointer;
       text-decoration: underline;
-      padding: 4px 6px;
-      transition: color 0.2s ease;
+      padding: 4px;
+      transition: var(--transition);
     }
 
     .delete-all-btn:hover {
-      color: #ef4444;
+      color: var(--expense);
     }
 
-    /* Filter buttons */
+    /* Filters */
+    .filter-wrapper {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
     .filter-group {
       display: flex;
-      gap: 6px;
-      margin-bottom: 10px;
+      background: #f1f5f9;
+      padding: 3px;
+      border-radius: 10px;
+      gap: 3px;
     }
 
     .filter-btn {
@@ -311,89 +582,124 @@
       padding: 7px 0;
       font-size: 0.85rem;
       font-weight: 600;
-      border-radius: 8px;
-      border: 1px solid #e5e7eb;
-      background: #f9fafb;
-      color: #6b7280;
+      border-radius: 7px;
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
       cursor: pointer;
-      transition: all 0.2s ease;
-    }
-
-    .filter-btn:hover {
-      background: #f3f4f6;
+      transition: var(--transition);
+      text-align: center;
     }
 
     .filter-btn.active {
-      background: #374151;
-      border-color: #374151;
-      color: #ffffff;
+      background: #ffffff;
+      color: var(--text-main);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
     }
 
-    /* Currency filter sub-row */
     .currency-filter-group {
       display: flex;
       gap: 6px;
-      margin-bottom: 16px;
     }
 
     .curr-filter-btn {
       flex: 1;
-      padding: 5px 0;
-      font-size: 0.8rem;
+      padding: 6px 0;
+      font-size: 0.78rem;
       font-weight: 600;
-      border-radius: 6px;
-      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      border: 1px solid var(--border);
       background: #ffffff;
-      color: #64748b;
+      color: var(--text-muted);
       cursor: pointer;
-      transition: all 0.2s ease;
+      transition: var(--transition);
+      text-align: center;
     }
 
     .curr-filter-btn.active {
-      background: #6366f1;
-      border-color: #6366f1;
+      background: #4f46e5;
+      border-color: #4f46e5;
       color: #ffffff;
     }
 
-    /* Items List */
+    /* Items Feed */
     .items-list {
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 8px;
     }
 
     .empty-state {
       text-align: center;
-      padding: 32px 16px;
-      color: #9ca3af;
+      padding: 40px 20px;
+      color: #94a3b8;
       font-size: 0.95rem;
-      background: #f9fafb;
-      border-radius: 12px;
-      border: 1px dashed #e5e7eb;
+      background: #f8fafc;
+      border-radius: var(--radius-lg);
+      border: 1.5px dashed #cbd5e1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .empty-state-icon {
+      font-size: 2.2rem;
+      opacity: 0.7;
     }
 
     .item-card {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background: #f8fafc;
-      border: 1px solid #edf2f7;
-      border-radius: 12px;
+      background: #ffffff;
+      border: 1px solid #f1f5f9;
+      border-radius: var(--radius-md);
       padding: 12px 14px;
-      transition: background 0.15s ease;
+      box-shadow: var(--shadow-sm);
+      transition: var(--transition);
     }
 
     .item-card:hover {
-      background: #f1f5f9;
+      box-shadow: var(--shadow-md);
+      border-color: #e2e8f0;
+      transform: translateY(-1px);
     }
 
     .item-left {
       display: flex;
-      flex-direction: column;
-      gap: 4px;
+      align-items: center;
+      gap: 12px;
       flex: 1;
       min-width: 0;
       padding-right: 10px;
+    }
+
+    .item-icon-box {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      flex-shrink: 0;
+    }
+
+    .item-icon-box.expense {
+      background: #fee2e2;
+    }
+
+    .item-icon-box.income {
+      background: #dcfce7;
+    }
+
+    .item-details {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      min-width: 0;
+      flex: 1;
     }
 
     .item-header-line {
@@ -406,17 +712,18 @@
     .item-category {
       font-size: 0.95rem;
       font-weight: 600;
-      color: #1f2937;
+      color: var(--text-main);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     .currency-badge {
       display: inline-block;
       padding: 1px 6px;
-      font-size: 0.72rem;
-      font-weight: 600;
+      font-size: 0.7rem;
+      font-weight: 700;
       border-radius: 4px;
-      background: #e2e8f0;
-      color: #475569;
     }
 
     .currency-badge.lak {
@@ -435,8 +742,8 @@
     }
 
     .item-note {
-      font-size: 0.82rem;
-      color: #6b7280;
+      font-size: 0.8rem;
+      color: var(--text-muted);
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -452,14 +759,15 @@
       font-size: 1rem;
       font-weight: 700;
       white-space: nowrap;
+      letter-spacing: -0.2px;
     }
 
     .item-amount.income {
-      color: #10b981;
+      color: var(--income);
     }
 
     .item-amount.expense {
-      color: #ef4444;
+      color: var(--expense);
     }
 
     .delete-item-btn {
@@ -467,21 +775,25 @@
       height: 28px;
       border-radius: 50%;
       border: none;
-      background: #e2e8f0;
-      color: #64748b;
+      background: #f1f5f9;
+      color: #94a3b8;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.1rem;
-      line-height: 1;
+      font-size: 1.15rem;
       cursor: pointer;
-      transition: all 0.2s ease;
+      transition: var(--transition);
       flex-shrink: 0;
     }
 
     .delete-item-btn:hover {
       background: #fee2e2;
-      color: #ef4444;
+      color: var(--expense);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-4px); }
+      to { opacity: 1; transform: translateY(0); }
     }
   </style>
 </head>
@@ -489,123 +801,171 @@
 
   <div class="container">
     <!-- PWA Install Banner -->
-    <div id="installBanner" style="display: none; justify-content: space-between; align-items: center; background: #e0e7ff; padding: 10px 14px; border-radius: 12px; margin-bottom: 16px; border: 1px solid #c7d2fe;">
-      <span style="font-size: 0.88rem; font-weight: 600; color: #3730a3;">📲 ຕິດຕັ້ງແອັບລົງໜ້າຈໍມືຖື</span>
-      <button type="button" id="btnInstallApp" style="background: #4f46e5; color: #ffffff; border: none; padding: 6px 14px; border-radius: 8px; font-size: 0.85rem; font-weight: 600; cursor: pointer;">ຕິດຕັ້ງເລີຍ</button>
+    <div id="installBanner" class="install-banner">
+      <span class="install-banner-text">📲 ຕິດຕັ້ງແອັບລົງໜ້າຈໍມືຖື</span>
+      <button type="button" id="btnInstallApp" class="install-btn">ຕິດຕັ້ງເລີຍ</button>
     </div>
 
     <!-- 1. Header -->
-    <div style="display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 20px;">
-      <img src="logo.png" alt="Logo" style="width: 42px; height: 42px; border-radius: 12px; box-shadow: 0 4px 12px rgba(102, 126, 234, 0.35);">
-      <h1 class="header-title" style="margin-bottom: 0;">ບັນທຶກລາຍຮັບ-ລາຍຈ່າຍ</h1>
-    </div>
+    <header class="app-header">
+      <div class="header-left">
+        <img src="logo.png" alt="Money Daily Logo" class="app-logo">
+        <div class="app-title-group">
+          <h1 class="header-title">ບັນທຶກລາຍຮັບ-ລາຍຈ່າຍ</h1>
+          <span class="header-subtitle">ຈັດການການເງິນປະຈຳວັນ</span>
+        </div>
+      </div>
+      <div class="date-badge" id="currentMonthBadge">ເດືອນນີ້</div>
+    </header>
 
-    <!-- 2. Summary Box -->
-    <div class="summary-box">
+    <!-- 2. Hero Summary Box -->
+    <div class="hero-card">
       <!-- Currency Switcher for Summary -->
       <div class="summary-currency-tabs">
-        <button type="button" class="summary-curr-tab active" data-curr="LAK">₭ ກີບ</button>
-        <button type="button" class="summary-curr-tab" data-curr="THB">฿ ບາດ</button>
-        <button type="button" class="summary-curr-tab" data-curr="USD">$ ໂດລາ</button>
+        <button type="button" class="summary-curr-tab active" data-curr="LAK">₭ ກີບ (LAK)</button>
+        <button type="button" class="summary-curr-tab" data-curr="THB">฿ ບາດ (THB)</button>
+        <button type="button" class="summary-curr-tab" data-curr="USD">$ ໂດລາ (USD)</button>
       </div>
 
-      <div class="summary-row">
-        <span>ລາຍຮັບເດືອນນີ້</span>
-        <span id="summaryIncome">0 ₭</span>
+      <div class="balance-section">
+        <div class="balance-label">ຍອດຄົງເຫຼືອເດືອນນີ້</div>
+        <div class="balance-amount" id="summaryBalance">0 ₭</div>
       </div>
-      <div class="summary-row">
-        <span>ລາຍຈ່າຍເດືອນນີ້</span>
-        <span id="summaryExpense">0 ₭</span>
-      </div>
-      <div class="summary-row total-row">
-        <span>ຍອດຄົງເຫຼືອ</span>
-        <span id="summaryBalance">0 ₭</span>
+
+      <div class="summary-stats-grid">
+        <div class="stat-pill">
+          <span class="stat-title"><span class="dot green"></span> ລາຍຮັບເດືອນນີ້</span>
+          <span class="stat-val" id="summaryIncome">0 ₭</span>
+        </div>
+        <div class="stat-pill">
+          <span class="stat-title"><span class="dot red"></span> ລາຍຈ່າຍເດືອນນີ້</span>
+          <span class="stat-val" id="summaryExpense">0 ₭</span>
+        </div>
       </div>
     </div>
 
-    <!-- 3. Type Toggle -->
-    <div class="type-toggle">
-      <button type="button" id="btnExpense" class="toggle-btn active expense">ລາຍຈ່າຍ</button>
-      <button type="button" id="btnIncome" class="toggle-btn">ລາຍຮັບ</button>
+    <!-- 3. Transaction Type Segmented Toggle -->
+    <div class="type-segmented-control">
+      <button type="button" id="btnExpense" class="segment-btn active expense">
+        <span>📉</span> ລາຍຈ່າຍ
+      </button>
+      <button type="button" id="btnIncome" class="segment-btn income">
+        <span>📈</span> ລາຍຮັບ
+      </button>
     </div>
 
-    <!-- 4. Form เพิ่มรายการ -->
+    <!-- 4. Form ເພີ່ມລາຍການ -->
     <form id="entryForm" class="entry-form">
-      <!-- Currency Selection -->
+      <!-- Currency Selector -->
       <div class="form-group">
-        <label>ສະກຸນເງິນ</label>
+        <div class="form-group-label">
+          <span>ສະກຸນເງິນ</span>
+        </div>
         <div class="currency-selector">
-          <button type="button" class="curr-btn active" data-curr="LAK">₭ ກີບ (LAK)</button>
-          <button type="button" class="curr-btn" data-curr="THB">฿ ບາດ (THB)</button>
-          <button type="button" class="curr-btn" data-curr="USD">$ ໂດລາ (USD)</button>
+          <button type="button" class="curr-btn active" data-curr="LAK">₭ ກີບ</button>
+          <button type="button" class="curr-btn" data-curr="THB">฿ ບາດ</button>
+          <button type="button" class="curr-btn" data-curr="USD">$ ໂດລາ</button>
         </div>
       </div>
 
+      <!-- Amount Input -->
       <div class="form-group">
-        <label for="amountInput" id="amountLabel">ຈຳນວນເງິນ (ກີບ)</label>
-        <input 
-          type="number" 
-          id="amountInput" 
-          class="form-control" 
-          min="0" 
-          step="0.01" 
-          placeholder="0.00" 
-          required
-        >
+        <div class="form-group-label">
+          <span id="amountLabel">ຈຳນວນເງິນ (ກີບ)</span>
+        </div>
+        <div class="amount-input-wrapper">
+          <span class="currency-indicator" id="currencyIndicator">₭</span>
+          <input 
+            type="number" 
+            id="amountInput" 
+            class="amount-input" 
+            min="0" 
+            step="0.01" 
+            placeholder="0.00" 
+            required
+            autocomplete="off"
+            inputmode="decimal"
+          >
+        </div>
       </div>
 
+      <!-- Category Visual Chips -->
       <div class="form-group">
-        <label for="categorySelect">ໝວດໝູ່</label>
-        <select id="categorySelect" class="form-control"></select>
+        <div class="form-group-label">
+          <span>ໝວດໝູ່</span>
+        </div>
+        <div id="categoryChipsContainer" class="category-chips-grid"></div>
+        <select id="categorySelect" class="hidden-select"></select>
       </div>
 
+      <!-- Note Input -->
       <div class="form-group">
-        <label for="noteInput">ໝາຍເຫດ (ບໍ່ບັງຄັບ)</label>
+        <div class="form-group-label">
+          <span>ໝາຍເຫດ (ບໍ່ບັງຄັບ)</span>
+        </div>
         <input 
           type="text" 
           id="noteInput" 
-          class="form-control" 
-          placeholder="ເພີ່ມໝາຍເຫດ..."
+          class="note-input" 
+          placeholder="ເພີ່ມລາຍລະອຽດ..."
         >
       </div>
 
-      <button type="submit" class="submit-btn">ບັນທຶກ</button>
+      <button type="submit" class="submit-btn">
+        <span>➕</span> ບັນທຶກລາຍການ
+      </button>
     </form>
 
-    <!-- 6. List รายการทั้งหมด -->
+    <!-- 6. List Section -->
     <div class="list-section">
       <div class="list-header">
-        <span class="list-title">ລາຍການທັງໝົດ</span>
+        <div class="list-title-wrap">
+          <span class="list-title">ລາຍການທັງໝົດ</span>
+          <span class="item-count-badge" id="itemCountBadge">0</span>
+        </div>
         <button type="button" id="btnDeleteAll" class="delete-all-btn">ລຶບທັງໝົດ</button>
       </div>
 
-      <!-- Filters by Type -->
-      <div class="filter-group">
-        <button type="button" class="filter-btn active" data-filter="all">ທັງໝົດ</button>
-        <button type="button" class="filter-btn" data-filter="income">ລາຍຮັບ</button>
-        <button type="button" class="filter-btn" data-filter="expense">ລາຍຈ່າຍ</button>
+      <!-- Filters -->
+      <div class="filter-wrapper">
+        <div class="filter-group">
+          <button type="button" class="filter-btn active" data-filter="all">ທັງໝົດ</button>
+          <button type="button" class="filter-btn" data-filter="income">ລາຍຮັບ</button>
+          <button type="button" class="filter-btn" data-filter="expense">ລາຍຈ່າຍ</button>
+        </div>
+
+        <div class="currency-filter-group">
+          <button type="button" class="curr-filter-btn active" data-curr-filter="all">ທຸກສະກຸນ</button>
+          <button type="button" class="curr-filter-btn" data-curr-filter="LAK">₭ ກີບ</button>
+          <button type="button" class="curr-filter-btn" data-curr-filter="THB">฿ ບາດ</button>
+          <button type="button" class="curr-filter-btn" data-curr-filter="USD">$ ໂດລາ</button>
+        </div>
       </div>
 
-      <!-- Filters by Currency -->
-      <div class="currency-filter-group">
-        <button type="button" class="curr-filter-btn active" data-curr-filter="all">ທຸກສະກຸນເງິນ</button>
-        <button type="button" class="curr-filter-btn" data-curr-filter="LAK">₭ ກີບ</button>
-        <button type="button" class="curr-filter-btn" data-curr-filter="THB">฿ ບາດ</button>
-        <button type="button" class="curr-filter-btn" data-curr-filter="USD">$ ໂດລາ</button>
-      </div>
-
-      <!-- Items Container -->
-      <div id="itemsContainer" class="items-list">
-        <!-- Rendered items or empty state -->
-      </div>
+      <!-- Items List -->
+      <div id="itemsContainer" class="items-list"></div>
     </div>
   </div>
 
   <script>
-    // 5. Categories
+    // 5. Categories with Matching Emojis
     const CATEGORIES = {
       expense: ['ອາຫານ', 'ເດີນທາງ', 'ຊື້ເຄື່ອງ', 'ບິນ/ຄ່າໃຊ້ຈ່າຍ', 'ສຸຂະພາບ', 'ບັນເທີງ', 'ອື່ນໆ'],
       income: ['ເງິນເດືອນ', 'ໂບນັດ', 'ຂາຍສິນຄ້າ', 'ດອກເບ້ຍ', 'ອື່ນໆ']
+    };
+
+    const CATEGORY_ICONS = {
+      'ອາຫານ': '🍔',
+      'ເດີນທາງ': '🚗',
+      'ຊື້ເຄື່ອງ': '🛍️',
+      'ບິນ/ຄ່າໃຊ້ຈ່າຍ': '🧾',
+      'ສຸຂະພາບ': '💊',
+      'ບັນເທີງ': '🎮',
+      'ອື່ນໆ': '✨',
+      'ເງິນເດືອນ': '💼',
+      'ໂບນັດ': '🎁',
+      'ຂາຍສິນຄ້າ': '🛒',
+      'ດອກເບ້ຍ': '📈'
     };
 
     const CURRENCY_CONFIG = {
@@ -618,27 +978,39 @@
     let currentType = 'expense';       // 'expense' | 'income'
     let currentCurrency = 'LAK';       // 'LAK' | 'THB' | 'USD'
     let summaryCurrency = 'LAK';       // Which currency to show in summary
+    let currentCategory = '';          // Selected category
     let currentFilter = 'all';         // 'all' | 'income' | 'expense'
     let currentCurrencyFilter = 'all'; // 'all' | 'LAK' | 'THB' | 'USD'
     let items = [];
 
-    // Elements
+    // DOM Elements
     const btnExpense = document.getElementById('btnExpense');
     const btnIncome = document.getElementById('btnIncome');
+    const categoryChipsContainer = document.getElementById('categoryChipsContainer');
     const categorySelect = document.getElementById('categorySelect');
     const amountInput = document.getElementById('amountInput');
     const amountLabel = document.getElementById('amountLabel');
+    const currencyIndicator = document.getElementById('currencyIndicator');
     const noteInput = document.getElementById('noteInput');
     const entryForm = document.getElementById('entryForm');
     const summaryIncome = document.getElementById('summaryIncome');
     const summaryExpense = document.getElementById('summaryExpense');
     const summaryBalance = document.getElementById('summaryBalance');
     const itemsContainer = document.getElementById('itemsContainer');
+    const itemCountBadge = document.getElementById('itemCountBadge');
     const btnDeleteAll = document.getElementById('btnDeleteAll');
     const filterButtons = document.querySelectorAll('.filter-btn');
     const currFilterButtons = document.querySelectorAll('.curr-filter-btn');
     const formCurrButtons = document.querySelectorAll('.curr-btn');
     const summaryCurrTabs = document.querySelectorAll('.summary-curr-tab');
+    const currentMonthBadge = document.getElementById('currentMonthBadge');
+
+    // Update month badge display
+    function updateDateBadge() {
+      const now = new Date();
+      const monthNames = ['ມັງກອນ', 'ກຸມພາ', 'ມີນາ', 'ເມສາ', 'ພຶດສະພາ', 'ມິຖຸນາ', 'ກໍລະກົດ', 'ສິງຫາ', 'ກັນຍາ', 'ຕຸລາ', 'ພະຈິກ', 'ທັນວາ'];
+      currentMonthBadge.textContent = `${monthNames[now.getMonth()]} ${now.getFullYear()}`;
+    }
 
     // Format currency by currency code
     function formatCurrency(num, curr = 'LAK') {
@@ -658,7 +1030,6 @@
         const stored = localStorage.getItem('moneyItems');
         if (stored) {
           items = JSON.parse(stored);
-          // Default existing items to LAK if missing
           items.forEach(item => {
             if (!item.currency) item.currency = 'LAK';
           });
@@ -675,19 +1046,41 @@
       localStorage.setItem('moneyItems', JSON.stringify(items));
     }
 
-    // Populate category dropdown
+    // Render Category Chips
     function updateCategories() {
       const list = CATEGORIES[currentType] || [];
+      categoryChipsContainer.innerHTML = '';
       categorySelect.innerHTML = '';
+
+      if (!list.includes(currentCategory)) {
+        currentCategory = list[0];
+      }
+
       list.forEach(cat => {
+        // Option for select
         const option = document.createElement('option');
         option.value = cat;
         option.textContent = cat;
+        if (cat === currentCategory) option.selected = true;
         categorySelect.appendChild(option);
+
+        // Visual Chip
+        const chip = document.createElement('button');
+        chip.type = 'button';
+        chip.className = `category-chip ${cat === currentCategory ? 'active' : ''}`;
+        const icon = CATEGORY_ICONS[cat] || '🏷️';
+        chip.innerHTML = `<span>${icon}</span> <span>${cat}</span>`;
+        chip.addEventListener('click', () => {
+          currentCategory = cat;
+          categorySelect.value = cat;
+          document.querySelectorAll('.category-chip').forEach(c => c.classList.remove('active'));
+          chip.classList.add('active');
+        });
+        categoryChipsContainer.appendChild(chip);
       });
     }
 
-    // Update Summary Box for Current Month & Selected Summary Currency
+    // Update Summary Box for Current Month
     function renderSummary() {
       const now = new Date();
       const currentYear = now.getFullYear();
@@ -729,10 +1122,16 @@
         return matchesType && matchesCurr;
       });
 
+      itemCountBadge.textContent = filteredItems.length;
+
       if (filteredItems.length === 0) {
         const emptyDiv = document.createElement('div');
         emptyDiv.className = 'empty-state';
-        emptyDiv.textContent = 'ຍັງບໍ່ມີລາຍການ';
+        emptyDiv.innerHTML = `
+          <span class="empty-state-icon">📋</span>
+          <strong>ຍັງບໍ່ມີລາຍການ</strong>
+          <span style="font-size:0.8rem; color:#94a3b8;">ບັນທຶກລາຍຮັບ ຫຼື ລາຍຈ່າຍຂອງທ່ານໄດ້ເລີຍ</span>
+        `;
         itemsContainer.appendChild(emptyDiv);
         return;
       }
@@ -743,6 +1142,16 @@
 
         const leftDiv = document.createElement('div');
         leftDiv.className = 'item-left';
+
+        // Category Icon Box
+        const iconBox = document.createElement('div');
+        iconBox.className = `item-icon-box ${item.type}`;
+        iconBox.textContent = CATEGORY_ICONS[item.category] || (item.type === 'income' ? '💵' : '💸');
+        leftDiv.appendChild(iconBox);
+
+        // Details
+        const detailsDiv = document.createElement('div');
+        detailsDiv.className = 'item-details';
 
         const headerLine = document.createElement('div');
         headerLine.className = 'item-header-line';
@@ -759,15 +1168,18 @@
         currBadge.textContent = currText;
         headerLine.appendChild(currBadge);
 
-        leftDiv.appendChild(headerLine);
+        detailsDiv.appendChild(headerLine);
 
         if (item.note && item.note.trim()) {
           const noteSpan = document.createElement('span');
           noteSpan.className = 'item-note';
           noteSpan.textContent = item.note.trim();
-          leftDiv.appendChild(noteSpan);
+          detailsDiv.appendChild(noteSpan);
         }
 
+        leftDiv.appendChild(detailsDiv);
+
+        // Right side
         const rightDiv = document.createElement('div');
         rightDiv.className = 'item-right';
 
@@ -781,7 +1193,7 @@
         delBtn.type = 'button';
         delBtn.className = 'delete-item-btn';
         delBtn.innerHTML = '&times;';
-        delBtn.title = 'ລຶບ';
+        delBtn.title = 'ລຶບລາຍການນີ້';
         delBtn.addEventListener('click', () => {
           deleteItem(item.id);
         });
@@ -817,16 +1229,16 @@
     btnExpense.addEventListener('click', () => {
       if (currentType === 'expense') return;
       currentType = 'expense';
-      btnExpense.className = 'toggle-btn active expense';
-      btnIncome.className = 'toggle-btn';
+      btnExpense.className = 'segment-btn active expense';
+      btnIncome.className = 'segment-btn income';
       updateCategories();
     });
 
     btnIncome.addEventListener('click', () => {
       if (currentType === 'income') return;
       currentType = 'income';
-      btnIncome.className = 'toggle-btn active income';
-      btnExpense.className = 'toggle-btn';
+      btnIncome.className = 'segment-btn active income';
+      btnExpense.className = 'segment-btn expense';
       updateCategories();
     });
 
@@ -847,6 +1259,7 @@
         btn.classList.add('active');
         currentCurrency = btn.getAttribute('data-curr');
         amountLabel.textContent = CURRENCY_CONFIG[currentCurrency].label;
+        currencyIndicator.textContent = CURRENCY_CONFIG[currentCurrency].symbol;
       });
     });
 
@@ -885,7 +1298,7 @@
         type: currentType,
         currency: currentCurrency,
         amount: amountVal,
-        category: categorySelect.value || (CATEGORIES[currentType][0]),
+        category: currentCategory || (CATEGORIES[currentType][0]),
         note: noteInput.value.trim(),
         date: new Date().toISOString()
       };
@@ -899,7 +1312,7 @@
       noteInput.value = '';
       amountInput.focus();
 
-      // Automatically switch summary to the currency just added if user wants to see it immediately
+      // Automatically switch summary to the currency just added
       summaryCurrency = currentCurrency;
       summaryCurrTabs.forEach(tab => {
         if (tab.getAttribute('data-curr') === summaryCurrency) {
@@ -913,12 +1326,6 @@
       renderSummary();
       renderList();
     });
-
-    // Initialize
-    loadItems();
-    updateCategories();
-    renderSummary();
-    renderList();
 
     // Register Service Worker for PWA installation
     if ('serviceWorker' in navigator) {
@@ -953,6 +1360,13 @@
         deferredPrompt = null;
       });
     }
+
+    // Initialize
+    updateDateBadge();
+    loadItems();
+    updateCategories();
+    renderSummary();
+    renderList();
   </script>
 </body>
 </html>
