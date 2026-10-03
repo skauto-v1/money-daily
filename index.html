@@ -411,10 +411,10 @@
 
     .segment-btn {
       flex: 1;
-      padding: 12px 0;
+      padding: 10px 12px;
       font-size: 0.95rem;
       font-weight: 700;
-      border-radius: 12px;
+      border-radius: 14px;
       border: none;
       background: transparent;
       color: var(--text-muted);
@@ -423,12 +423,52 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
+      gap: 10px;
       position: relative;
     }
 
     .segment-btn:active {
       transform: translateY(2px);
+    }
+
+    .btn-camera-badge {
+      font-size: 1.35rem;
+      line-height: 1;
+      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.4));
+    }
+
+    .btn-label-group {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      line-height: 1.25;
+    }
+
+    .btn-label-group strong {
+      font-size: 0.94rem;
+      font-weight: 800;
+      letter-spacing: 0.3px;
+    }
+
+    .btn-label-group small {
+      font-size: 0.7rem;
+      opacity: 0.85;
+      font-weight: 600;
+    }
+
+    .slip-hint-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: -6px;
+      margin-bottom: 16px;
+      padding: 0 4px;
+      gap: 8px;
+    }
+
+    .slip-hint-text {
+      font-size: 0.76rem;
+      color: #a1a1aa;
     }
 
     .segment-btn.active.expense {
@@ -1347,15 +1387,24 @@
 
     <!-- 3. 3D Transaction Type & Direct Slip Attachment Buttons -->
     <div class="type-segmented-control">
-      <button type="button" id="btnExpense" class="segment-btn active expense" title="ກົດເພື່ອແນບສະລິບລາຍຈ່າຍ ຫຼື ເລືອກລາຍຈ່າຍ">
-        <span>📷 📉</span> ລາຍຈ່າຍ (EXPENSE)
+      <button type="button" id="btnExpense" class="segment-btn active expense" title="ກົດເພື່ອແນບສະລິບລາຍຈ່າຍ">
+        <span class="btn-camera-badge">📷</span>
+        <div class="btn-label-group">
+          <strong>📉 ລາຍຈ່າຍ (EXPENSE)</strong>
+          <small>ແຕະເພື່ອແນບສະລິບ</small>
+        </div>
       </button>
-      <button type="button" id="btnIncome" class="segment-btn income" title="ກົດເພື່ອແນບສະລິບລາຍຮັບ ຫຼື ເລືອກລາຍຮັບ">
-        <span>📷 📈</span> ລາຍຮັບ (INCOME)
+      <button type="button" id="btnIncome" class="segment-btn income" title="ກົດເພື່ອແນບສະລິບລາຍຮັບ">
+        <span class="btn-camera-badge">📷</span>
+        <div class="btn-label-group">
+          <strong>📈 ລາຍຮັບ (INCOME)</strong>
+          <small>ແຕະເພື່ອແນບສະລິບ</small>
+        </div>
       </button>
     </div>
-    <div style="text-align: center; font-size: 0.78rem; color: #a1a1aa; margin-top: -6px; margin-bottom: 14px;">
-      💡 ແຕະປຸ່ມເພື່ອເລືອກປະເພດ ແລະ ແນບຮູບສະລິບ (AI ຈະອ່ານຍອດເງິນອັດຕະໂນມັດ)
+    <div class="slip-hint-bar">
+      <span class="slip-hint-text">💡 ແຕະປຸ່ມເພື່ອເລືອກປະເພດ & ແນບສະລິບ (AI ອ່ານອັດຕະໂນມັດ)</span>
+      <button type="button" id="btnOpenAiSettings" class="ai-config-link">⚙️ ຕັ້ງຄ່າ AI Key</button>
     </div>
 
     <!-- Hidden file input for camera / slip upload -->
@@ -1596,6 +1645,7 @@
     // Modals Elements
     const aiModal = document.getElementById('aiModal');
     const btnHeaderAi = document.getElementById('btnHeaderAi');
+    const btnOpenAiSettings = document.getElementById('btnOpenAiSettings');
     const btnCloseAiModal = document.getElementById('btnCloseAiModal');
     const geminiApiKeyInput = document.getElementById('geminiApiKeyInput');
     const btnSaveApiKey = document.getElementById('btnSaveApiKey');
@@ -2116,6 +2166,9 @@ Extract the transaction details into strict JSON format with NO markdown wrappin
     }
 
     btnHeaderAi.addEventListener('click', openAiModal);
+    if (btnOpenAiSettings) {
+      btnOpenAiSettings.addEventListener('click', openAiModal);
+    }
 
     btnCloseAiModal.addEventListener('click', () => {
       aiModal.style.display = 'none';
