@@ -1,0 +1,25 @@
+{
+  "name": "ບັນທຶກລາຍຮັບ-ລາຍຈ່າຍ",
+  "short_name": "Money Daily",
+  "description": "ແອັບບັນທຶກລາຍຮັບ-ລາຍຈ່າຍ 3 ສະກຸນເງິນ",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f0f2f5",
+  "theme_color": "#667eea",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

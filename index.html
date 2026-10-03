@@ -4,6 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ແອັບບັນທຶກລາຍຮັບ-ລາຍຈ່າຍ</title>
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#667eea">
+  <link rel="apple-touch-icon" href="icon-192.png">
   <style>
     * {
       box-sizing: border-box;
@@ -455,6 +458,12 @@
 <body>
 
   <div class="container">
+    <!-- PWA Install Banner -->
+    <div id="installBanner" style="display: none; justify-content: space-between; align-items: center; background: #e0e7ff; padding: 10px 14px; border-radius: 12px; margin-bottom: 16px; border: 1px solid #c7d2fe;">
+      <span style="font-size: 0.88rem; font-weight: 600; color: #3730a3;">📲 ຕິດຕັ້ງແອັບລົງໜ້າຈໍມືຖື</span>
+      <button type="button" id="btnInstallApp" style="background: #4f46e5; color: #ffffff; border: none; padding: 6px 14px; border-radius: 8px; font-size: 0.85rem; font-weight: 600; cursor: pointer;">ຕິດຕັ້ງເລີຍ</button>
+    </div>
+
     <!-- 1. Header -->
     <h1 class="header-title">💰 ບັນທຶກລາຍຮັບ-ລາຍຈ່າຍ</h1>
 
@@ -877,6 +886,40 @@
     updateCategories();
     renderSummary();
     renderList();
+
+    // Register Service Worker for PWA installation
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js').catch(err => {
+          console.log('SW registration error:', err);
+        });
+      });
+    }
+
+    // PWA install banner handling
+    let deferredPrompt;
+    const installBanner = document.getElementById('installBanner');
+    const btnInstallApp = document.getElementById('btnInstallApp');
+
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      if (installBanner) {
+        installBanner.style.display = 'flex';
+      }
+    });
+
+    if (btnInstallApp) {
+      btnInstallApp.addEventListener('click', async () => {
+        if (!deferredPrompt) return;
+        deferredPrompt.prompt();
+        const { outcome } = await deferredPrompt.userChoice;
+        if (outcome === 'accepted') {
+          if (installBanner) installBanner.style.display = 'none';
+        }
+        deferredPrompt = null;
+      });
+    }
   </script>
 </body>
 </html>
