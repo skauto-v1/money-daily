@@ -1318,6 +1318,29 @@
       background: #09090d;
     }
 
+    .get-api-key-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      width: 100%;
+      text-align: center;
+      padding: 12px 14px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+      color: #ffffff;
+      font-size: 0.88rem;
+      font-weight: 800;
+      text-decoration: none;
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
+      transition: var(--transition);
+    }
+
+    .get-api-key-btn:hover {
+      filter: brightness(1.15);
+      transform: translateY(-1px);
+    }
+
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(-4px); }
       to { opacity: 1; transform: translateY(0); }
@@ -1532,29 +1555,52 @@
 
   <!-- AI Key Settings Modal -->
   <div id="aiModal" class="modal-overlay" style="display: none;">
-    <div class="modal-card">
+    <div class="modal-card" style="max-width: 440px;">
       <div class="modal-header">
         <div class="modal-title">
-          <span>🤖</span> ຕັ້ງຄ່າ Gemini AI Scanner
+          <span>🤖</span> ຕັ້ງຄ່າ Gemini AI ອ່ານສະລິບ
         </div>
         <button type="button" id="btnCloseAiModal" class="modal-close-btn">✕</button>
       </div>
       <div class="modal-body">
-        <p style="font-size: 0.85rem; color: #a1a1aa; line-height: 1.5; margin-bottom: 14px;">
-          ໃສ່ <strong>Google Gemini API Key</strong> ເພື່ອໃຫ້ AI ສາມາດອ່ານສະລິບໂອນເງິນ, ບິນ ແລະ ໃບຮັບເງິນຕ່າງໆໄດ້ອັດຕະໂນມັດ (ໃຊ້ງານຟຣີ 100% ຈາກ Google).
-        </p>
-        <div class="form-group" style="margin-bottom: 14px;">
-          <label style="font-size: 0.8rem; font-weight: 700; color: #e5c07b;">Gemini API Key</label>
-          <input type="password" id="geminiApiKeyInput" class="note-input" placeholder="AIzaSy...">
+        <div style="background: rgba(212, 175, 55, 0.08); border: 1px solid rgba(212, 175, 55, 0.25); border-radius: 12px; padding: 12px; margin-bottom: 14px;">
+          <div style="font-size: 0.88rem; font-weight: 800; color: #fde047; margin-bottom: 6px;">
+            📌 ວິທີເອົາ API Key ຟຣີ 100% (ໃຊ້ເວລາ 1 ນາທີ)
+          </div>
+          <ol style="font-size: 0.8rem; color: #d4d4d8; line-height: 1.6; margin: 0; padding-left: 20px;">
+            <li>ກົດປຸ່ມສີຟ້າ <strong>"ເປີດ Google AI Studio"</strong> ດ້ານລຸ່ມ</li>
+            <li>ລັອກອິນດ້ວຍບັນຊີ <strong>Gmail</strong> ຂອງທ່ານ</li>
+            <li>ກົດປຸ່ມ <strong>"Create API key"</strong> ແລ້ວກົດ <strong>Copy</strong></li>
+            <li>ເອົາມາວາງໃສ່ຊ່ອງຂ້າງລຸ່ມນີ້ ແລ້ວກົດ <strong>"ບັນທຶກ"</strong></li>
+          </ol>
         </div>
-        <div style="margin-bottom: 16px;">
-          <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener" style="color: #60a5fa; font-size: 0.82rem; text-decoration: underline;">
-            👉 ກົດບ່ອນນີ້ເພື່ອເອົາ API Key ຟຣີ (Google AI Studio)
+
+        <div style="margin-bottom: 14px; text-align: center;">
+          <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener" class="get-api-key-btn">
+            🔑 ເປີດ Google AI Studio ເພື່ອຮັບ Key ຟຣີ ↗
           </a>
         </div>
-        <button type="button" id="btnSaveApiKey" class="submit-btn" style="padding: 12px; font-size: 0.95rem;">
-          💾 ບັນທຶກ API Key
-        </button>
+
+        <div class="form-group" style="margin-bottom: 12px;">
+          <label style="font-size: 0.82rem; font-weight: 700; color: #e5c07b;">ວາງ Gemini API Key ຂອງທ່ານໃສ່ນີ້:</label>
+          <div style="position: relative; display: flex; align-items: center;">
+            <input type="password" id="geminiApiKeyInput" class="note-input" placeholder="AIzaSy..." style="padding-right: 42px;">
+            <button type="button" id="btnToggleApiKeyVisibility" style="position: absolute; right: 10px; background: none; border: none; font-size: 1.1rem; cursor: pointer; color: #a1a1aa;" title="ສະແດງ/ເຊື່ອງ Key">👁️</button>
+          </div>
+        </div>
+
+        <div id="aiKeyStatusBadge" style="font-size: 0.78rem; margin-bottom: 14px; text-align: center; color: #71717a;">
+          ສະຖານະ: ຍັງບໍ່ໄດ້ຕັ້ງຄ່າ
+        </div>
+
+        <div style="display: flex; gap: 8px;">
+          <button type="button" id="btnSaveApiKey" class="submit-btn" style="flex: 2; padding: 12px; font-size: 0.95rem;">
+            💾 ບັນທຶກ API Key
+          </button>
+          <button type="button" id="btnTestApiKey" class="curr-btn" style="flex: 1; padding: 12px; font-size: 0.85rem;">
+            🧪 ທົດສອບ
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -2160,9 +2206,62 @@ Extract the transaction details into strict JSON format with NO markdown wrappin
     }
 
     // AI Modal Handlers
+    const btnToggleApiKeyVisibility = document.getElementById('btnToggleApiKeyVisibility');
+    const btnTestApiKey = document.getElementById('btnTestApiKey');
+    const aiKeyStatusBadge = document.getElementById('aiKeyStatusBadge');
+
+    if (btnToggleApiKeyVisibility) {
+      btnToggleApiKeyVisibility.addEventListener('click', () => {
+        if (geminiApiKeyInput.type === 'password') {
+          geminiApiKeyInput.type = 'text';
+          btnToggleApiKeyVisibility.textContent = '🔒';
+        } else {
+          geminiApiKeyInput.type = 'password';
+          btnToggleApiKeyVisibility.textContent = '👁️';
+        }
+      });
+    }
+
     function openAiModal() {
-      geminiApiKeyInput.value = localStorage.getItem('geminiApiKey') || '';
+      const saved = localStorage.getItem('geminiApiKey') || '';
+      geminiApiKeyInput.value = saved;
+      if (aiKeyStatusBadge) {
+        if (saved) {
+          aiKeyStatusBadge.innerHTML = '<span style="color: #34d399; font-weight: 700;">✅ ເຊື່ອມຕໍ່ Gemini AI ແລ້ວ (ພ້ອມໃຊ້ງານ)</span>';
+        } else {
+          aiKeyStatusBadge.innerHTML = '<span style="color: #fbbf24;">⚠️ ຍັງບໍ່ມີ Key (ກົດປຸ່ມສີຟ້າເທິງເພື່ອຮັບ Key ຟຣີ)</span>';
+        }
+      }
       aiModal.style.display = 'flex';
+    }
+
+    if (btnTestApiKey) {
+      btnTestApiKey.addEventListener('click', async () => {
+        const key = geminiApiKeyInput.value.trim();
+        if (!key) {
+          alert('ກະລຸນາວາງ API Key ກ່ອນກົດທົດສອບ');
+          return;
+        }
+        btnTestApiKey.disabled = true;
+        btnTestApiKey.textContent = '⏳...';
+        try {
+          const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models?key=${key}`);
+          const data = await res.json();
+          if (data.error) {
+            throw new Error(data.error.message || 'Key ບໍ່ຖືກຕ້ອງ');
+          }
+          alert('🎉 ສຳເລັດ! Gemini API Key ໃຊ້ງານໄດ້ປົກກະຕິ 100%');
+          localStorage.setItem('geminiApiKey', key);
+          if (aiKeyStatusBadge) {
+            aiKeyStatusBadge.innerHTML = '<span style="color: #34d399; font-weight: 700;">✅ ເຊື່ອມຕໍ່ Gemini AI ແລ້ວ (ພ້ອມໃຊ້ງານ)</span>';
+          }
+        } catch (err) {
+          alert('❌ ທົດສອບບໍ່ຜ່ານ: ' + err.message);
+        } finally {
+          btnTestApiKey.disabled = false;
+          btnTestApiKey.textContent = '🧪 ທົດສອບ';
+        }
+      });
     }
 
     btnHeaderAi.addEventListener('click', openAiModal);
