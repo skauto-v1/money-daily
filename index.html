@@ -51,6 +51,35 @@
       box-shadow: 0 6px 16px rgba(102, 126, 234, 0.28);
     }
 
+    /* Summary Currency Tabs */
+    .summary-currency-tabs {
+      display: flex;
+      background: rgba(0, 0, 0, 0.15);
+      padding: 4px;
+      border-radius: 10px;
+      gap: 4px;
+      margin-bottom: 14px;
+    }
+
+    .summary-curr-tab {
+      flex: 1;
+      padding: 6px 0;
+      border: none;
+      background: transparent;
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 0.85rem;
+      font-weight: 600;
+      border-radius: 7px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .summary-curr-tab.active {
+      background: #ffffff;
+      color: #5b21b6;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    }
+
     .summary-row {
       display: flex;
       justify-content: space-between;
@@ -134,6 +163,36 @@
       color: #4b5563;
     }
 
+    /* Currency selector buttons in form */
+    .currency-selector {
+      display: flex;
+      gap: 8px;
+    }
+
+    .curr-btn {
+      flex: 1;
+      padding: 8px 0;
+      font-size: 0.88rem;
+      font-weight: 600;
+      border-radius: 8px;
+      border: 1.5px solid #e2e8f0;
+      background: #f8fafc;
+      color: #475569;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .curr-btn:hover {
+      background: #f1f5f9;
+    }
+
+    .curr-btn.active {
+      border-color: #4f46e5;
+      background: #eef2ff;
+      color: #4f46e5;
+      font-weight: 700;
+    }
+
     .form-control {
       width: 100%;
       padding: 11px 14px;
@@ -210,14 +269,14 @@
     /* Filter buttons */
     .filter-group {
       display: flex;
-      gap: 8px;
-      margin-bottom: 16px;
+      gap: 6px;
+      margin-bottom: 10px;
     }
 
     .filter-btn {
       flex: 1;
       padding: 7px 0;
-      font-size: 0.88rem;
+      font-size: 0.85rem;
       font-weight: 600;
       border-radius: 8px;
       border: 1px solid #e5e7eb;
@@ -234,6 +293,32 @@
     .filter-btn.active {
       background: #374151;
       border-color: #374151;
+      color: #ffffff;
+    }
+
+    /* Currency filter sub-row */
+    .currency-filter-group {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 16px;
+    }
+
+    .curr-filter-btn {
+      flex: 1;
+      padding: 5px 0;
+      font-size: 0.8rem;
+      font-weight: 600;
+      border-radius: 6px;
+      border: 1px solid #e2e8f0;
+      background: #ffffff;
+      color: #64748b;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .curr-filter-btn.active {
+      background: #6366f1;
+      border-color: #6366f1;
       color: #ffffff;
     }
 
@@ -272,19 +357,48 @@
     .item-left {
       display: flex;
       flex-direction: column;
-      gap: 3px;
+      gap: 4px;
       flex: 1;
       min-width: 0;
-      padding-right: 12px;
+      padding-right: 10px;
+    }
+
+    .item-header-line {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
     }
 
     .item-category {
       font-size: 0.95rem;
       font-weight: 600;
       color: #1f2937;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+    }
+
+    .currency-badge {
+      display: inline-block;
+      padding: 1px 6px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      border-radius: 4px;
+      background: #e2e8f0;
+      color: #475569;
+    }
+
+    .currency-badge.lak {
+      background: #e0e7ff;
+      color: #4338ca;
+    }
+
+    .currency-badge.thb {
+      background: #fef3c7;
+      color: #b45309;
+    }
+
+    .currency-badge.usd {
+      background: #dcfce7;
+      color: #15803d;
     }
 
     .item-note {
@@ -346,6 +460,13 @@
 
     <!-- 2. Summary Box -->
     <div class="summary-box">
+      <!-- Currency Switcher for Summary -->
+      <div class="summary-currency-tabs">
+        <button type="button" class="summary-curr-tab active" data-curr="LAK">₭ ກີບ</button>
+        <button type="button" class="summary-curr-tab" data-curr="THB">฿ ບາດ</button>
+        <button type="button" class="summary-curr-tab" data-curr="USD">$ ໂດລາ</button>
+      </div>
+
       <div class="summary-row">
         <span>ລາຍຮັບເດືອນນີ້</span>
         <span id="summaryIncome">0 ₭</span>
@@ -368,8 +489,18 @@
 
     <!-- 4. Form เพิ่มรายการ -->
     <form id="entryForm" class="entry-form">
+      <!-- Currency Selection -->
       <div class="form-group">
-        <label for="amountInput">ຈຳນວນເງິນ (ກີບ)</label>
+        <label>ສະກຸນເງິນ</label>
+        <div class="currency-selector">
+          <button type="button" class="curr-btn active" data-curr="LAK">₭ ກີບ (LAK)</button>
+          <button type="button" class="curr-btn" data-curr="THB">฿ ບາດ (THB)</button>
+          <button type="button" class="curr-btn" data-curr="USD">$ ໂດລາ (USD)</button>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="amountInput" id="amountLabel">ຈຳນວນເງິນ (ກີບ)</label>
         <input 
           type="number" 
           id="amountInput" 
@@ -406,11 +537,19 @@
         <button type="button" id="btnDeleteAll" class="delete-all-btn">ລຶບທັງໝົດ</button>
       </div>
 
-      <!-- Filters -->
+      <!-- Filters by Type -->
       <div class="filter-group">
         <button type="button" class="filter-btn active" data-filter="all">ທັງໝົດ</button>
         <button type="button" class="filter-btn" data-filter="income">ລາຍຮັບ</button>
         <button type="button" class="filter-btn" data-filter="expense">ລາຍຈ່າຍ</button>
+      </div>
+
+      <!-- Filters by Currency -->
+      <div class="currency-filter-group">
+        <button type="button" class="curr-filter-btn active" data-curr-filter="all">ທຸກສະກຸນເງິນ</button>
+        <button type="button" class="curr-filter-btn" data-curr-filter="LAK">₭ ກີບ</button>
+        <button type="button" class="curr-filter-btn" data-curr-filter="THB">฿ ບາດ</button>
+        <button type="button" class="curr-filter-btn" data-curr-filter="USD">$ ໂດລາ</button>
       </div>
 
       <!-- Items Container -->
@@ -421,15 +560,24 @@
   </div>
 
   <script>
-    // 5. รายการหมวดหมู่ (Categories)
+    // 5. Categories
     const CATEGORIES = {
       expense: ['ອາຫານ', 'ເດີນທາງ', 'ຊື້ເຄື່ອງ', 'ບິນ/ຄ່າໃຊ້ຈ່າຍ', 'ສຸຂະພາບ', 'ບັນເທີງ', 'ອື່ນໆ'],
       income: ['ເງິນເດືອນ', 'ໂບນັດ', 'ຂາຍສິນຄ້າ', 'ດອກເບ້ຍ', 'ອື່ນໆ']
     };
 
+    const CURRENCY_CONFIG = {
+      LAK: { symbol: '₭', name: 'ກີບ', label: 'ຈຳນວນເງິນ (ກີບ)' },
+      THB: { symbol: '฿', name: 'ບາດ', label: 'ຈຳນວນເງິນ (ບາດ)' },
+      USD: { symbol: '$', name: 'ໂດລາ', label: 'ຈຳນວນເງິນ (ໂດລາ)' }
+    };
+
     // State
-    let currentType = 'expense'; // 'expense' | 'income'
-    let currentFilter = 'all';  // 'all' | 'income' | 'expense'
+    let currentType = 'expense';       // 'expense' | 'income'
+    let currentCurrency = 'LAK';       // 'LAK' | 'THB' | 'USD'
+    let summaryCurrency = 'LAK';       // Which currency to show in summary
+    let currentFilter = 'all';         // 'all' | 'income' | 'expense'
+    let currentCurrencyFilter = 'all'; // 'all' | 'LAK' | 'THB' | 'USD'
     let items = [];
 
     // Elements
@@ -437,6 +585,7 @@
     const btnIncome = document.getElementById('btnIncome');
     const categorySelect = document.getElementById('categorySelect');
     const amountInput = document.getElementById('amountInput');
+    const amountLabel = document.getElementById('amountLabel');
     const noteInput = document.getElementById('noteInput');
     const entryForm = document.getElementById('entryForm');
     const summaryIncome = document.getElementById('summaryIncome');
@@ -445,11 +594,20 @@
     const itemsContainer = document.getElementById('itemsContainer');
     const btnDeleteAll = document.getElementById('btnDeleteAll');
     const filterButtons = document.querySelectorAll('.filter-btn');
+    const currFilterButtons = document.querySelectorAll('.curr-filter-btn');
+    const formCurrButtons = document.querySelectorAll('.curr-btn');
+    const summaryCurrTabs = document.querySelectorAll('.summary-curr-tab');
 
-    // Format currency: ₭ (ກີບ) format using toLocaleString('lo-LA')
-    function formatCurrency(num) {
-      const formatted = Number(num).toLocaleString('lo-LA');
-      return `${formatted} ₭`;
+    // Format currency by currency code
+    function formatCurrency(num, curr = 'LAK') {
+      const val = Number(num) || 0;
+      if (curr === 'THB') {
+        return `${val.toLocaleString('th-TH', { maximumFractionDigits: 2 })} ฿`;
+      } else if (curr === 'USD') {
+        return `$${val.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+      } else {
+        return `${val.toLocaleString('lo-LA')} ₭`;
+      }
     }
 
     // Load data from localStorage
@@ -458,6 +616,10 @@
         const stored = localStorage.getItem('moneyItems');
         if (stored) {
           items = JSON.parse(stored);
+          // Default existing items to LAK if missing
+          items.forEach(item => {
+            if (!item.currency) item.currency = 'LAK';
+          });
         } else {
           items = [];
         }
@@ -483,7 +645,7 @@
       });
     }
 
-    // Update Summary Box for Current Month
+    // Update Summary Box for Current Month & Selected Summary Currency
     function renderSummary() {
       const now = new Date();
       const currentYear = now.getFullYear();
@@ -493,6 +655,9 @@
       let totalExpense = 0;
 
       items.forEach(item => {
+        const itemCurr = item.currency || 'LAK';
+        if (itemCurr !== summaryCurrency) return;
+
         const itemDate = new Date(item.date);
         if (itemDate.getFullYear() === currentYear && itemDate.getMonth() === currentMonth) {
           const val = Number(item.amount) || 0;
@@ -506,9 +671,9 @@
 
       const balance = totalIncome - totalExpense;
 
-      summaryIncome.textContent = formatCurrency(totalIncome);
-      summaryExpense.textContent = formatCurrency(totalExpense);
-      summaryBalance.textContent = formatCurrency(balance);
+      summaryIncome.textContent = formatCurrency(totalIncome, summaryCurrency);
+      summaryExpense.textContent = formatCurrency(totalExpense, summaryCurrency);
+      summaryBalance.textContent = formatCurrency(balance, summaryCurrency);
     }
 
     // Render Items List
@@ -516,8 +681,10 @@
       itemsContainer.innerHTML = '';
 
       const filteredItems = items.filter(item => {
-        if (currentFilter === 'all') return true;
-        return item.type === currentFilter;
+        const matchesType = currentFilter === 'all' || item.type === currentFilter;
+        const itemCurr = item.currency || 'LAK';
+        const matchesCurr = currentCurrencyFilter === 'all' || itemCurr === currentCurrencyFilter;
+        return matchesType && matchesCurr;
       });
 
       if (filteredItems.length === 0) {
@@ -535,10 +702,22 @@
         const leftDiv = document.createElement('div');
         leftDiv.className = 'item-left';
 
+        const headerLine = document.createElement('div');
+        headerLine.className = 'item-header-line';
+
         const catSpan = document.createElement('span');
         catSpan.className = 'item-category';
         catSpan.textContent = item.category;
-        leftDiv.appendChild(catSpan);
+        headerLine.appendChild(catSpan);
+
+        const currBadge = document.createElement('span');
+        const curr = (item.currency || 'LAK').toLowerCase();
+        currBadge.className = `currency-badge ${curr}`;
+        const currText = item.currency === 'THB' ? '฿ ບາດ' : (item.currency === 'USD' ? '$ ໂດລາ' : '₭ ກີບ');
+        currBadge.textContent = currText;
+        headerLine.appendChild(currBadge);
+
+        leftDiv.appendChild(headerLine);
 
         if (item.note && item.note.trim()) {
           const noteSpan = document.createElement('span');
@@ -553,7 +732,7 @@
         const amountSpan = document.createElement('span');
         amountSpan.className = `item-amount ${item.type}`;
         const prefix = item.type === 'income' ? '+ ' : '- ';
-        amountSpan.textContent = `${prefix}${formatCurrency(item.amount)}`;
+        amountSpan.textContent = `${prefix}${formatCurrency(item.amount, item.currency || 'LAK')}`;
         rightDiv.appendChild(amountSpan);
 
         const delBtn = document.createElement('button');
@@ -609,12 +788,42 @@
       updateCategories();
     });
 
-    // Filters
+    // Summary Currency Switcher
+    summaryCurrTabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        summaryCurrTabs.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        summaryCurrency = tab.getAttribute('data-curr');
+        renderSummary();
+      });
+    });
+
+    // Form Currency Selector
+    formCurrButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        formCurrButtons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentCurrency = btn.getAttribute('data-curr');
+        amountLabel.textContent = CURRENCY_CONFIG[currentCurrency].label;
+      });
+    });
+
+    // Type Filters
     filterButtons.forEach(btn => {
       btn.addEventListener('click', () => {
         filterButtons.forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
         currentFilter = btn.getAttribute('data-filter');
+        renderList();
+      });
+    });
+
+    // Currency Filters
+    currFilterButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        currFilterButtons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentCurrencyFilter = btn.getAttribute('data-curr-filter');
         renderList();
       });
     });
@@ -632,6 +841,7 @@
       const newItem = {
         id: Date.now(),
         type: currentType,
+        currency: currentCurrency,
         amount: amountVal,
         category: categorySelect.value || (CATEGORIES[currentType][0]),
         note: noteInput.value.trim(),
@@ -646,6 +856,16 @@
       amountInput.value = '';
       noteInput.value = '';
       amountInput.focus();
+
+      // Automatically switch summary to the currency just added if user wants to see it immediately
+      summaryCurrency = currentCurrency;
+      summaryCurrTabs.forEach(tab => {
+        if (tab.getAttribute('data-curr') === summaryCurrency) {
+          tab.classList.add('active');
+        } else {
+          tab.classList.remove('active');
+        }
+      });
 
       // Re-render
       renderSummary();
