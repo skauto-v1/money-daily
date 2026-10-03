@@ -1,10 +1,11 @@
-const CACHE_NAME = 'money-daily-v2';
+const CACHE_NAME = 'money-daily-v3';
 const ASSETS = [
   './',
   './index.html',
   './manifest.json',
   './icon-192.png',
-  './icon-512.png'
+  './icon-512.png',
+  './logo.png'
 ];
 
 self.addEventListener('install', (event) => {
