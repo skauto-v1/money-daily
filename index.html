@@ -1345,65 +1345,50 @@
       </div>
     </div>
 
-    <!-- 3. 3D Transaction Type Segmented Toggle -->
+    <!-- 3. 3D Transaction Type & Direct Slip Attachment Buttons -->
     <div class="type-segmented-control">
-      <button type="button" id="btnExpense" class="segment-btn active expense">
-        <span>📉</span> ລາຍຈ່າຍ (EXPENSE)
+      <button type="button" id="btnExpense" class="segment-btn active expense" title="ກົດເພື່ອແນບສະລິບລາຍຈ່າຍ ຫຼື ເລືອກລາຍຈ່າຍ">
+        <span>📷 📉</span> ລາຍຈ່າຍ (EXPENSE)
       </button>
-      <button type="button" id="btnIncome" class="segment-btn income">
-        <span>📈</span> ລາຍຮັບ (INCOME)
+      <button type="button" id="btnIncome" class="segment-btn income" title="ກົດເພື່ອແນບສະລິບລາຍຮັບ ຫຼື ເລືອກລາຍຮັບ">
+        <span>📷 📈</span> ລາຍຮັບ (INCOME)
       </button>
+    </div>
+    <div style="text-align: center; font-size: 0.78rem; color: #a1a1aa; margin-top: -6px; margin-bottom: 14px;">
+      💡 ແຕະປຸ່ມເພື່ອເລືອກປະເພດ ແລະ ແນບຮູບສະລິບ (AI ຈະອ່ານຍອດເງິນອັດຕະໂນມັດ)
+    </div>
+
+    <!-- Hidden file input for camera / slip upload -->
+    <input type="file" id="slipFileInput" accept="image/*" style="display: none;">
+
+    <!-- Attached Slip Preview & AI Scanner Bar -->
+    <div id="slipPreviewCard" class="slip-preview-card" style="display: none; margin-bottom: 18px;">
+      <div class="slip-preview-left">
+        <img id="slipPreviewThumb" src="" alt="Slip thumbnail" class="slip-thumb">
+        <div class="slip-thumb-info">
+          <span id="slipFileName" class="slip-file-name">slip.jpg</span>
+          <span class="slip-status-tag">ແນບສະລິບແລ້ວ</span>
+        </div>
+      </div>
+      <div class="slip-preview-right">
+        <button type="button" id="btnScanSlip" class="btn-scan-ai" title="ໃຫ້ AI ອ່ານສະລິບ">
+          <span>✨</span> AI ອ່ານສະລິບ
+        </button>
+        <button type="button" id="btnRemoveSlip" class="btn-remove-slip" title="ລຶບສະລິບ">✕</button>
+      </div>
+    </div>
+
+    <!-- AI Scanning Loader -->
+    <div id="aiScanningIndicator" class="ai-scanning-box" style="display: none; margin-bottom: 18px;">
+      <div class="ai-scanner-spinner"></div>
+      <div class="ai-scanner-text">
+        <strong>✨ AI ກຳລັງວິເຄາະສະລິບ...</strong>
+        <span>ກຳລັງກວດສອບຕົວເລກເງິນ, ສະກຸນເງິນ ແລະ ໝວດໝູ່</span>
+      </div>
     </div>
 
     <!-- 4. 3D Form ເພີ່ມລາຍການ -->
     <form id="entryForm" class="entry-form">
-      <!-- Hidden file input for camera / slip upload -->
-      <input type="file" id="slipFileInput" accept="image/*" style="display: none;">
-
-      <!-- Slip Attachment & AI Scanner Section -->
-      <div class="form-group">
-        <div class="form-group-label">
-          <span>ແນບສະລິບ / ບິນ (ATTACH SLIP & AI)</span>
-          <button type="button" id="btnOpenAiSettings" class="ai-config-link">⚙️ ຕັ້ງຄ່າ AI Key</button>
-        </div>
-
-        <!-- Drop / Click Trigger Area -->
-        <div id="slipDropArea" class="slip-upload-card">
-          <div class="slip-upload-inner">
-            <span class="slip-camera-icon">📷</span>
-            <div class="slip-upload-text">
-              <strong>ແຕະເພື່ອຖ່າຍຮູບ ຫຼື ແນບສະລິບ</strong>
-              <span>ຮອງຮັບທຸກທະນາຄານ ແລະ AI ອ່ານຍອດເງິນອັດຕະໂນມັດ</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Preview Box when slip is attached -->
-        <div id="slipPreviewCard" class="slip-preview-card" style="display: none;">
-          <div class="slip-preview-left">
-            <img id="slipPreviewThumb" src="" alt="Slip thumbnail" class="slip-thumb">
-            <div class="slip-thumb-info">
-              <span id="slipFileName" class="slip-file-name">slip.jpg</span>
-              <span class="slip-status-tag">ແນບຮຽບຮ້ອຍແລ້ວ</span>
-            </div>
-          </div>
-          <div class="slip-preview-right">
-            <button type="button" id="btnScanSlip" class="btn-scan-ai" title="ໃຫ້ AI ອ່ານສະລິບ">
-              <span>✨</span> ອ່ານສະລິບ
-            </button>
-            <button type="button" id="btnRemoveSlip" class="btn-remove-slip" title="ລຶບສະລິບ">✕</button>
-          </div>
-        </div>
-
-        <!-- AI Scanning Loader -->
-        <div id="aiScanningIndicator" class="ai-scanning-box" style="display: none;">
-          <div class="ai-scanner-spinner"></div>
-          <div class="ai-scanner-text">
-            <strong>✨ AI ກຳລັງວິເຄາະສະລິບ...</strong>
-            <span>ກຳລັງກວດສອບຕົວເລກເງິນ, ສະກຸນເງິນ ແລະ ໝວດໝູ່</span>
-          </div>
-        </div>
-      </div>
 
       <!-- Currency Selector -->
       <div class="form-group">
@@ -1601,7 +1586,6 @@
 
     // Slip & AI Elements
     const slipFileInput = document.getElementById('slipFileInput');
-    const slipDropArea = document.getElementById('slipDropArea');
     const slipPreviewCard = document.getElementById('slipPreviewCard');
     const slipPreviewThumb = document.getElementById('slipPreviewThumb');
     const slipFileName = document.getElementById('slipFileName');
@@ -1612,7 +1596,6 @@
     // Modals Elements
     const aiModal = document.getElementById('aiModal');
     const btnHeaderAi = document.getElementById('btnHeaderAi');
-    const btnOpenAiSettings = document.getElementById('btnOpenAiSettings');
     const btnCloseAiModal = document.getElementById('btnCloseAiModal');
     const geminiApiKeyInput = document.getElementById('geminiApiKeyInput');
     const btnSaveApiKey = document.getElementById('btnSaveApiKey');
@@ -1911,21 +1894,21 @@
       }
     });
 
-    // Toggle Type: Expense / Income
+    // Direct Slip Attachment & Type Toggle
     btnExpense.addEventListener('click', () => {
-      if (currentType === 'expense') return;
       currentType = 'expense';
       btnExpense.className = 'segment-btn active expense';
       btnIncome.className = 'segment-btn income';
       updateCategories();
+      slipFileInput.click();
     });
 
     btnIncome.addEventListener('click', () => {
-      if (currentType === 'income') return;
       currentType = 'income';
       btnIncome.className = 'segment-btn active income';
       btnExpense.className = 'segment-btn expense';
       updateCategories();
+      slipFileInput.click();
     });
 
     // Summary Currency Switcher
@@ -1969,13 +1952,9 @@
       });
     });
 
-    // Slip Upload Handling
-    slipDropArea.addEventListener('click', () => {
-      slipFileInput.click();
-    });
-
+    // Slip Upload & Attachment Handling
     slipFileInput.addEventListener('change', async (e) => {
-      const file = e.target.files[0];
+      const file = e.target.files && e.target.files[0];
       if (!file) return;
 
       try {
@@ -1983,13 +1962,14 @@
         currentSlipDataUrl = compressed;
         slipPreviewThumb.src = compressed;
         slipFileName.textContent = file.name || 'slip.jpg';
-        slipDropArea.style.display = 'none';
         slipPreviewCard.style.display = 'flex';
 
-        // Auto trigger AI scan if key exists
+        // Auto trigger AI scan if key exists, otherwise open modal to guide user
         const apiKey = localStorage.getItem('geminiApiKey');
         if (apiKey) {
           scanSlipWithAi(compressed);
+        } else {
+          openAiModal();
         }
       } catch (err) {
         console.error('Slip processing error:', err);
@@ -2001,7 +1981,6 @@
       currentSlipDataUrl = null;
       slipFileInput.value = '';
       slipPreviewCard.style.display = 'none';
-      slipDropArea.style.display = 'flex';
       aiScanningIndicator.style.display = 'none';
     });
 
@@ -2012,11 +1991,14 @@
     });
 
     btnScanSlip.addEventListener('click', () => {
-      if (!currentSlipDataUrl) return;
+      if (!currentSlipDataUrl) {
+        slipFileInput.click();
+        return;
+      }
       scanSlipWithAi(currentSlipDataUrl);
     });
 
-    // AI Vision Function with Gemini Flash API
+    // AI Vision Function with Gemini Flash API (Auto model fallback)
     async function scanSlipWithAi(base64DataUrl) {
       const apiKey = localStorage.getItem('geminiApiKey');
       if (!apiKey) {
@@ -2038,74 +2020,93 @@ Extract the transaction details into strict JSON format with NO markdown wrappin
   "note": "short summary e.g. receiver name, sender, shop name or memo"
 }`;
 
-      try {
-        const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
-        const response = await fetch(url, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            contents: [{
-              parts: [
-                { text: prompt },
-                { inlineData: { mimeType: 'image/jpeg', data: base64Data } }
-              ]
-            }],
-            generationConfig: {
-              temperature: 0.1,
-              responseMimeType: 'application/json'
-            }
-          })
-        });
+      const models = ['gemini-2.5-flash', 'gemini-2.0-flash', 'gemini-1.5-flash'];
+      let lastError = null;
+      let success = false;
 
-        const json = await response.json();
-        if (json.error) {
-          throw new Error(json.error.message || 'AI request error');
-        }
-
-        const text = json.candidates[0].content.parts[0].text;
-        const parsed = JSON.parse(text);
-
-        // Apply parsed data to form
-        if (parsed.amount && !isNaN(parsed.amount)) {
-          amountInput.value = parsed.amount;
-        }
-
-        if (parsed.currency && ['LAK', 'THB', 'USD'].includes(parsed.currency)) {
-          currentCurrency = parsed.currency;
-          formCurrButtons.forEach(b => {
-            b.classList.toggle('active', b.getAttribute('data-curr') === currentCurrency);
+      for (const model of models) {
+        try {
+          const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
+          const response = await fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              contents: [{
+                parts: [
+                  { text: prompt },
+                  { inlineData: { mimeType: 'image/jpeg', data: base64Data } }
+                ]
+              }],
+              generationConfig: {
+                temperature: 0.1,
+                responseMimeType: 'application/json'
+              }
+            })
           });
-          amountLabel.textContent = CURRENCY_CONFIG[currentCurrency].label;
-          currencyIndicator.textContent = CURRENCY_CONFIG[currentCurrency].symbol;
-        }
 
-        if (parsed.type && ['expense', 'income'].includes(parsed.type)) {
-          currentType = parsed.type;
-          btnExpense.className = `segment-btn ${currentType === 'expense' ? 'active expense' : ''}`;
-          btnIncome.className = `segment-btn ${currentType === 'income' ? 'active income' : ''}`;
-          updateCategories();
-        }
+          const json = await response.json();
+          if (json.error) {
+            lastError = new Error(json.error.message || `Error calling ${model}`);
+            continue;
+          }
 
-        if (parsed.category) {
-          currentCategory = parsed.category;
-          categorySelect.value = parsed.category;
-          document.querySelectorAll('.category-chip').forEach(c => {
-            c.classList.toggle('active', c.textContent.includes(parsed.category));
-          });
-        }
+          const candidate = json.candidates && json.candidates[0];
+          if (!candidate || !candidate.content || !candidate.content.parts || !candidate.content.parts[0]) {
+            throw new Error('ບໍ່ພົບຂໍ້ມູນຈາກ AI');
+          }
 
-        if (parsed.note) {
-          noteInput.value = parsed.note;
-        }
+          const rawText = candidate.content.parts[0].text.trim();
+          const cleanedText = rawText.replace(/^```json\s*/i, '').replace(/```$/i, '').trim();
+          const parsed = JSON.parse(cleanedText);
 
-        alert('✨ AI ອ່ານສະລິບສຳເລັດແລ້ວ! ຂໍ້ມູນຖືກປ້ອນລົງຟອມຮຽບຮ້ອຍ');
-      } catch (err) {
-        console.error('AI Scan Error:', err);
-        alert('⚠️ ບໍ່ສາມາດອ່ານສະລິບໄດ້: ' + (err.message || 'ກະລຸນາກວດສອບ API Key ຫຼື ລອງໃໝ່'));
-      } finally {
-        aiScanningIndicator.style.display = 'none';
-        btnScanSlip.disabled = false;
+          // Apply parsed data to form
+          if (parsed.amount && !isNaN(parsed.amount)) {
+            amountInput.value = parsed.amount;
+          }
+
+          if (parsed.currency && ['LAK', 'THB', 'USD'].includes(parsed.currency)) {
+            currentCurrency = parsed.currency;
+            formCurrButtons.forEach(b => {
+              b.classList.toggle('active', b.getAttribute('data-curr') === currentCurrency);
+            });
+            amountLabel.textContent = CURRENCY_CONFIG[currentCurrency].label;
+            currencyIndicator.textContent = CURRENCY_CONFIG[currentCurrency].symbol;
+          }
+
+          if (parsed.type && ['expense', 'income'].includes(parsed.type)) {
+            currentType = parsed.type;
+            btnExpense.className = `segment-btn ${currentType === 'expense' ? 'active expense' : ''}`;
+            btnIncome.className = `segment-btn ${currentType === 'income' ? 'active income' : ''}`;
+            updateCategories();
+          }
+
+          if (parsed.category) {
+            currentCategory = parsed.category;
+            categorySelect.value = parsed.category;
+            document.querySelectorAll('.category-chip').forEach(c => {
+              c.classList.toggle('active', c.textContent.includes(parsed.category));
+            });
+          }
+
+          if (parsed.note) {
+            noteInput.value = parsed.note;
+          }
+
+          success = true;
+          alert('✨ AI ອ່ານສະລິບສຳເລັດແລ້ວ! ຂໍ້ມູນຖືກປ້ອນລົງຟອມຮຽບຮ້ອຍ');
+          break;
+        } catch (err) {
+          lastError = err;
+        }
       }
+
+      if (!success) {
+        console.error('AI Scan Error:', lastError);
+        alert('⚠️ ບໍ່ສາມາດອ່ານສະລິບໄດ້: ' + (lastError ? lastError.message : 'ກະລຸນາກວດສອບ API Key ຫຼື ລອງໃໝ່'));
+      }
+
+      aiScanningIndicator.style.display = 'none';
+      btnScanSlip.disabled = false;
     }
 
     // AI Modal Handlers
@@ -2114,7 +2115,6 @@ Extract the transaction details into strict JSON format with NO markdown wrappin
       aiModal.style.display = 'flex';
     }
 
-    btnOpenAiSettings.addEventListener('click', openAiModal);
     btnHeaderAi.addEventListener('click', openAiModal);
 
     btnCloseAiModal.addEventListener('click', () => {
@@ -2175,7 +2175,6 @@ Extract the transaction details into strict JSON format with NO markdown wrappin
       currentSlipDataUrl = null;
       slipFileInput.value = '';
       slipPreviewCard.style.display = 'none';
-      slipDropArea.style.display = 'flex';
       aiScanningIndicator.style.display = 'none';
       amountInput.focus();
 
