@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="lo">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ແອັບບັນທຶກລາຍຮັບ-ລາຍຈ່າຍ</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Phetsarath OT', 'Saysettha OT', 'Segoe UI', Tahoma, sans-serif;
+    }
+
+    body {
+      background-color: #f0f2f5;
+      color: #333333;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 20px 12px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 480px;
+      background: #ffffff;
+      border-radius: 16px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+      overflow: hidden;
+      padding: 24px 20px;
+    }
+
+    /* 1. Header */
+    .header-title {
+      text-align: center;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #1f2937;
+      margin-bottom: 20px;
+    }
+
+    /* 2. Summary Box */
+    .summary-box {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: #ffffff;
+      border-radius: 14px;
+      padding: 18px 20px;
+      margin-bottom: 24px;
+      box-shadow: 0 6px 16px rgba(102, 126, 234, 0.28);
+    }
+
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      font-size: 0.95rem;
+    }
+
+    .summary-row span:first-child {
+      color: #e0e7ff;
+    }
+
+    .summary-row.total-row {
+      margin-top: 12px;
+      margin-bottom: 0;
+      padding-top: 12px;
+      border-top: 1px solid rgba(255, 255, 255, 0.25);
+      font-size: 1.15rem;
+      font-weight: 700;
+    }
+
+    .summary-row.total-row span:first-child {
+      color: #ffffff;
+    }
+
+    /* 3. Type Toggle */
+    .type-toggle {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .toggle-btn {
+      flex: 1;
+      padding: 10px 0;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 10px;
+      border: 1px solid #e2e8f0;
+      background: #f8fafc;
+      color: #64748b;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .toggle-btn:hover {
+      background: #edf2f7;
+    }
+
+    .toggle-btn.active.expense {
+      background-color: #ef4444;
+      border-color: #ef4444;
+      color: #ffffff;
+      box-shadow: 0 4px 10px rgba(239, 68, 68, 0.25);
+    }
+
+    .toggle-btn.active.income {
+      background-color: #10b981;
+      border-color: #10b981;
+      color: #ffffff;
+      box-shadow: 0 4px 10px rgba(16, 185, 129, 0.25);
+    }
+
+    /* 4. Form */
+    .entry-form {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin-bottom: 28px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .form-group label {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: #4b5563;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 11px 14px;
+      border-radius: 10px;
+      border: 1.5px solid #e5e7eb;
+      font-size: 0.95rem;
+      color: #1f2937;
+      background-color: #ffffff;
+      outline: none;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .form-control:focus {
+      border-color: #667eea;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.15);
+    }
+
+    select.form-control {
+      cursor: pointer;
+    }
+
+    .submit-btn {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 10px;
+      background: #4f46e5;
+      color: #ffffff;
+      font-size: 1.05rem;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 4px;
+      box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25);
+      transition: background-color 0.2s ease, transform 0.1s ease;
+    }
+
+    .submit-btn:hover {
+      background: #4338ca;
+    }
+
+    .submit-btn:active {
+      transform: scale(0.99);
+    }
+
+    /* 6. List Section */
+    .list-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .list-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #1f2937;
+    }
+
+    .delete-all-btn {
+      background: none;
+      border: none;
+      color: #9ca3af;
+      font-size: 0.85rem;
+      cursor: pointer;
+      text-decoration: underline;
+      padding: 4px 6px;
+      transition: color 0.2s ease;
+    }
+
+    .delete-all-btn:hover {
+      color: #ef4444;
+    }
+
+    /* Filter buttons */
+    .filter-group {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .filter-btn {
+      flex: 1;
+      padding: 7px 0;
+      font-size: 0.88rem;
+      font-weight: 600;
+      border-radius: 8px;
+      border: 1px solid #e5e7eb;
+      background: #f9fafb;
+      color: #6b7280;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .filter-btn:hover {
+      background: #f3f4f6;
+    }
+
+    .filter-btn.active {
+      background: #374151;
+      border-color: #374151;
+      color: #ffffff;
+    }
+
+    /* Items List */
+    .items-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 32px 16px;
+      color: #9ca3af;
+      font-size: 0.95rem;
+      background: #f9fafb;
+      border-radius: 12px;
+      border: 1px dashed #e5e7eb;
+    }
+
+    .item-card {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #f8fafc;
+      border: 1px solid #edf2f7;
+      border-radius: 12px;
+      padding: 12px 14px;
+      transition: background 0.15s ease;
+    }
+
+    .item-card:hover {
+      background: #f1f5f9;
+    }
+
+    .item-left {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      flex: 1;
+      min-width: 0;
+      padding-right: 12px;
+    }
+
+    .item-category {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: #1f2937;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .item-note {
+      font-size: 0.82rem;
+      color: #6b7280;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .item-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .item-amount {
+      font-size: 1rem;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .item-amount.income {
+      color: #10b981;
+    }
+
+    .item-amount.expense {
+      color: #ef4444;
+    }
+
+    .delete-item-btn {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      border: none;
+      background: #e2e8f0;
+      color: #64748b;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      line-height: 1;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      flex-shrink: 0;
+    }
+
+    .delete-item-btn:hover {
+      background: #fee2e2;
+      color: #ef4444;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <!-- 1. Header -->
+    <h1 class="header-title">💰 ບັນທຶກລາຍຮັບ-ລາຍຈ່າຍ</h1>
+
+    <!-- 2. Summary Box -->
+    <div class="summary-box">
+      <div class="summary-row">
+        <span>ລາຍຮັບເດືອນນີ້</span>
+        <span id="summaryIncome">0 ₭</span>
+      </div>
+      <div class="summary-row">
+        <span>ລາຍຈ່າຍເດືອນນີ້</span>
+        <span id="summaryExpense">0 ₭</span>
+      </div>
+      <div class="summary-row total-row">
+        <span>ຍອດຄົງເຫຼືອ</span>
+        <span id="summaryBalance">0 ₭</span>
+      </div>
+    </div>
+
+    <!-- 3. Type Toggle -->
+    <div class="type-toggle">
+      <button type="button" id="btnExpense" class="toggle-btn active expense">ລາຍຈ່າຍ</button>
+      <button type="button" id="btnIncome" class="toggle-btn">ລາຍຮັບ</button>
+    </div>
+
+    <!-- 4. Form เพิ่มรายการ -->
+    <form id="entryForm" class="entry-form">
+      <div class="form-group">
+        <label for="amountInput">ຈຳນວນເງິນ (ກີບ)</label>
+        <input 
+          type="number" 
+          id="amountInput" 
+          class="form-control" 
+          min="0" 
+          step="0.01" 
+          placeholder="0.00" 
+          required
+        >
+      </div>
+
+      <div class="form-group">
+        <label for="categorySelect">ໝວດໝູ່</label>
+        <select id="categorySelect" class="form-control"></select>
+      </div>
+
+      <div class="form-group">
+        <label for="noteInput">ໝາຍເຫດ (ບໍ່ບັງຄັບ)</label>
+        <input 
+          type="text" 
+          id="noteInput" 
+          class="form-control" 
+          placeholder="ເພີ່ມໝາຍເຫດ..."
+        >
+      </div>
+
+      <button type="submit" class="submit-btn">ບັນທຶກ</button>
+    </form>
+
+    <!-- 6. List รายการทั้งหมด -->
+    <div class="list-section">
+      <div class="list-header">
+        <span class="list-title">ລາຍການທັງໝົດ</span>
+        <button type="button" id="btnDeleteAll" class="delete-all-btn">ລຶບທັງໝົດ</button>
+      </div>
+
+      <!-- Filters -->
+      <div class="filter-group">
+        <button type="button" class="filter-btn active" data-filter="all">ທັງໝົດ</button>
+        <button type="button" class="filter-btn" data-filter="income">ລາຍຮັບ</button>
+        <button type="button" class="filter-btn" data-filter="expense">ລາຍຈ່າຍ</button>
+      </div>
+
+      <!-- Items Container -->
+      <div id="itemsContainer" class="items-list">
+        <!-- Rendered items or empty state -->
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // 5. รายการหมวดหมู่ (Categories)
+    const CATEGORIES = {
+      expense: ['ອາຫານ', 'ເດີນທາງ', 'ຊື້ເຄື່ອງ', 'ບິນ/ຄ່າໃຊ້ຈ່າຍ', 'ສຸຂະພາບ', 'ບັນເທີງ', 'ອື່ນໆ'],
+      income: ['ເງິນເດືອນ', 'ໂບນັດ', 'ຂາຍສິນຄ້າ', 'ດອກເບ້ຍ', 'ອື່ນໆ']
+    };
+
+    // State
+    let currentType = 'expense'; // 'expense' | 'income'
+    let currentFilter = 'all';  // 'all' | 'income' | 'expense'
+    let items = [];
+
+    // Elements
+    const btnExpense = document.getElementById('btnExpense');
+    const btnIncome = document.getElementById('btnIncome');
+    const categorySelect = document.getElementById('categorySelect');
+    const amountInput = document.getElementById('amountInput');
+    const noteInput = document.getElementById('noteInput');
+    const entryForm = document.getElementById('entryForm');
+    const summaryIncome = document.getElementById('summaryIncome');
+    const summaryExpense = document.getElementById('summaryExpense');
+    const summaryBalance = document.getElementById('summaryBalance');
+    const itemsContainer = document.getElementById('itemsContainer');
+    const btnDeleteAll = document.getElementById('btnDeleteAll');
+    const filterButtons = document.querySelectorAll('.filter-btn');
+
+    // Format currency: ₭ (ກີບ) format using toLocaleString('lo-LA')
+    function formatCurrency(num) {
+      const formatted = Number(num).toLocaleString('lo-LA');
+      return `${formatted} ₭`;
+    }
+
+    // Load data from localStorage
+    function loadItems() {
+      try {
+        const stored = localStorage.getItem('moneyItems');
+        if (stored) {
+          items = JSON.parse(stored);
+        } else {
+          items = [];
+        }
+      } catch (e) {
+        items = [];
+      }
+    }
+
+    // Save data to localStorage
+    function saveItems() {
+      localStorage.setItem('moneyItems', JSON.stringify(items));
+    }
+
+    // Populate category dropdown
+    function updateCategories() {
+      const list = CATEGORIES[currentType] || [];
+      categorySelect.innerHTML = '';
+      list.forEach(cat => {
+        const option = document.createElement('option');
+        option.value = cat;
+        option.textContent = cat;
+        categorySelect.appendChild(option);
+      });
+    }
+
+    // Update Summary Box for Current Month
+    function renderSummary() {
+      const now = new Date();
+      const currentYear = now.getFullYear();
+      const currentMonth = now.getMonth();
+
+      let totalIncome = 0;
+      let totalExpense = 0;
+
+      items.forEach(item => {
+        const itemDate = new Date(item.date);
+        if (itemDate.getFullYear() === currentYear && itemDate.getMonth() === currentMonth) {
+          const val = Number(item.amount) || 0;
+          if (item.type === 'income') {
+            totalIncome += val;
+          } else if (item.type === 'expense') {
+            totalExpense += val;
+          }
+        }
+      });
+
+      const balance = totalIncome - totalExpense;
+
+      summaryIncome.textContent = formatCurrency(totalIncome);
+      summaryExpense.textContent = formatCurrency(totalExpense);
+      summaryBalance.textContent = formatCurrency(balance);
+    }
+
+    // Render Items List
+    function renderList() {
+      itemsContainer.innerHTML = '';
+
+      const filteredItems = items.filter(item => {
+        if (currentFilter === 'all') return true;
+        return item.type === currentFilter;
+      });
+
+      if (filteredItems.length === 0) {
+        const emptyDiv = document.createElement('div');
+        emptyDiv.className = 'empty-state';
+        emptyDiv.textContent = 'ຍັງບໍ່ມີລາຍການ';
+        itemsContainer.appendChild(emptyDiv);
+        return;
+      }
+
+      filteredItems.forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'item-card';
+
+        const leftDiv = document.createElement('div');
+        leftDiv.className = 'item-left';
+
+        const catSpan = document.createElement('span');
+        catSpan.className = 'item-category';
+        catSpan.textContent = item.category;
+        leftDiv.appendChild(catSpan);
+
+        if (item.note && item.note.trim()) {
+          const noteSpan = document.createElement('span');
+          noteSpan.className = 'item-note';
+          noteSpan.textContent = item.note.trim();
+          leftDiv.appendChild(noteSpan);
+        }
+
+        const rightDiv = document.createElement('div');
+        rightDiv.className = 'item-right';
+
+        const amountSpan = document.createElement('span');
+        amountSpan.className = `item-amount ${item.type}`;
+        const prefix = item.type === 'income' ? '+ ' : '- ';
+        amountSpan.textContent = `${prefix}${formatCurrency(item.amount)}`;
+        rightDiv.appendChild(amountSpan);
+
+        const delBtn = document.createElement('button');
+        delBtn.type = 'button';
+        delBtn.className = 'delete-item-btn';
+        delBtn.innerHTML = '&times;';
+        delBtn.title = 'ລຶບ';
+        delBtn.addEventListener('click', () => {
+          deleteItem(item.id);
+        });
+        rightDiv.appendChild(delBtn);
+
+        card.appendChild(leftDiv);
+        card.appendChild(rightDiv);
+
+        itemsContainer.appendChild(card);
+      });
+    }
+
+    // Delete single item
+    function deleteItem(id) {
+      items = items.filter(item => item.id !== id);
+      saveItems();
+      renderSummary();
+      renderList();
+    }
+
+    // Delete all items
+    btnDeleteAll.addEventListener('click', () => {
+      if (items.length === 0) return;
+      if (confirm('ລຶບລາຍການທັງໝົດແມ່ນບໍ່?')) {
+        items = [];
+        saveItems();
+        renderSummary();
+        renderList();
+      }
+    });
+
+    // Toggle Type: Expense / Income
+    btnExpense.addEventListener('click', () => {
+      if (currentType === 'expense') return;
+      currentType = 'expense';
+      btnExpense.className = 'toggle-btn active expense';
+      btnIncome.className = 'toggle-btn';
+      updateCategories();
+    });
+
+    btnIncome.addEventListener('click', () => {
+      if (currentType === 'income') return;
+      currentType = 'income';
+      btnIncome.className = 'toggle-btn active income';
+      btnExpense.className = 'toggle-btn';
+      updateCategories();
+    });
+
+    // Filters
+    filterButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterButtons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentFilter = btn.getAttribute('data-filter');
+        renderList();
+      });
+    });
+
+    // Form Submit
+    entryForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const amountVal = parseFloat(amountInput.value);
+      if (isNaN(amountVal) || amountVal <= 0) {
+        alert('ກະລຸນາໃສ່ຈຳນວນເງິນໃຫ້ຖືກຕ້ອງ');
+        return;
+      }
+
+      const newItem = {
+        id: Date.now(),
+        type: currentType,
+        amount: amountVal,
+        category: categorySelect.value || (CATEGORIES[currentType][0]),
+        note: noteInput.value.trim(),
+        date: new Date().toISOString()
+      };
+
+      // Unshift to put newest at the top
+      items.unshift(newItem);
+      saveItems();
+
+      // Clear amount and note, focus amount
+      amountInput.value = '';
+      noteInput.value = '';
+      amountInput.focus();
+
+      // Re-render
+      renderSummary();
+      renderList();
+    });
+
+    // Initialize
+    loadItems();
+    updateCategories();
+    renderSummary();
+    renderList();
+  </script>
+</body>
+</html>
