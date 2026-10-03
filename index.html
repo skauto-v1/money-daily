@@ -216,6 +216,12 @@
       letter-spacing: 0.8px;
     }
 
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
     .date-badge {
       background: rgba(24, 24, 32, 0.9);
       color: #d4af37;
@@ -223,8 +229,27 @@
       box-shadow: inset 0 1px 1px rgba(212, 175, 55, 0.2);
       font-size: 0.76rem;
       font-weight: 700;
-      padding: 6px 12px;
+      padding: 6px 10px;
       border-radius: 20px;
+    }
+
+    .btn-header-ai {
+      background: rgba(212, 175, 55, 0.15);
+      color: #fde047;
+      border: 1px solid rgba(212, 175, 55, 0.4);
+      padding: 5px 10px;
+      border-radius: 20px;
+      font-size: 0.76rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      transition: var(--transition);
+    }
+
+    .btn-header-ai:hover {
+      background: rgba(212, 175, 55, 0.25);
     }
 
     /* 2. 3D Black Titanium & Champagne Gold Card */
@@ -243,7 +268,6 @@
       overflow: hidden;
     }
 
-    /* Gold Ambient Glow */
     .titanium-card::before {
       content: '';
       position: absolute;
@@ -446,6 +470,210 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+    }
+
+    .ai-config-link {
+      background: none;
+      border: none;
+      color: #fde047;
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: underline;
+      padding: 0;
+    }
+
+    /* Slip Upload Section */
+    .slip-upload-card {
+      border: 1.5px dashed rgba(212, 175, 55, 0.35);
+      border-radius: 14px;
+      padding: 12px 14px;
+      background: rgba(16, 16, 22, 0.6);
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .slip-upload-card:hover {
+      border-color: var(--gold-primary);
+      background: rgba(212, 175, 55, 0.05);
+      transform: translateY(-1px);
+    }
+
+    .slip-upload-inner {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .slip-camera-icon {
+      font-size: 1.6rem;
+      background: rgba(212, 175, 55, 0.15);
+      width: 42px;
+      height: 42px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 12px;
+      border: 1px solid rgba(212, 175, 55, 0.3);
+      flex-shrink: 0;
+    }
+
+    .slip-upload-text {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .slip-upload-text strong {
+      font-size: 0.88rem;
+      color: #ffffff;
+    }
+
+    .slip-upload-text span {
+      font-size: 0.75rem;
+      color: var(--text-dim);
+    }
+
+    /* Slip Preview Card */
+    .slip-preview-card {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: linear-gradient(180deg, #1e1e28 0%, #121218 100%);
+      border: 1px solid rgba(212, 175, 55, 0.4);
+      border-radius: 14px;
+      padding: 10px 14px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    }
+
+    .slip-preview-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .slip-thumb {
+      width: 48px;
+      height: 48px;
+      border-radius: 10px;
+      object-fit: cover;
+      border: 1px solid rgba(212, 175, 55, 0.5);
+      cursor: pointer;
+    }
+
+    .slip-thumb-info {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      min-width: 0;
+    }
+
+    .slip-file-name {
+      font-size: 0.84rem;
+      font-weight: 700;
+      color: #ffffff;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .slip-status-tag {
+      font-size: 0.72rem;
+      color: #34d399;
+      font-weight: 600;
+    }
+
+    .slip-preview-right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-scan-ai {
+      background: var(--gold-gradient);
+      color: #141005;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 10px;
+      font-size: 0.82rem;
+      font-weight: 800;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      box-shadow: 0 4px 10px rgba(212, 175, 55, 0.35);
+      transition: var(--transition);
+      white-space: nowrap;
+    }
+
+    .btn-scan-ai:hover {
+      filter: brightness(1.08);
+    }
+
+    .btn-scan-ai:active {
+      transform: translateY(2px);
+    }
+
+    .btn-remove-slip {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      border: 1px solid rgba(239, 68, 68, 0.4);
+      background: rgba(239, 68, 68, 0.15);
+      color: #f87171;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .btn-remove-slip:hover {
+      background: #ef4444;
+      color: #ffffff;
+    }
+
+    /* AI Scanning Loader */
+    .ai-scanning-box {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: rgba(212, 175, 55, 0.1);
+      border: 1px solid rgba(212, 175, 55, 0.35);
+      padding: 10px 14px;
+      border-radius: 12px;
+      animation: pulse 1.5s infinite ease-in-out;
+    }
+
+    .ai-scanner-spinner {
+      width: 20px;
+      height: 20px;
+      border: 2.5px solid rgba(212, 175, 55, 0.3);
+      border-top-color: #fde047;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    .ai-scanner-text {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+    }
+
+    .ai-scanner-text strong {
+      font-size: 0.84rem;
+      color: #fde047;
+    }
+
+    .ai-scanner-text span {
+      font-size: 0.72rem;
+      color: #a1a1aa;
     }
 
     /* 3D Currency selector pills */
@@ -890,6 +1118,24 @@
       border: 1px solid rgba(16, 185, 129, 0.4);
     }
 
+    .item-slip-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      padding: 1px 6px;
+      font-size: 0.68rem;
+      font-weight: 700;
+      border-radius: 6px;
+      background: rgba(56, 189, 248, 0.2);
+      color: #7dd3fc;
+      border: 1px solid rgba(56, 189, 248, 0.4);
+      cursor: pointer;
+    }
+
+    .item-slip-tag:hover {
+      background: rgba(56, 189, 248, 0.35);
+    }
+
     .item-note {
       font-size: 0.8rem;
       color: var(--text-dim);
@@ -950,9 +1196,100 @@
       transform: scale(0.92);
     }
 
+    /* Modal Overlays */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      padding: 18px;
+      animation: fadeIn 0.25s ease;
+    }
+
+    .modal-card {
+      width: 100%;
+      max-width: 420px;
+      background: #14141c;
+      border: 1.5px solid rgba(212, 175, 55, 0.35);
+      border-radius: 22px;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.9), 0 0 30px rgba(212, 175, 55, 0.1);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 20px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .modal-title {
+      font-size: 1rem;
+      font-weight: 800;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .modal-close-btn {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      border: none;
+      background: #22222d;
+      color: #a1a1aa;
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .modal-close-btn:hover {
+      background: #ef4444;
+      color: #ffffff;
+    }
+
+    .modal-body {
+      padding: 18px 20px;
+      max-height: 80vh;
+      overflow-y: auto;
+    }
+
+    .slip-full-image {
+      width: 100%;
+      max-height: 65vh;
+      object-fit: contain;
+      border-radius: 12px;
+      background: #09090d;
+    }
+
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(-4px); }
       to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.6; }
     }
   </style>
 </head>
@@ -974,7 +1311,12 @@
           <span class="header-subtitle">BLACK TITANIUM EDITION</span>
         </div>
       </div>
-      <div class="date-badge" id="currentMonthBadge">ເດືອນນີ້</div>
+      <div class="header-actions">
+        <button type="button" id="btnHeaderAi" class="btn-header-ai" title="ຕັ້ງຄ່າ AI">
+          <span>🤖</span> AI
+        </button>
+        <div class="date-badge" id="currentMonthBadge">ເດືອນນີ້</div>
+      </div>
     </header>
 
     <!-- 2. 3D Black Titanium & Champagne Gold Card -->
@@ -1015,6 +1357,54 @@
 
     <!-- 4. 3D Form ເພີ່ມລາຍການ -->
     <form id="entryForm" class="entry-form">
+      <!-- Hidden file input for camera / slip upload -->
+      <input type="file" id="slipFileInput" accept="image/*" style="display: none;">
+
+      <!-- Slip Attachment & AI Scanner Section -->
+      <div class="form-group">
+        <div class="form-group-label">
+          <span>ແນບສະລິບ / ບິນ (ATTACH SLIP & AI)</span>
+          <button type="button" id="btnOpenAiSettings" class="ai-config-link">⚙️ ຕັ້ງຄ່າ AI Key</button>
+        </div>
+
+        <!-- Drop / Click Trigger Area -->
+        <div id="slipDropArea" class="slip-upload-card">
+          <div class="slip-upload-inner">
+            <span class="slip-camera-icon">📷</span>
+            <div class="slip-upload-text">
+              <strong>ແຕະເພື່ອຖ່າຍຮູບ ຫຼື ແນບສະລິບ</strong>
+              <span>ຮອງຮັບທຸກທະນາຄານ ແລະ AI ອ່ານຍອດເງິນອັດຕະໂນມັດ</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Preview Box when slip is attached -->
+        <div id="slipPreviewCard" class="slip-preview-card" style="display: none;">
+          <div class="slip-preview-left">
+            <img id="slipPreviewThumb" src="" alt="Slip thumbnail" class="slip-thumb">
+            <div class="slip-thumb-info">
+              <span id="slipFileName" class="slip-file-name">slip.jpg</span>
+              <span class="slip-status-tag">ແນບຮຽບຮ້ອຍແລ້ວ</span>
+            </div>
+          </div>
+          <div class="slip-preview-right">
+            <button type="button" id="btnScanSlip" class="btn-scan-ai" title="ໃຫ້ AI ອ່ານສະລິບ">
+              <span>✨</span> ອ່ານສະລິບ
+            </button>
+            <button type="button" id="btnRemoveSlip" class="btn-remove-slip" title="ລຶບສະລິບ">✕</button>
+          </div>
+        </div>
+
+        <!-- AI Scanning Loader -->
+        <div id="aiScanningIndicator" class="ai-scanning-box" style="display: none;">
+          <div class="ai-scanner-spinner"></div>
+          <div class="ai-scanner-text">
+            <strong>✨ AI ກຳລັງວິເຄາະສະລິບ...</strong>
+            <span>ກຳລັງກວດສອບຕົວເລກເງິນ, ສະກຸນເງິນ ແລະ ໝວດໝູ່</span>
+          </div>
+        </div>
+      </div>
+
       <!-- Currency Selector -->
       <div class="form-group">
         <div class="form-group-label">
@@ -1106,6 +1496,50 @@
     </div>
   </div>
 
+  <!-- AI Key Settings Modal -->
+  <div id="aiModal" class="modal-overlay" style="display: none;">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="modal-title">
+          <span>🤖</span> ຕັ້ງຄ່າ Gemini AI Scanner
+        </div>
+        <button type="button" id="btnCloseAiModal" class="modal-close-btn">✕</button>
+      </div>
+      <div class="modal-body">
+        <p style="font-size: 0.85rem; color: #a1a1aa; line-height: 1.5; margin-bottom: 14px;">
+          ໃສ່ <strong>Google Gemini API Key</strong> ເພື່ອໃຫ້ AI ສາມາດອ່ານສະລິບໂອນເງິນ, ບິນ ແລະ ໃບຮັບເງິນຕ່າງໆໄດ້ອັດຕະໂນມັດ (ໃຊ້ງານຟຣີ 100% ຈາກ Google).
+        </p>
+        <div class="form-group" style="margin-bottom: 14px;">
+          <label style="font-size: 0.8rem; font-weight: 700; color: #e5c07b;">Gemini API Key</label>
+          <input type="password" id="geminiApiKeyInput" class="note-input" placeholder="AIzaSy...">
+        </div>
+        <div style="margin-bottom: 16px;">
+          <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener" style="color: #60a5fa; font-size: 0.82rem; text-decoration: underline;">
+            👉 ກົດບ່ອນນີ້ເພື່ອເອົາ API Key ຟຣີ (Google AI Studio)
+          </a>
+        </div>
+        <button type="button" id="btnSaveApiKey" class="submit-btn" style="padding: 12px; font-size: 0.95rem;">
+          💾 ບັນທຶກ API Key
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Full Slip Image Viewer Modal -->
+  <div id="slipViewerModal" class="modal-overlay" style="display: none;">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="modal-title">
+          <span>🧾</span> ຮູບສະລິບ / ບິນ
+        </div>
+        <button type="button" id="btnCloseSlipViewer" class="modal-close-btn">✕</button>
+      </div>
+      <div class="modal-body" style="text-align: center;">
+        <img id="slipViewerImg" src="" alt="Full Slip" class="slip-full-image">
+      </div>
+    </div>
+  </div>
+
   <script>
     // Categories with Matching Emojis
     const CATEGORIES = {
@@ -1140,6 +1574,7 @@
     let currentCategory = '';          // Selected category
     let currentFilter = 'all';         // 'all' | 'income' | 'expense'
     let currentCurrencyFilter = 'all'; // 'all' | 'LAK' | 'THB' | 'USD'
+    let currentSlipDataUrl = null;     // Attached slip base64
     let items = [];
 
     // DOM Elements
@@ -1163,6 +1598,28 @@
     const formCurrButtons = document.querySelectorAll('.curr-btn');
     const summaryCurrTabs = document.querySelectorAll('.summary-curr-tab');
     const currentMonthBadge = document.getElementById('currentMonthBadge');
+
+    // Slip & AI Elements
+    const slipFileInput = document.getElementById('slipFileInput');
+    const slipDropArea = document.getElementById('slipDropArea');
+    const slipPreviewCard = document.getElementById('slipPreviewCard');
+    const slipPreviewThumb = document.getElementById('slipPreviewThumb');
+    const slipFileName = document.getElementById('slipFileName');
+    const btnScanSlip = document.getElementById('btnScanSlip');
+    const btnRemoveSlip = document.getElementById('btnRemoveSlip');
+    const aiScanningIndicator = document.getElementById('aiScanningIndicator');
+
+    // Modals Elements
+    const aiModal = document.getElementById('aiModal');
+    const btnHeaderAi = document.getElementById('btnHeaderAi');
+    const btnOpenAiSettings = document.getElementById('btnOpenAiSettings');
+    const btnCloseAiModal = document.getElementById('btnCloseAiModal');
+    const geminiApiKeyInput = document.getElementById('geminiApiKeyInput');
+    const btnSaveApiKey = document.getElementById('btnSaveApiKey');
+
+    const slipViewerModal = document.getElementById('slipViewerModal');
+    const slipViewerImg = document.getElementById('slipViewerImg');
+    const btnCloseSlipViewer = document.getElementById('btnCloseSlipViewer');
 
     // Update month badge display
     function updateDateBadge() {
@@ -1198,14 +1655,54 @@
       } catch (e) {
         items = [];
       }
+
+      // Pre-fill API key input if stored
+      const savedKey = localStorage.getItem('geminiApiKey');
+      if (savedKey) {
+        geminiApiKeyInput.value = savedKey;
+      }
     }
 
     // Save data to localStorage
     function saveItems() {
-      localStorage.setItem('moneyItems', JSON.stringify(items));
+      try {
+        localStorage.setItem('moneyItems', JSON.stringify(items));
+      } catch (e) {
+        console.error('Storage error:', e);
+        alert('⚠️ ພື້ນທີ່ບັນທຶກເຕັມ ກະລຸນາລຶບລາຍການເກົ່າອອກບາງສ່ວນ');
+      }
     }
 
-    // Render Category Chips
+    // Compress Image helper to save storage and optimize AI upload
+    function compressImage(file, maxWidth = 800, quality = 0.7) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const img = new Image();
+          img.onload = () => {
+            let width = img.width;
+            let height = img.height;
+            if (width > maxWidth) {
+              height = Math.round((height * maxWidth) / width);
+              width = maxWidth;
+            }
+            const canvas = document.createElement('canvas');
+            canvas.width = width;
+            canvas.height = height;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, width, height);
+            const dataUrl = canvas.toDataURL('image/jpeg', quality);
+            resolve(dataUrl);
+          };
+          img.onerror = reject;
+          img.src = e.target.result;
+        };
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+    }
+
+    // Populate category chips
     function updateCategories() {
       const list = CATEGORIES[currentType] || [];
       categoryChipsContainer.innerHTML = '';
@@ -1326,6 +1823,19 @@
         currBadge.textContent = currText;
         headerLine.appendChild(currBadge);
 
+        // Slip tag if slip attached
+        if (item.slip) {
+          const slipTag = document.createElement('span');
+          slipTag.className = 'item-slip-tag';
+          slipTag.innerHTML = '🧾 ສະລິບ';
+          slipTag.title = 'ກົດເພື່ອເບິ່ງຮູບສະລິບ';
+          slipTag.addEventListener('click', (e) => {
+            e.stopPropagation();
+            viewSlip(item.slip);
+          });
+          headerLine.appendChild(slipTag);
+        }
+
         detailsDiv.appendChild(headerLine);
 
         if (item.note && item.note.trim()) {
@@ -1363,6 +1873,24 @@
         itemsContainer.appendChild(card);
       });
     }
+
+    // View slip full image in modal
+    function viewSlip(dataUrl) {
+      slipViewerImg.src = dataUrl;
+      slipViewerModal.style.display = 'flex';
+    }
+
+    btnCloseSlipViewer.addEventListener('click', () => {
+      slipViewerModal.style.display = 'none';
+      slipViewerImg.src = '';
+    });
+
+    slipViewerModal.addEventListener('click', (e) => {
+      if (e.target === slipViewerModal) {
+        slipViewerModal.style.display = 'none';
+        slipViewerImg.src = '';
+      }
+    });
 
     // Delete single item
     function deleteItem(id) {
@@ -1441,6 +1969,181 @@
       });
     });
 
+    // Slip Upload Handling
+    slipDropArea.addEventListener('click', () => {
+      slipFileInput.click();
+    });
+
+    slipFileInput.addEventListener('change', async (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      try {
+        const compressed = await compressImage(file, 800, 0.7);
+        currentSlipDataUrl = compressed;
+        slipPreviewThumb.src = compressed;
+        slipFileName.textContent = file.name || 'slip.jpg';
+        slipDropArea.style.display = 'none';
+        slipPreviewCard.style.display = 'flex';
+
+        // Auto trigger AI scan if key exists
+        const apiKey = localStorage.getItem('geminiApiKey');
+        if (apiKey) {
+          scanSlipWithAi(compressed);
+        }
+      } catch (err) {
+        console.error('Slip processing error:', err);
+        alert('⚠️ ບໍ່ສາມາດອັບໂຫຼດຮູບພາບໄດ້ ກະລຸນາລອງໃໝ່');
+      }
+    });
+
+    btnRemoveSlip.addEventListener('click', () => {
+      currentSlipDataUrl = null;
+      slipFileInput.value = '';
+      slipPreviewCard.style.display = 'none';
+      slipDropArea.style.display = 'flex';
+      aiScanningIndicator.style.display = 'none';
+    });
+
+    slipPreviewThumb.addEventListener('click', () => {
+      if (currentSlipDataUrl) {
+        viewSlip(currentSlipDataUrl);
+      }
+    });
+
+    btnScanSlip.addEventListener('click', () => {
+      if (!currentSlipDataUrl) return;
+      scanSlipWithAi(currentSlipDataUrl);
+    });
+
+    // AI Vision Function with Gemini Flash API
+    async function scanSlipWithAi(base64DataUrl) {
+      const apiKey = localStorage.getItem('geminiApiKey');
+      if (!apiKey) {
+        openAiModal();
+        return;
+      }
+
+      const base64Data = base64DataUrl.split(',')[1];
+      aiScanningIndicator.style.display = 'flex';
+      btnScanSlip.disabled = true;
+
+      const prompt = `Analyze this bank transfer slip, receipt, or invoice.
+Extract the transaction details into strict JSON format with NO markdown wrapping, following this schema:
+{
+  "type": "expense" or "income",
+  "amount": number (positive decimal or integer, e.g. 50000 or 120.50),
+  "currency": "LAK" or "THB" or "USD",
+  "category": one of ["ອາຫານ", "ເດີນທາງ", "ຊື້ເຄື່ອງ", "ບິນ/ຄ່າໃຊ້ຈ່າຍ", "ສຸຂະພາບ", "ບັນເທີງ", "ອື່ນໆ"] for expense, or ["ເງິນເດືອນ", "ໂບນັດ", "ຂາຍສິນຄ້າ", "ດອກເບ້ຍ", "ອື່ນໆ"] for income,
+  "note": "short summary e.g. receiver name, sender, shop name or memo"
+}`;
+
+      try {
+        const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
+        const response = await fetch(url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            contents: [{
+              parts: [
+                { text: prompt },
+                { inlineData: { mimeType: 'image/jpeg', data: base64Data } }
+              ]
+            }],
+            generationConfig: {
+              temperature: 0.1,
+              responseMimeType: 'application/json'
+            }
+          })
+        });
+
+        const json = await response.json();
+        if (json.error) {
+          throw new Error(json.error.message || 'AI request error');
+        }
+
+        const text = json.candidates[0].content.parts[0].text;
+        const parsed = JSON.parse(text);
+
+        // Apply parsed data to form
+        if (parsed.amount && !isNaN(parsed.amount)) {
+          amountInput.value = parsed.amount;
+        }
+
+        if (parsed.currency && ['LAK', 'THB', 'USD'].includes(parsed.currency)) {
+          currentCurrency = parsed.currency;
+          formCurrButtons.forEach(b => {
+            b.classList.toggle('active', b.getAttribute('data-curr') === currentCurrency);
+          });
+          amountLabel.textContent = CURRENCY_CONFIG[currentCurrency].label;
+          currencyIndicator.textContent = CURRENCY_CONFIG[currentCurrency].symbol;
+        }
+
+        if (parsed.type && ['expense', 'income'].includes(parsed.type)) {
+          currentType = parsed.type;
+          btnExpense.className = `segment-btn ${currentType === 'expense' ? 'active expense' : ''}`;
+          btnIncome.className = `segment-btn ${currentType === 'income' ? 'active income' : ''}`;
+          updateCategories();
+        }
+
+        if (parsed.category) {
+          currentCategory = parsed.category;
+          categorySelect.value = parsed.category;
+          document.querySelectorAll('.category-chip').forEach(c => {
+            c.classList.toggle('active', c.textContent.includes(parsed.category));
+          });
+        }
+
+        if (parsed.note) {
+          noteInput.value = parsed.note;
+        }
+
+        alert('✨ AI ອ່ານສະລິບສຳເລັດແລ້ວ! ຂໍ້ມູນຖືກປ້ອນລົງຟອມຮຽບຮ້ອຍ');
+      } catch (err) {
+        console.error('AI Scan Error:', err);
+        alert('⚠️ ບໍ່ສາມາດອ່ານສະລິບໄດ້: ' + (err.message || 'ກະລຸນາກວດສອບ API Key ຫຼື ລອງໃໝ່'));
+      } finally {
+        aiScanningIndicator.style.display = 'none';
+        btnScanSlip.disabled = false;
+      }
+    }
+
+    // AI Modal Handlers
+    function openAiModal() {
+      geminiApiKeyInput.value = localStorage.getItem('geminiApiKey') || '';
+      aiModal.style.display = 'flex';
+    }
+
+    btnOpenAiSettings.addEventListener('click', openAiModal);
+    btnHeaderAi.addEventListener('click', openAiModal);
+
+    btnCloseAiModal.addEventListener('click', () => {
+      aiModal.style.display = 'none';
+    });
+
+    aiModal.addEventListener('click', (e) => {
+      if (e.target === aiModal) {
+        aiModal.style.display = 'none';
+      }
+    });
+
+    btnSaveApiKey.addEventListener('click', () => {
+      const key = geminiApiKeyInput.value.trim();
+      if (!key) {
+        localStorage.removeItem('geminiApiKey');
+        alert('ລຶບ API Key ຮຽບຮ້ອຍແລ້ວ');
+      } else {
+        localStorage.setItem('geminiApiKey', key);
+        alert('✅ ບັນທຶກ Gemini API Key ຮຽບຮ້ອຍແລ້ວ!');
+      }
+      aiModal.style.display = 'none';
+
+      // If slip is currently attached, trigger scan now
+      if (key && currentSlipDataUrl) {
+        scanSlipWithAi(currentSlipDataUrl);
+      }
+    });
+
     // Form Submit
     entryForm.addEventListener('submit', (e) => {
       e.preventDefault();
@@ -1458,6 +2161,7 @@
         amount: amountVal,
         category: currentCategory || (CATEGORIES[currentType][0]),
         note: noteInput.value.trim(),
+        slip: currentSlipDataUrl, // Attached slip image
         date: new Date().toISOString()
       };
 
@@ -1465,9 +2169,14 @@
       items.unshift(newItem);
       saveItems();
 
-      // Clear amount and note, focus amount
+      // Clear amount, note, and slip
       amountInput.value = '';
       noteInput.value = '';
+      currentSlipDataUrl = null;
+      slipFileInput.value = '';
+      slipPreviewCard.style.display = 'none';
+      slipDropArea.style.display = 'flex';
+      aiScanningIndicator.style.display = 'none';
       amountInput.focus();
 
       // Automatically switch summary to the currency just added
