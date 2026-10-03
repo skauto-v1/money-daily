@@ -8,7 +8,10 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <title>ແອັບບັນທຶກລາຍຮັບ-ລາຍຈ່າຍ (3D FinTech)</title>
   <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#0a0f1d">
+  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#090d16">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#090d16">
+  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#090d16">
   <link rel="apple-touch-icon" href="icon-192.png">
   <link rel="icon" type="image/png" href="icon-192.png">
   <style>
@@ -17,8 +20,8 @@
       --bg-dark: #090d16;
       --card-dark: #111827;
       --card-surface: #1e293b;
-      --card-border: rgba(255, 255, 255, 0.08);
-      --card-highlight: rgba(255, 255, 255, 0.12);
+      --card-border: rgba(255, 255, 255, 0.05);
+      --card-highlight: rgba(255, 255, 255, 0.08);
       
       --gold-primary: #f59e0b;
       --gold-gradient: linear-gradient(135deg, #fbbf24 0%, #d97706 100%);
@@ -40,9 +43,9 @@
       --text-dim: #64748b;
 
       /* 3D Shadows & Bevels */
-      --bevel-top: inset 0 1px 1px rgba(255, 255, 255, 0.15);
+      --bevel-top: inset 0 1px 1px rgba(255, 255, 255, 0.1);
       --bevel-bottom: inset 0 -2px 4px rgba(0, 0, 0, 0.4);
-      --shadow-3d-card: 0 16px 36px -8px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.08);
+      --shadow-3d-card: 0 16px 36px -8px rgba(0, 0, 0, 0.6);
       --transition: all 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
 
@@ -52,6 +55,15 @@
       padding: 0;
       font-family: 'Phetsarath OT', 'Saysettha OT', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       -webkit-tap-highlight-color: transparent;
+      outline: none;
+    }
+
+    html {
+      background-color: #090d16 !important;
+      color-scheme: dark;
+      margin: 0;
+      padding: 0;
+      height: 100%;
     }
 
     body {
@@ -68,37 +80,40 @@
       justify-content: center;
       align-items: flex-start;
       padding: 24px 14px;
+      margin: 0;
     }
 
     .container {
       width: 100%;
       max-width: 480px;
-      background: rgba(17, 24, 39, 0.88);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
+      background: #0d1322;
       border-radius: 28px;
-      border: 1px solid var(--card-border);
-      box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.8), var(--bevel-top);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.8);
       padding: 24px 20px;
       position: relative;
     }
 
-    /* Mobile Full Screen */
-    @media (max-width: 520px) {
-      body {
-        padding: 0;
-        background-color: var(--bg-dark);
+    /* Mobile Full Screen - Seamless Dark (All mobile screens) */
+    @media (max-width: 768px) {
+      html, body {
+        padding: 0 !important;
+        margin: 0 !important;
+        background: #090d16 !important;
+        background-image: none !important;
         align-items: stretch;
       }
 
       .container {
-        max-width: 100%;
-        border-radius: 0;
-        border: none;
-        box-shadow: none;
-        min-height: 100vh;
-        min-height: 100dvh;
-        padding: max(16px, env(safe-area-inset-top)) max(18px, env(safe-area-inset-right)) max(28px, env(safe-area-inset-bottom)) max(18px, env(safe-area-inset-left));
+        max-width: 100% !important;
+        width: 100% !important;
+        border-radius: 0 !important;
+        border: none !important;
+        box-shadow: none !important;
+        background: #090d16 !important;
+        min-height: 100vh !important;
+        min-height: 100dvh !important;
+        padding: max(16px, env(safe-area-inset-top)) max(18px, env(safe-area-inset-right)) max(28px, env(safe-area-inset-bottom)) max(18px, env(safe-area-inset-left)) !important;
         display: flex;
         flex-direction: column;
       }
@@ -106,6 +121,15 @@
       .list-section {
         flex: 1;
       }
+    }
+
+    /* Prevent white background on input autofill */
+    input:-webkit-autofill,
+    input:-webkit-autofill:hover, 
+    input:-webkit-autofill:focus {
+      -webkit-text-fill-color: #ffffff !important;
+      -webkit-box-shadow: 0 0 0px 1000px #0b1120 inset !important;
+      transition: background-color 5000s ease-in-out 0s;
     }
 
     /* PWA Install Banner */
@@ -257,9 +281,9 @@
     }
 
     .summary-curr-tab.active {
-      background: linear-gradient(135deg, #ffffff 0%, #e2e8f0 100%);
-      color: #0f172a;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3), 0 2px 0 #94a3b8;
+      background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+      color: #ffffff;
+      box-shadow: 0 4px 12px rgba(2, 132, 199, 0.45), 0 2px 0 #075985, inset 0 1px 1px rgba(255, 255, 255, 0.4);
     }
 
     .balance-section {
