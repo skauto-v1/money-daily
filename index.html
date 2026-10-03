@@ -6,32 +6,44 @@
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <title>ແອັບບັນທຶກລາຍຮັບ-ລາຍຈ່າຍ</title>
+  <title>ແອັບບັນທຶກລາຍຮັບ-ລາຍຈ່າຍ (3D FinTech)</title>
   <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#4f46e5">
+  <meta name="theme-color" content="#0a0f1d">
   <link rel="apple-touch-icon" href="icon-192.png">
   <link rel="icon" type="image/png" href="icon-192.png">
   <style>
     :root {
-      --primary: #4f46e5;
-      --primary-gradient: linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #9333ea 100%);
+      /* Luxury 3D Financial Palette */
+      --bg-dark: #090d16;
+      --card-dark: #111827;
+      --card-surface: #1e293b;
+      --card-border: rgba(255, 255, 255, 0.08);
+      --card-highlight: rgba(255, 255, 255, 0.12);
+      
+      --gold-primary: #f59e0b;
+      --gold-gradient: linear-gradient(135deg, #fbbf24 0%, #d97706 100%);
+      --gold-glow: rgba(245, 158, 11, 0.35);
+
+      --blue-bank: #2563eb;
+      --blue-bank-gradient: linear-gradient(145deg, #1e3a8a 0%, #172554 100%);
+
       --expense: #ef4444;
-      --expense-gradient: linear-gradient(135deg, #f87171 0%, #ef4444 100%);
+      --expense-gradient: linear-gradient(135deg, #f87171 0%, #dc2626 100%);
+      --expense-shadow: #991b1b;
+
       --income: #10b981;
-      --income-gradient: linear-gradient(135deg, #34d399 0%, #10b981 100%);
-      --bg: #f8fafc;
-      --card-bg: #ffffff;
-      --text-main: #0f172a;
-      --text-muted: #64748b;
-      --border: #e2e8f0;
-      --radius-sm: 8px;
-      --radius-md: 12px;
-      --radius-lg: 20px;
-      --radius-xl: 24px;
-      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
-      --shadow-md: 0 4px 12px rgba(15, 23, 42, 0.06);
-      --shadow-lg: 0 10px 25px -5px rgba(79, 70, 229, 0.15);
-      --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      --income-gradient: linear-gradient(135deg, #34d399 0%, #059669 100%);
+      --income-shadow: #065f46;
+
+      --text-light: #f8fafc;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+
+      /* 3D Shadows & Bevels */
+      --bevel-top: inset 0 1px 1px rgba(255, 255, 255, 0.15);
+      --bevel-bottom: inset 0 -2px 4px rgba(0, 0, 0, 0.4);
+      --shadow-3d-card: 0 16px 36px -8px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.08);
+      --transition: all 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
 
     * {
@@ -43,8 +55,13 @@
     }
 
     body {
-      background-color: var(--bg);
-      color: var(--text-main);
+      background-color: var(--bg-dark);
+      background-image: 
+        radial-gradient(at 10% 15%, rgba(37, 99, 235, 0.18) 0px, transparent 45%),
+        radial-gradient(at 90% 85%, rgba(124, 58, 237, 0.15) 0px, transparent 50%),
+        radial-gradient(at 50% 50%, rgba(15, 23, 42, 0.9) 0px, transparent 100%);
+      background-attachment: fixed;
+      color: var(--text-light);
       min-height: 100vh;
       min-height: 100dvh;
       display: flex;
@@ -56,10 +73,13 @@
     .container {
       width: 100%;
       max-width: 480px;
-      background: var(--card-bg);
-      border-radius: var(--radius-xl);
-      box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.07), 0 0 1px 1px rgba(0, 0, 0, 0.03);
-      padding: 24px 22px;
+      background: rgba(17, 24, 39, 0.88);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-radius: 28px;
+      border: 1px solid var(--card-border);
+      box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.8), var(--bevel-top);
+      padding: 24px 20px;
       position: relative;
     }
 
@@ -67,13 +87,14 @@
     @media (max-width: 520px) {
       body {
         padding: 0;
-        background-color: #ffffff;
+        background-color: var(--bg-dark);
         align-items: stretch;
       }
 
       .container {
         max-width: 100%;
         border-radius: 0;
+        border: none;
         box-shadow: none;
         min-height: 100vh;
         min-height: 100dvh;
@@ -92,38 +113,39 @@
       display: none;
       justify-content: space-between;
       align-items: center;
-      background: linear-gradient(135deg, #e0e7ff 0%, #ede9fe 100%);
+      background: linear-gradient(135deg, rgba(37, 99, 235, 0.25) 0%, rgba(124, 58, 237, 0.25) 100%);
+      border: 1px solid rgba(99, 102, 241, 0.35);
+      box-shadow: var(--bevel-top), 0 4px 12px rgba(0, 0, 0, 0.3);
       padding: 12px 16px;
-      border-radius: var(--radius-md);
+      border-radius: 16px;
       margin-bottom: 20px;
-      border: 1px solid #c7d2fe;
       animation: fadeIn 0.3s ease;
     }
 
     .install-banner-text {
-      font-size: 0.9rem;
+      font-size: 0.88rem;
       font-weight: 600;
-      color: #3730a3;
+      color: #93c5fd;
       display: flex;
       align-items: center;
       gap: 6px;
     }
 
     .install-btn {
-      background: #4f46e5;
+      background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
       color: #ffffff;
       border: none;
       padding: 7px 16px;
-      border-radius: var(--radius-sm);
-      font-size: 0.85rem;
-      font-weight: 600;
+      border-radius: 10px;
+      font-size: 0.84rem;
+      font-weight: 700;
       cursor: pointer;
-      box-shadow: 0 2px 6px rgba(79, 70, 229, 0.3);
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.3);
       transition: var(--transition);
     }
 
     .install-btn:active {
-      transform: scale(0.96);
+      transform: translateY(2px);
     }
 
     /* 1. Header */
@@ -131,7 +153,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 22px;
+      margin-bottom: 20px;
     }
 
     .header-left {
@@ -143,9 +165,10 @@
     .app-logo {
       width: 44px;
       height: 44px;
-      border-radius: 12px;
+      border-radius: 14px;
       object-fit: cover;
-      box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.5), 0 0 15px rgba(245, 158, 11, 0.3);
+      border: 1.5px solid rgba(245, 158, 11, 0.4);
     }
 
     .app-title-group {
@@ -155,96 +178,111 @@
 
     .header-title {
       font-size: 1.25rem;
-      font-weight: 700;
-      color: var(--text-main);
+      font-weight: 800;
+      color: #ffffff;
+      letter-spacing: -0.2px;
       line-height: 1.2;
     }
 
     .header-subtitle {
-      font-size: 0.78rem;
-      color: var(--text-muted);
-      font-weight: 500;
+      font-size: 0.76rem;
+      color: #38bdf8;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
     }
 
     .date-badge {
-      background: #f1f5f9;
-      color: #475569;
+      background: rgba(30, 41, 59, 0.8);
+      color: #94a3b8;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: var(--bevel-top);
       font-size: 0.78rem;
       font-weight: 600;
-      padding: 5px 10px;
+      padding: 6px 12px;
       border-radius: 20px;
     }
 
-    /* 2. Hero Summary Card */
-    .hero-card {
-      background: var(--primary-gradient);
-      color: #ffffff;
-      border-radius: var(--radius-lg);
+    /* 2. 3D VIP Hero Financial Card */
+    .vip-card {
+      background: linear-gradient(135deg, #1e1b4b 0%, #0f172a 60%, #020617 100%);
+      border-radius: 22px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      box-shadow: 
+        0 18px 36px -10px rgba(0, 0, 0, 0.7),
+        0 0 0 1px rgba(255, 255, 255, 0.06),
+        inset 0 1px 1px rgba(255, 255, 255, 0.25),
+        inset 0 -2px 6px rgba(0, 0, 0, 0.5);
       padding: 20px 20px 18px 20px;
       margin-bottom: 24px;
-      box-shadow: 0 12px 28px -6px rgba(124, 58, 237, 0.35);
       position: relative;
       overflow: hidden;
     }
 
-    .hero-card::after {
+    /* 3D Holographic Chip & Accent */
+    .vip-card::before {
       content: '';
       position: absolute;
-      top: -30%;
+      top: -40%;
       right: -20%;
-      width: 180px;
-      height: 180px;
-      background: radial-gradient(circle, rgba(255, 255, 255, 0.18) 0%, rgba(255, 255, 255, 0) 70%);
+      width: 200px;
+      height: 200px;
+      background: radial-gradient(circle, rgba(56, 189, 248, 0.22) 0%, rgba(245, 158, 11, 0.12) 40%, transparent 70%);
       pointer-events: none;
     }
 
     .summary-currency-tabs {
       display: flex;
-      background: rgba(0, 0, 0, 0.22);
-      padding: 3px;
-      border-radius: 10px;
-      gap: 3px;
+      background: rgba(0, 0, 0, 0.4);
+      padding: 4px;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5);
+      gap: 4px;
       margin-bottom: 16px;
     }
 
     .summary-curr-tab {
       flex: 1;
-      padding: 6px 0;
+      padding: 7px 0;
       border: none;
       background: transparent;
-      color: rgba(255, 255, 255, 0.75);
-      font-size: 0.82rem;
-      font-weight: 600;
-      border-radius: 7px;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.84rem;
+      font-weight: 700;
+      border-radius: 9px;
       cursor: pointer;
       transition: var(--transition);
       text-align: center;
     }
 
     .summary-curr-tab.active {
-      background: #ffffff;
-      color: #5b21b6;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+      background: linear-gradient(135deg, #ffffff 0%, #e2e8f0 100%);
+      color: #0f172a;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3), 0 2px 0 #94a3b8;
     }
 
     .balance-section {
       text-align: center;
-      margin-bottom: 16px;
+      margin-bottom: 18px;
     }
 
     .balance-label {
-      font-size: 0.85rem;
-      color: #e0e7ff;
-      font-weight: 500;
+      font-size: 0.82rem;
+      color: #94a3b8;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
       margin-bottom: 4px;
     }
 
     .balance-amount {
-      font-size: 1.85rem;
-      font-weight: 800;
+      font-size: 2.1rem;
+      font-weight: 900;
       color: #ffffff;
       letter-spacing: -0.5px;
       line-height: 1.1;
+      text-shadow: 0 3px 10px rgba(0, 0, 0, 0.6);
     }
 
     .summary-stats-grid {
@@ -252,61 +290,80 @@
       grid-template-columns: 1fr 1fr;
       gap: 10px;
       padding-top: 14px;
-      border-top: 1px solid rgba(255, 255, 255, 0.18);
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
     }
 
     .stat-pill {
-      background: rgba(255, 255, 255, 0.12);
-      backdrop-filter: blur(8px);
+      background: rgba(15, 23, 42, 0.6);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.1), 0 4px 10px rgba(0, 0, 0, 0.2);
       padding: 10px 12px;
-      border-radius: var(--radius-md);
+      border-radius: 14px;
       display: flex;
       flex-direction: column;
-      gap: 2px;
+      gap: 3px;
     }
 
     .stat-title {
-      font-size: 0.75rem;
-      color: #e0e7ff;
+      font-size: 0.74rem;
+      color: #94a3b8;
+      font-weight: 600;
       display: flex;
       align-items: center;
-      gap: 4px;
+      gap: 5px;
     }
 
-    .stat-title .dot {
-      width: 6px;
-      height: 6px;
+    .stat-indicator {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 16px;
+      height: 16px;
       border-radius: 50%;
+      font-size: 0.65rem;
+      font-weight: 800;
     }
 
-    .stat-title .dot.green { background: #34d399; }
-    .stat-title .dot.red { background: #f87171; }
+    .stat-indicator.income {
+      background: rgba(16, 185, 129, 0.2);
+      color: #34d399;
+      border: 1px solid rgba(16, 185, 129, 0.4);
+    }
+
+    .stat-indicator.expense {
+      background: rgba(239, 68, 68, 0.2);
+      color: #f87171;
+      border: 1px solid rgba(239, 68, 68, 0.4);
+    }
 
     .stat-val {
       font-size: 0.98rem;
-      font-weight: 700;
-      color: #ffffff;
+      font-weight: 800;
+      color: #f8fafc;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
     }
 
-    /* 3. Transaction Type Segmented Toggle */
+    /* 3. 3D Segmented Control (Tactile Buttons) */
     .type-segmented-control {
       display: flex;
-      background: #f1f5f9;
-      padding: 4px;
-      border-radius: var(--radius-md);
-      margin-bottom: 18px;
-      gap: 4px;
+      background: #0f172a;
+      padding: 5px;
+      border-radius: 16px;
+      border: 1px solid var(--card-border);
+      box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.6);
+      margin-bottom: 20px;
+      gap: 6px;
     }
 
     .segment-btn {
       flex: 1;
-      padding: 11px 0;
+      padding: 12px 0;
       font-size: 0.95rem;
-      font-weight: 600;
-      border-radius: 9px;
+      font-weight: 700;
+      border-radius: 12px;
       border: none;
       background: transparent;
       color: var(--text-muted);
@@ -315,22 +372,33 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 6px;
+      gap: 8px;
+      position: relative;
+    }
+
+    .segment-btn:active {
+      transform: translateY(2px);
     }
 
     .segment-btn.active.expense {
       background: var(--expense-gradient);
       color: #ffffff;
-      box-shadow: 0 4px 12px rgba(239, 68, 68, 0.28);
+      box-shadow: 
+        0 6px 16px rgba(239, 68, 68, 0.4),
+        0 3px 0 var(--expense-shadow),
+        inset 0 1px 1px rgba(255, 255, 255, 0.4);
     }
 
     .segment-btn.active.income {
       background: var(--income-gradient);
       color: #ffffff;
-      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.28);
+      box-shadow: 
+        0 6px 16px rgba(16, 185, 129, 0.4),
+        0 3px 0 var(--income-shadow),
+        inset 0 1px 1px rgba(255, 255, 255, 0.4);
     }
 
-    /* 4. Form Section */
+    /* 4. 3D Form Card */
     .entry-form {
       display: flex;
       flex-direction: column;
@@ -341,50 +409,55 @@
     .form-group {
       display: flex;
       flex-direction: column;
-      gap: 7px;
+      gap: 8px;
     }
 
     .form-group-label {
-      font-size: 0.85rem;
-      font-weight: 600;
-      color: #334155;
+      font-size: 0.84rem;
+      font-weight: 700;
+      color: #cbd5e1;
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
 
-    /* Currency selector pills */
+    /* 3D Currency selector pills */
     .currency-selector {
       display: flex;
-      gap: 6px;
+      gap: 8px;
     }
 
     .curr-btn {
       flex: 1;
-      padding: 8px 0;
-      font-size: 0.84rem;
-      font-weight: 600;
-      border-radius: 9px;
-      border: 1.5px solid var(--border);
-      background: #ffffff;
-      color: #475569;
+      padding: 10px 0;
+      font-size: 0.86rem;
+      font-weight: 700;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+      color: var(--text-muted);
       cursor: pointer;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3), 0 2px 0 rgba(0, 0, 0, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.1);
       transition: var(--transition);
       text-align: center;
     }
 
     .curr-btn:active {
-      transform: scale(0.97);
+      transform: translateY(2px);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
     }
 
     .curr-btn.active {
-      border-color: #6366f1;
-      background: #eef2ff;
-      color: #4338ca;
-      font-weight: 700;
+      border-color: rgba(56, 189, 248, 0.6);
+      background: linear-gradient(180deg, #0284c7 0%, #0369a1 100%);
+      color: #ffffff;
+      box-shadow: 
+        0 6px 14px rgba(2, 132, 199, 0.4),
+        0 2px 0 #075985,
+        inset 0 1px 1px rgba(255, 255, 255, 0.4);
     }
 
-    /* Amount Input Box */
+    /* 3D Amount Input */
     .amount-input-wrapper {
       position: relative;
       display: flex;
@@ -393,122 +466,144 @@
 
     .currency-indicator {
       position: absolute;
-      left: 14px;
-      font-size: 1.1rem;
-      font-weight: 700;
-      color: #6366f1;
+      left: 16px;
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: #38bdf8;
       pointer-events: none;
+      text-shadow: 0 0 10px rgba(56, 189, 248, 0.4);
     }
 
     .amount-input {
       width: 100%;
-      padding: 13px 14px 13px 40px;
-      border-radius: var(--radius-md);
-      border: 1.5px solid var(--border);
-      font-size: 1.15rem;
-      font-weight: 700;
-      color: var(--text-main);
-      background-color: #ffffff;
+      padding: 14px 16px 14px 44px;
+      border-radius: 14px;
+      border: 1.5px solid rgba(255, 255, 255, 0.1);
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: #ffffff;
+      background: #0b1120;
+      box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.6), inset 0 1px 2px rgba(0, 0, 0, 0.8);
       outline: none;
       transition: var(--transition);
     }
 
     .amount-input:focus {
-      border-color: #6366f1;
-      box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.12);
+      border-color: #38bdf8;
+      box-shadow: 
+        inset 0 3px 6px rgba(0, 0, 0, 0.6),
+        0 0 0 3px rgba(56, 189, 248, 0.2),
+        0 0 15px rgba(56, 189, 248, 0.2);
     }
 
     .amount-input::placeholder {
-      color: #cbd5e1;
+      color: #475569;
       font-weight: 500;
     }
 
-    /* Category Visual Chips */
+    /* 3D Category Visual Chips */
     .category-chips-grid {
       display: flex;
       flex-wrap: wrap;
-      gap: 6px;
+      gap: 8px;
     }
 
     .category-chip {
-      padding: 7px 12px;
+      padding: 8px 14px;
       border-radius: 20px;
-      border: 1px solid var(--border);
-      background: #f8fafc;
-      color: #475569;
-      font-size: 0.85rem;
-      font-weight: 500;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: linear-gradient(180deg, #1e293b 0%, #111827 100%);
+      color: #cbd5e1;
+      font-size: 0.86rem;
+      font-weight: 600;
       cursor: pointer;
       display: flex;
       align-items: center;
-      gap: 5px;
+      gap: 6px;
+      box-shadow: 
+        0 3px 6px rgba(0, 0, 0, 0.3),
+        0 2px 0 rgba(0, 0, 0, 0.4),
+        inset 0 1px 1px rgba(255, 255, 255, 0.12);
       transition: var(--transition);
     }
 
     .category-chip:active {
-      transform: scale(0.96);
+      transform: translateY(2px);
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
     }
 
     .category-chip.active {
-      background: #4f46e5;
-      border-color: #4f46e5;
+      background: linear-gradient(180deg, #3b82f6 0%, #1d4ed8 100%);
+      border-color: #60a5fa;
       color: #ffffff;
-      font-weight: 600;
-      box-shadow: 0 3px 8px rgba(79, 70, 229, 0.25);
+      box-shadow: 
+        0 6px 14px rgba(37, 99, 235, 0.45),
+        0 2px 0 #1e40af,
+        inset 0 1px 1px rgba(255, 255, 255, 0.4);
     }
 
-    /* Standard Select Fallback / Sync */
     .hidden-select {
       display: none;
     }
 
+    /* 3D Note Input */
     .note-input {
       width: 100%;
-      padding: 12px 14px;
-      border-radius: var(--radius-md);
-      border: 1.5px solid var(--border);
+      padding: 13px 16px;
+      border-radius: 14px;
+      border: 1.5px solid rgba(255, 255, 255, 0.08);
       font-size: 0.95rem;
-      color: var(--text-main);
-      background-color: #ffffff;
+      color: #ffffff;
+      background: #0b1120;
+      box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.5);
       outline: none;
       transition: var(--transition);
     }
 
     .note-input:focus {
-      border-color: #6366f1;
-      box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.12);
+      border-color: #38bdf8;
+      box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.5), 0 0 0 3px rgba(56, 189, 248, 0.15);
     }
 
     .note-input::placeholder {
-      color: #94a3b8;
+      color: #475569;
     }
 
-    /* Submit Button */
+    /* 3D Master Submit Button */
     .submit-btn {
       width: 100%;
-      padding: 14px;
+      padding: 15px;
       border: none;
-      border-radius: var(--radius-md);
-      background: var(--primary-gradient);
+      border-radius: 16px;
+      background: linear-gradient(135deg, #f59e0b 0%, #d97706 50%, #b45309 100%);
       color: #ffffff;
       font-size: 1.05rem;
-      font-weight: 700;
+      font-weight: 800;
+      letter-spacing: 0.3px;
       cursor: pointer;
-      box-shadow: 0 8px 18px -4px rgba(79, 70, 229, 0.4);
+      box-shadow: 
+        0 10px 24px -4px rgba(217, 119, 6, 0.5),
+        0 4px 0 #78350f,
+        inset 0 1px 2px rgba(255, 255, 255, 0.4);
       transition: var(--transition);
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 8px;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+      margin-top: 4px;
     }
 
     .submit-btn:hover {
-      opacity: 0.95;
-      transform: translateY(-1px);
+      filter: brightness(1.05);
     }
 
     .submit-btn:active {
-      transform: scale(0.98);
+      transform: translateY(3px);
+      box-shadow: 
+        0 4px 10px rgba(217, 119, 6, 0.4),
+        0 1px 0 #78350f,
+        inset 0 1px 2px rgba(255, 255, 255, 0.4);
     }
 
     /* 6. List Section */
@@ -532,25 +627,27 @@
 
     .list-title {
       font-size: 1.1rem;
-      font-weight: 700;
-      color: var(--text-main);
+      font-weight: 800;
+      color: #ffffff;
     }
 
     .item-count-badge {
-      font-size: 0.75rem;
-      font-weight: 600;
-      background: #e2e8f0;
-      color: #475569;
+      font-size: 0.74rem;
+      font-weight: 700;
+      background: #1e293b;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: #38bdf8;
       padding: 2px 8px;
       border-radius: 12px;
+      box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.1);
     }
 
     .delete-all-btn {
       background: none;
       border: none;
-      color: #94a3b8;
+      color: #64748b;
       font-size: 0.85rem;
-      font-weight: 500;
+      font-weight: 600;
       cursor: pointer;
       text-decoration: underline;
       padding: 4px;
@@ -561,7 +658,7 @@
       color: var(--expense);
     }
 
-    /* Filters */
+    /* 3D Filters */
     .filter-wrapper {
       display: flex;
       flex-direction: column;
@@ -571,30 +668,32 @@
 
     .filter-group {
       display: flex;
-      background: #f1f5f9;
-      padding: 3px;
-      border-radius: 10px;
-      gap: 3px;
+      background: #0f172a;
+      padding: 4px;
+      border-radius: 12px;
+      border: 1px solid var(--card-border);
+      gap: 4px;
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5);
     }
 
     .filter-btn {
       flex: 1;
-      padding: 7px 0;
-      font-size: 0.85rem;
-      font-weight: 600;
-      border-radius: 7px;
+      padding: 8px 0;
+      font-size: 0.84rem;
+      font-weight: 700;
+      border-radius: 8px;
       border: none;
       background: transparent;
-      color: var(--text-muted);
+      color: var(--text-dim);
       cursor: pointer;
       transition: var(--transition);
       text-align: center;
     }
 
     .filter-btn.active {
-      background: #ffffff;
-      color: var(--text-main);
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+      background: linear-gradient(180deg, #334155 0%, #1e293b 100%);
+      color: #ffffff;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.15);
     }
 
     .currency-filter-group {
@@ -606,37 +705,39 @@
       flex: 1;
       padding: 6px 0;
       font-size: 0.78rem;
-      font-weight: 600;
+      font-weight: 700;
       border-radius: 8px;
-      border: 1px solid var(--border);
-      background: #ffffff;
-      color: var(--text-muted);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      background: #111827;
+      color: var(--text-dim);
       cursor: pointer;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2), inset 0 1px 1px rgba(255, 255, 255, 0.05);
       transition: var(--transition);
       text-align: center;
     }
 
     .curr-filter-btn.active {
-      background: #4f46e5;
-      border-color: #4f46e5;
+      background: linear-gradient(180deg, #0284c7 0%, #0369a1 100%);
+      border-color: #38bdf8;
       color: #ffffff;
+      box-shadow: 0 3px 8px rgba(2, 132, 199, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.3);
     }
 
-    /* Items Feed */
+    /* 3D Items Feed */
     .items-list {
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 10px;
     }
 
     .empty-state {
       text-align: center;
-      padding: 40px 20px;
-      color: #94a3b8;
+      padding: 44px 20px;
+      color: var(--text-dim);
       font-size: 0.95rem;
-      background: #f8fafc;
-      border-radius: var(--radius-lg);
-      border: 1.5px dashed #cbd5e1;
+      background: rgba(15, 23, 42, 0.5);
+      border-radius: 20px;
+      border: 1.5px dashed rgba(255, 255, 255, 0.1);
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -644,26 +745,33 @@
     }
 
     .empty-state-icon {
-      font-size: 2.2rem;
-      opacity: 0.7;
+      font-size: 2.4rem;
+      filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.4));
     }
 
+    /* 3D Floating Transaction Card */
     .item-card {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background: #ffffff;
-      border: 1px solid #f1f5f9;
-      border-radius: var(--radius-md);
-      padding: 12px 14px;
-      box-shadow: var(--shadow-sm);
+      background: linear-gradient(180deg, #1e293b 0%, #141f32 100%);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 16px;
+      padding: 13px 15px;
+      box-shadow: 
+        0 6px 14px rgba(0, 0, 0, 0.35),
+        0 2px 0 rgba(0, 0, 0, 0.4),
+        inset 0 1px 1px rgba(255, 255, 255, 0.1);
       transition: var(--transition);
     }
 
     .item-card:hover {
-      box-shadow: var(--shadow-md);
-      border-color: #e2e8f0;
-      transform: translateY(-1px);
+      border-color: rgba(255, 255, 255, 0.18);
+      transform: translateY(-2px);
+      box-shadow: 
+        0 10px 20px rgba(0, 0, 0, 0.45),
+        0 2px 0 rgba(0, 0, 0, 0.4),
+        inset 0 1px 1px rgba(255, 255, 255, 0.15);
     }
 
     .item-left {
@@ -675,29 +783,35 @@
       padding-right: 10px;
     }
 
+    /* 3D Elevated Icon Box */
     .item-icon-box {
-      width: 40px;
-      height: 40px;
-      border-radius: 12px;
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.25rem;
+      font-size: 1.3rem;
       flex-shrink: 0;
+      box-shadow: 
+        0 4px 8px rgba(0, 0, 0, 0.3),
+        inset 0 1px 1px rgba(255, 255, 255, 0.25);
     }
 
     .item-icon-box.expense {
-      background: #fee2e2;
+      background: linear-gradient(135deg, rgba(239, 68, 68, 0.25) 0%, rgba(185, 28, 28, 0.35) 100%);
+      border: 1px solid rgba(239, 68, 68, 0.4);
     }
 
     .item-icon-box.income {
-      background: #dcfce7;
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.25) 0%, rgba(5, 150, 105, 0.35) 100%);
+      border: 1px solid rgba(16, 185, 129, 0.4);
     }
 
     .item-details {
       display: flex;
       flex-direction: column;
-      gap: 2px;
+      gap: 3px;
       min-width: 0;
       flex: 1;
     }
@@ -710,9 +824,9 @@
     }
 
     .item-category {
-      font-size: 0.95rem;
-      font-weight: 600;
-      color: var(--text-main);
+      font-size: 0.96rem;
+      font-weight: 700;
+      color: #ffffff;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -720,30 +834,34 @@
 
     .currency-badge {
       display: inline-block;
-      padding: 1px 6px;
-      font-size: 0.7rem;
-      font-weight: 700;
-      border-radius: 4px;
+      padding: 1px 7px;
+      font-size: 0.68rem;
+      font-weight: 800;
+      border-radius: 6px;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
     }
 
     .currency-badge.lak {
-      background: #e0e7ff;
-      color: #4338ca;
+      background: rgba(99, 102, 241, 0.2);
+      color: #a5b4fc;
+      border: 1px solid rgba(99, 102, 241, 0.35);
     }
 
     .currency-badge.thb {
-      background: #fef3c7;
-      color: #b45309;
+      background: rgba(245, 158, 11, 0.2);
+      color: #fde047;
+      border: 1px solid rgba(245, 158, 11, 0.35);
     }
 
     .currency-badge.usd {
-      background: #dcfce7;
-      color: #15803d;
+      background: rgba(16, 185, 129, 0.2);
+      color: #6ee7b7;
+      border: 1px solid rgba(16, 185, 129, 0.35);
     }
 
     .item-note {
       font-size: 0.8rem;
-      color: var(--text-muted);
+      color: var(--text-dim);
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -756,39 +874,49 @@
     }
 
     .item-amount {
-      font-size: 1rem;
-      font-weight: 700;
+      font-size: 1.05rem;
+      font-weight: 800;
       white-space: nowrap;
       letter-spacing: -0.2px;
     }
 
     .item-amount.income {
-      color: var(--income);
+      color: #34d399;
+      text-shadow: 0 0 10px rgba(52, 211, 153, 0.3);
     }
 
     .item-amount.expense {
-      color: var(--expense);
+      color: #f87171;
+      text-shadow: 0 0 10px rgba(248, 113, 113, 0.3);
     }
 
+    /* 3D Delete Button */
     .delete-item-btn {
-      width: 28px;
-      height: 28px;
+      width: 30px;
+      height: 30px;
       border-radius: 50%;
-      border: none;
-      background: #f1f5f9;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: linear-gradient(180deg, #334155 0%, #1e293b 100%);
       color: #94a3b8;
       display: flex;
       align-items: center;
       justify-content: center;
       font-size: 1.15rem;
       cursor: pointer;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.15);
       transition: var(--transition);
       flex-shrink: 0;
     }
 
     .delete-item-btn:hover {
-      background: #fee2e2;
-      color: var(--expense);
+      background: linear-gradient(180deg, #ef4444 0%, #dc2626 100%);
+      border-color: #f87171;
+      color: #ffffff;
+      box-shadow: 0 4px 10px rgba(239, 68, 68, 0.4);
+    }
+
+    .delete-item-btn:active {
+      transform: scale(0.92);
     }
 
     @keyframes fadeIn {
@@ -812,14 +940,14 @@
         <img src="logo.png" alt="Money Daily Logo" class="app-logo">
         <div class="app-title-group">
           <h1 class="header-title">ບັນທຶກລາຍຮັບ-ລາຍຈ່າຍ</h1>
-          <span class="header-subtitle">ຈັດການການເງິນປະຈຳວັນ</span>
+          <span class="header-subtitle">VIP Financial Tracker</span>
         </div>
       </div>
       <div class="date-badge" id="currentMonthBadge">ເດືອນນີ້</div>
     </header>
 
-    <!-- 2. Hero Summary Box -->
-    <div class="hero-card">
+    <!-- 2. 3D VIP Hero Financial Card -->
+    <div class="vip-card">
       <!-- Currency Switcher for Summary -->
       <div class="summary-currency-tabs">
         <button type="button" class="summary-curr-tab active" data-curr="LAK">₭ ກີບ (LAK)</button>
@@ -828,38 +956,38 @@
       </div>
 
       <div class="balance-section">
-        <div class="balance-label">ຍອດຄົງເຫຼືອເດືອນນີ້</div>
+        <div class="balance-label">ຍອດຄົງເຫຼືອເດືອນນີ້ (BALANCE)</div>
         <div class="balance-amount" id="summaryBalance">0 ₭</div>
       </div>
 
       <div class="summary-stats-grid">
         <div class="stat-pill">
-          <span class="stat-title"><span class="dot green"></span> ລາຍຮັບເດືອນນີ້</span>
+          <span class="stat-title"><span class="stat-indicator income">↑</span> ລາຍຮັບເດືອນນີ້</span>
           <span class="stat-val" id="summaryIncome">0 ₭</span>
         </div>
         <div class="stat-pill">
-          <span class="stat-title"><span class="dot red"></span> ລາຍຈ່າຍເດືອນນີ້</span>
+          <span class="stat-title"><span class="stat-indicator expense">↓</span> ລາຍຈ່າຍເດືອນນີ້</span>
           <span class="stat-val" id="summaryExpense">0 ₭</span>
         </div>
       </div>
     </div>
 
-    <!-- 3. Transaction Type Segmented Toggle -->
+    <!-- 3. 3D Transaction Type Segmented Toggle -->
     <div class="type-segmented-control">
       <button type="button" id="btnExpense" class="segment-btn active expense">
-        <span>📉</span> ລາຍຈ່າຍ
+        <span>📉</span> ລາຍຈ່າຍ (EXPENSE)
       </button>
       <button type="button" id="btnIncome" class="segment-btn income">
-        <span>📈</span> ລາຍຮັບ
+        <span>📈</span> ລາຍຮັບ (INCOME)
       </button>
     </div>
 
-    <!-- 4. Form ເພີ່ມລາຍການ -->
+    <!-- 4. 3D Form ເພີ່ມລາຍການ -->
     <form id="entryForm" class="entry-form">
       <!-- Currency Selector -->
       <div class="form-group">
         <div class="form-group-label">
-          <span>ສະກຸນເງິນ</span>
+          <span>ສະກຸນເງິນ (CURRENCY)</span>
         </div>
         <div class="currency-selector">
           <button type="button" class="curr-btn active" data-curr="LAK">₭ ກີບ</button>
@@ -892,7 +1020,7 @@
       <!-- Category Visual Chips -->
       <div class="form-group">
         <div class="form-group-label">
-          <span>ໝວດໝູ່</span>
+          <span>ໝວດໝູ່ (CATEGORY)</span>
         </div>
         <div id="categoryChipsContainer" class="category-chips-grid"></div>
         <select id="categorySelect" class="hidden-select"></select>
@@ -912,7 +1040,7 @@
       </div>
 
       <button type="submit" class="submit-btn">
-        <span>➕</span> ບັນທຶກລາຍການ
+        <span>💾</span> ບັນທຶກລາຍການ (SAVE TRANSACTION)
       </button>
     </form>
 
@@ -920,7 +1048,7 @@
     <div class="list-section">
       <div class="list-header">
         <div class="list-title-wrap">
-          <span class="list-title">ລາຍການທັງໝົດ</span>
+          <span class="list-title">ປະຫວັດລາຍການ (TRANSACTIONS)</span>
           <span class="item-count-badge" id="itemCountBadge">0</span>
         </div>
         <button type="button" id="btnDeleteAll" class="delete-all-btn">ລຶບທັງໝົດ</button>
@@ -948,7 +1076,7 @@
   </div>
 
   <script>
-    // 5. Categories with Matching Emojis
+    // Categories with Matching Emojis
     const CATEGORIES = {
       expense: ['ອາຫານ', 'ເດີນທາງ', 'ຊື້ເຄື່ອງ', 'ບິນ/ຄ່າໃຊ້ຈ່າຍ', 'ສຸຂະພາບ', 'ບັນເທີງ', 'ອື່ນໆ'],
       income: ['ເງິນເດືອນ', 'ໂບນັດ', 'ຂາຍສິນຄ້າ', 'ດອກເບ້ຍ', 'ອື່ນໆ']
@@ -1057,14 +1185,13 @@
       }
 
       list.forEach(cat => {
-        // Option for select
         const option = document.createElement('option');
         option.value = cat;
         option.textContent = cat;
         if (cat === currentCategory) option.selected = true;
         categorySelect.appendChild(option);
 
-        // Visual Chip
+        // 3D Chip
         const chip = document.createElement('button');
         chip.type = 'button';
         chip.className = `category-chip ${cat === currentCategory ? 'active' : ''}`;
@@ -1128,9 +1255,9 @@
         const emptyDiv = document.createElement('div');
         emptyDiv.className = 'empty-state';
         emptyDiv.innerHTML = `
-          <span class="empty-state-icon">📋</span>
-          <strong>ຍັງບໍ່ມີລາຍການ</strong>
-          <span style="font-size:0.8rem; color:#94a3b8;">ບັນທຶກລາຍຮັບ ຫຼື ລາຍຈ່າຍຂອງທ່ານໄດ້ເລີຍ</span>
+          <span class="empty-state-icon">💳</span>
+          <strong style="color: #cbd5e1;">ຍັງບໍ່ມີລາຍການ</strong>
+          <span style="font-size:0.8rem; color:#64748b;">ບັນທຶກລາຍຮັບ ຫຼື ລາຍຈ່າຍຂອງທ່ານໄດ້ເລີຍ</span>
         `;
         itemsContainer.appendChild(emptyDiv);
         return;
@@ -1143,7 +1270,7 @@
         const leftDiv = document.createElement('div');
         leftDiv.className = 'item-left';
 
-        // Category Icon Box
+        // 3D Category Icon Box
         const iconBox = document.createElement('div');
         iconBox.className = `item-icon-box ${item.type}`;
         iconBox.textContent = CATEGORY_ICONS[item.category] || (item.type === 'income' ? '💵' : '💸');
