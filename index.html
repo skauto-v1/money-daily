@@ -6,46 +6,46 @@
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <title>ແອັບບັນທຶກລາຍຮັບ-ລາຍຈ່າຍ (3D FinTech)</title>
+  <title>ແອັບບັນທຶກລາຍຮັບ-ລາຍຈ່າຍ (Black Titanium Edition)</title>
   <link rel="manifest" href="manifest.json">
   <meta name="color-scheme" content="dark">
-  <meta name="theme-color" content="#090d16">
-  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#090d16">
-  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#090d16">
+  <meta name="theme-color" content="#08080a">
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#08080a">
+  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#08080a">
   <link rel="apple-touch-icon" href="icon-192.png">
   <link rel="icon" type="image/png" href="icon-192.png">
   <style>
     :root {
-      /* Luxury 3D Financial Palette */
-      --bg-dark: #090d16;
-      --card-dark: #111827;
-      --card-surface: #1e293b;
-      --card-border: rgba(255, 255, 255, 0.05);
-      --card-highlight: rgba(255, 255, 255, 0.08);
+      /* Black Titanium & Champagne Gold Palette */
+      --bg-titanium: #08080a;
+      --card-titanium: #101015;
+      --surface-titanium: #181820;
+      --surface-hover: #22222c;
       
-      --gold-primary: #f59e0b;
-      --gold-gradient: linear-gradient(135deg, #fbbf24 0%, #d97706 100%);
-      --gold-glow: rgba(245, 158, 11, 0.35);
+      --gold-primary: #d4af37;
+      --gold-light: #fef08a;
+      --gold-gradient: linear-gradient(135deg, #fef08a 0%, #e5c07b 30%, #d4af37 70%, #996515 100%);
+      --gold-text-gradient: linear-gradient(135deg, #ffffff 0%, #fef3c7 40%, #e0bc4c 80%, #b8860b 100%);
+      --gold-border: rgba(212, 175, 55, 0.3);
+      --gold-glow: rgba(212, 175, 55, 0.25);
+      --gold-shadow: #785806;
 
-      --blue-bank: #2563eb;
-      --blue-bank-gradient: linear-gradient(145deg, #1e3a8a 0%, #172554 100%);
-
-      --expense: #ef4444;
+      --expense: #f87171;
       --expense-gradient: linear-gradient(135deg, #f87171 0%, #dc2626 100%);
-      --expense-shadow: #991b1b;
+      --expense-shadow: #7f1d1d;
 
-      --income: #10b981;
+      --income: #34d399;
       --income-gradient: linear-gradient(135deg, #34d399 0%, #059669 100%);
-      --income-shadow: #065f46;
+      --income-shadow: #064e3b;
 
-      --text-light: #f8fafc;
-      --text-muted: #94a3b8;
-      --text-dim: #64748b;
+      --text-main: #f8fafc;
+      --text-muted: #a1a1aa;
+      --text-gold: #e5c07b;
+      --text-dim: #71717a;
 
-      /* 3D Shadows & Bevels */
-      --bevel-top: inset 0 1px 1px rgba(255, 255, 255, 0.1);
-      --bevel-bottom: inset 0 -2px 4px rgba(0, 0, 0, 0.4);
-      --shadow-3d-card: 0 16px 36px -8px rgba(0, 0, 0, 0.6);
+      /* 3D Tactile Shadows */
+      --bevel-top: inset 0 1px 1px rgba(254, 240, 138, 0.2);
+      --bevel-dark: inset 0 -2px 5px rgba(0, 0, 0, 0.6);
       --transition: all 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
 
@@ -59,7 +59,7 @@
     }
 
     html {
-      background-color: #090d16 !important;
+      background-color: var(--bg-titanium) !important;
       color-scheme: dark;
       margin: 0;
       padding: 0;
@@ -67,13 +67,13 @@
     }
 
     body {
-      background-color: var(--bg-dark);
+      background-color: var(--bg-titanium);
       background-image: 
-        radial-gradient(at 10% 15%, rgba(37, 99, 235, 0.18) 0px, transparent 45%),
-        radial-gradient(at 90% 85%, rgba(124, 58, 237, 0.15) 0px, transparent 50%),
-        radial-gradient(at 50% 50%, rgba(15, 23, 42, 0.9) 0px, transparent 100%);
+        radial-gradient(at 15% 15%, rgba(212, 175, 55, 0.08) 0px, transparent 40%),
+        radial-gradient(at 85% 85%, rgba(245, 158, 11, 0.05) 0px, transparent 45%),
+        radial-gradient(at 50% 50%, #0d0d12 0px, #08080a 100%);
       background-attachment: fixed;
-      color: var(--text-light);
+      color: var(--text-main);
       min-height: 100vh;
       min-height: 100dvh;
       display: flex;
@@ -86,20 +86,20 @@
     .container {
       width: 100%;
       max-width: 480px;
-      background: #0d1322;
+      background: var(--card-titanium);
       border-radius: 28px;
-      border: 1px solid rgba(255, 255, 255, 0.05);
-      box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.8);
+      border: 1px solid rgba(212, 175, 55, 0.15);
+      box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.9), 0 0 35px rgba(212, 175, 55, 0.04);
       padding: 24px 20px;
       position: relative;
     }
 
-    /* Mobile Full Screen - Seamless Dark (All mobile screens) */
+    /* Mobile Full Screen - Seamless Dark */
     @media (max-width: 768px) {
       html, body {
         padding: 0 !important;
         margin: 0 !important;
-        background: #090d16 !important;
+        background: var(--bg-titanium) !important;
         background-image: none !important;
         align-items: stretch;
       }
@@ -110,7 +110,7 @@
         border-radius: 0 !important;
         border: none !important;
         box-shadow: none !important;
-        background: #090d16 !important;
+        background: var(--bg-titanium) !important;
         min-height: 100vh !important;
         min-height: 100dvh !important;
         padding: max(16px, env(safe-area-inset-top)) max(18px, env(safe-area-inset-right)) max(28px, env(safe-area-inset-bottom)) max(18px, env(safe-area-inset-left)) !important;
@@ -128,7 +128,7 @@
     input:-webkit-autofill:hover, 
     input:-webkit-autofill:focus {
       -webkit-text-fill-color: #ffffff !important;
-      -webkit-box-shadow: 0 0 0px 1000px #0b1120 inset !important;
+      -webkit-box-shadow: 0 0 0px 1000px #0c0c10 inset !important;
       transition: background-color 5000s ease-in-out 0s;
     }
 
@@ -137,9 +137,9 @@
       display: none;
       justify-content: space-between;
       align-items: center;
-      background: linear-gradient(135deg, rgba(37, 99, 235, 0.25) 0%, rgba(124, 58, 237, 0.25) 100%);
-      border: 1px solid rgba(99, 102, 241, 0.35);
-      box-shadow: var(--bevel-top), 0 4px 12px rgba(0, 0, 0, 0.3);
+      background: linear-gradient(135deg, rgba(212, 175, 55, 0.15) 0%, rgba(20, 20, 26, 0.9) 100%);
+      border: 1px solid rgba(212, 175, 55, 0.35);
+      box-shadow: var(--bevel-top), 0 6px 16px rgba(0, 0, 0, 0.5);
       padding: 12px 16px;
       border-radius: 16px;
       margin-bottom: 20px;
@@ -148,23 +148,23 @@
 
     .install-banner-text {
       font-size: 0.88rem;
-      font-weight: 600;
-      color: #93c5fd;
+      font-weight: 700;
+      color: #fde047;
       display: flex;
       align-items: center;
       gap: 6px;
     }
 
     .install-btn {
-      background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
-      color: #ffffff;
+      background: var(--gold-gradient);
+      color: #141005;
       border: none;
       padding: 7px 16px;
       border-radius: 10px;
       font-size: 0.84rem;
-      font-weight: 700;
+      font-weight: 800;
       cursor: pointer;
-      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.3);
+      box-shadow: 0 4px 12px rgba(212, 175, 55, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.6);
       transition: var(--transition);
     }
 
@@ -191,8 +191,8 @@
       height: 44px;
       border-radius: 14px;
       object-fit: cover;
-      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.5), 0 0 15px rgba(245, 158, 11, 0.3);
-      border: 1.5px solid rgba(245, 158, 11, 0.4);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.6), 0 0 18px rgba(212, 175, 55, 0.35);
+      border: 1.5px solid rgba(212, 175, 55, 0.6);
     }
 
     .app-title-group {
@@ -209,59 +209,59 @@
     }
 
     .header-subtitle {
-      font-size: 0.76rem;
-      color: #38bdf8;
-      font-weight: 600;
+      font-size: 0.74rem;
+      color: var(--text-gold);
+      font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
+      letter-spacing: 0.8px;
     }
 
     .date-badge {
-      background: rgba(30, 41, 59, 0.8);
-      color: #94a3b8;
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      box-shadow: var(--bevel-top);
-      font-size: 0.78rem;
-      font-weight: 600;
+      background: rgba(24, 24, 32, 0.9);
+      color: #d4af37;
+      border: 1px solid rgba(212, 175, 55, 0.3);
+      box-shadow: inset 0 1px 1px rgba(212, 175, 55, 0.2);
+      font-size: 0.76rem;
+      font-weight: 700;
       padding: 6px 12px;
       border-radius: 20px;
     }
 
-    /* 2. 3D VIP Hero Financial Card */
-    .vip-card {
-      background: linear-gradient(135deg, #1e1b4b 0%, #0f172a 60%, #020617 100%);
+    /* 2. 3D Black Titanium & Champagne Gold Card */
+    .titanium-card {
+      background: linear-gradient(145deg, #1c1c24 0%, #121218 55%, #08080b 100%);
       border-radius: 22px;
-      border: 1px solid rgba(255, 255, 255, 0.12);
+      border: 1.5px solid rgba(212, 175, 55, 0.35);
       box-shadow: 
-        0 18px 36px -10px rgba(0, 0, 0, 0.7),
-        0 0 0 1px rgba(255, 255, 255, 0.06),
-        inset 0 1px 1px rgba(255, 255, 255, 0.25),
-        inset 0 -2px 6px rgba(0, 0, 0, 0.5);
+        0 20px 40px -10px rgba(0, 0, 0, 0.8),
+        0 0 30px rgba(212, 175, 55, 0.08),
+        inset 0 1px 2px rgba(254, 240, 138, 0.35),
+        inset 0 -2px 6px rgba(0, 0, 0, 0.6);
       padding: 20px 20px 18px 20px;
       margin-bottom: 24px;
       position: relative;
       overflow: hidden;
     }
 
-    /* 3D Holographic Chip & Accent */
-    .vip-card::before {
+    /* Gold Ambient Glow */
+    .titanium-card::before {
       content: '';
       position: absolute;
       top: -40%;
       right: -20%;
       width: 200px;
       height: 200px;
-      background: radial-gradient(circle, rgba(56, 189, 248, 0.22) 0%, rgba(245, 158, 11, 0.12) 40%, transparent 70%);
+      background: radial-gradient(circle, rgba(212, 175, 55, 0.18) 0%, rgba(245, 158, 11, 0.08) 40%, transparent 70%);
       pointer-events: none;
     }
 
     .summary-currency-tabs {
       display: flex;
-      background: rgba(0, 0, 0, 0.4);
+      background: rgba(0, 0, 0, 0.5);
       padding: 4px;
       border-radius: 12px;
-      border: 1px solid rgba(255, 255, 255, 0.06);
-      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5);
+      border: 1px solid rgba(212, 175, 55, 0.15);
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.6);
       gap: 4px;
       margin-bottom: 16px;
     }
@@ -281,9 +281,10 @@
     }
 
     .summary-curr-tab.active {
-      background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
-      color: #ffffff;
-      box-shadow: 0 4px 12px rgba(2, 132, 199, 0.45), 0 2px 0 #075985, inset 0 1px 1px rgba(255, 255, 255, 0.4);
+      background: var(--gold-gradient);
+      color: #141005;
+      font-weight: 800;
+      box-shadow: 0 4px 12px rgba(212, 175, 55, 0.4), 0 2px 0 var(--gold-shadow), inset 0 1px 1px rgba(255, 255, 255, 0.6);
     }
 
     .balance-section {
@@ -292,21 +293,23 @@
     }
 
     .balance-label {
-      font-size: 0.82rem;
-      color: #94a3b8;
-      font-weight: 600;
+      font-size: 0.8rem;
+      color: var(--text-gold);
+      font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: 0.6px;
+      letter-spacing: 0.8px;
       margin-bottom: 4px;
     }
 
     .balance-amount {
-      font-size: 2.1rem;
+      font-size: 2.15rem;
       font-weight: 900;
-      color: #ffffff;
+      background: var(--gold-text-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
       letter-spacing: -0.5px;
       line-height: 1.1;
-      text-shadow: 0 3px 10px rgba(0, 0, 0, 0.6);
+      filter: drop-shadow(0 3px 12px rgba(212, 175, 55, 0.25));
     }
 
     .summary-stats-grid {
@@ -314,14 +317,14 @@
       grid-template-columns: 1fr 1fr;
       gap: 10px;
       padding-top: 14px;
-      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      border-top: 1px solid rgba(212, 175, 55, 0.15);
     }
 
     .stat-pill {
-      background: rgba(15, 23, 42, 0.6);
+      background: rgba(12, 12, 16, 0.7);
       backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.1), 0 4px 10px rgba(0, 0, 0, 0.2);
+      border: 1px solid rgba(212, 175, 55, 0.12);
+      box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.08), 0 4px 10px rgba(0, 0, 0, 0.3);
       padding: 10px 12px;
       border-radius: 14px;
       display: flex;
@@ -331,7 +334,7 @@
 
     .stat-title {
       font-size: 0.74rem;
-      color: #94a3b8;
+      color: #a1a1aa;
       font-weight: 600;
       display: flex;
       align-items: center;
@@ -364,7 +367,7 @@
     .stat-val {
       font-size: 0.98rem;
       font-weight: 800;
-      color: #f8fafc;
+      color: #ffffff;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -373,10 +376,10 @@
     /* 3. 3D Segmented Control (Tactile Buttons) */
     .type-segmented-control {
       display: flex;
-      background: #0f172a;
+      background: #09090d;
       padding: 5px;
       border-radius: 16px;
-      border: 1px solid var(--card-border);
+      border: 1px solid rgba(212, 175, 55, 0.15);
       box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.6);
       margin-bottom: 20px;
       gap: 6px;
@@ -439,7 +442,7 @@
     .form-group-label {
       font-size: 0.84rem;
       font-weight: 700;
-      color: #cbd5e1;
+      color: var(--text-gold);
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -458,10 +461,10 @@
       font-weight: 700;
       border-radius: 12px;
       border: 1px solid rgba(255, 255, 255, 0.08);
-      background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+      background: linear-gradient(180deg, #1c1c24 0%, #101015 100%);
       color: var(--text-muted);
       cursor: pointer;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3), 0 2px 0 rgba(0, 0, 0, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.1);
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.4), 0 2px 0 rgba(0, 0, 0, 0.6), inset 0 1px 1px rgba(255, 255, 255, 0.1);
       transition: var(--transition);
       text-align: center;
     }
@@ -472,13 +475,14 @@
     }
 
     .curr-btn.active {
-      border-color: rgba(56, 189, 248, 0.6);
-      background: linear-gradient(180deg, #0284c7 0%, #0369a1 100%);
-      color: #ffffff;
+      border-color: rgba(212, 175, 55, 0.8);
+      background: var(--gold-gradient);
+      color: #141005;
+      font-weight: 800;
       box-shadow: 
-        0 6px 14px rgba(2, 132, 199, 0.4),
-        0 2px 0 #075985,
-        inset 0 1px 1px rgba(255, 255, 255, 0.4);
+        0 6px 14px rgba(212, 175, 55, 0.35),
+        0 2px 0 var(--gold-shadow),
+        inset 0 1px 1px rgba(255, 255, 255, 0.6);
     }
 
     /* 3D Amount Input */
@@ -493,35 +497,35 @@
       left: 16px;
       font-size: 1.25rem;
       font-weight: 800;
-      color: #38bdf8;
+      color: var(--gold-primary);
       pointer-events: none;
-      text-shadow: 0 0 10px rgba(56, 189, 248, 0.4);
+      text-shadow: 0 0 10px rgba(212, 175, 55, 0.4);
     }
 
     .amount-input {
       width: 100%;
       padding: 14px 16px 14px 44px;
       border-radius: 14px;
-      border: 1.5px solid rgba(255, 255, 255, 0.1);
+      border: 1.5px solid rgba(212, 175, 55, 0.2);
       font-size: 1.25rem;
       font-weight: 800;
       color: #ffffff;
-      background: #0b1120;
-      box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.6), inset 0 1px 2px rgba(0, 0, 0, 0.8);
+      background: #09090d;
+      box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.7);
       outline: none;
       transition: var(--transition);
     }
 
     .amount-input:focus {
-      border-color: #38bdf8;
+      border-color: var(--gold-primary);
       box-shadow: 
-        inset 0 3px 6px rgba(0, 0, 0, 0.6),
-        0 0 0 3px rgba(56, 189, 248, 0.2),
-        0 0 15px rgba(56, 189, 248, 0.2);
+        inset 0 3px 6px rgba(0, 0, 0, 0.7),
+        0 0 0 3px rgba(212, 175, 55, 0.2),
+        0 0 15px rgba(212, 175, 55, 0.2);
     }
 
     .amount-input::placeholder {
-      color: #475569;
+      color: #52525b;
       font-weight: 500;
     }
 
@@ -536,8 +540,8 @@
       padding: 8px 14px;
       border-radius: 20px;
       border: 1px solid rgba(255, 255, 255, 0.08);
-      background: linear-gradient(180deg, #1e293b 0%, #111827 100%);
-      color: #cbd5e1;
+      background: linear-gradient(180deg, #1c1c24 0%, #101015 100%);
+      color: #d4d4d8;
       font-size: 0.86rem;
       font-weight: 600;
       cursor: pointer;
@@ -545,9 +549,9 @@
       align-items: center;
       gap: 6px;
       box-shadow: 
-        0 3px 6px rgba(0, 0, 0, 0.3),
-        0 2px 0 rgba(0, 0, 0, 0.4),
-        inset 0 1px 1px rgba(255, 255, 255, 0.12);
+        0 3px 6px rgba(0, 0, 0, 0.35),
+        0 2px 0 rgba(0, 0, 0, 0.5),
+        inset 0 1px 1px rgba(255, 255, 255, 0.1);
       transition: var(--transition);
     }
 
@@ -557,13 +561,14 @@
     }
 
     .category-chip.active {
-      background: linear-gradient(180deg, #3b82f6 0%, #1d4ed8 100%);
-      border-color: #60a5fa;
-      color: #ffffff;
+      background: var(--gold-gradient);
+      border-color: #fde047;
+      color: #141005;
+      font-weight: 800;
       box-shadow: 
-        0 6px 14px rgba(37, 99, 235, 0.45),
-        0 2px 0 #1e40af,
-        inset 0 1px 1px rgba(255, 255, 255, 0.4);
+        0 6px 14px rgba(212, 175, 55, 0.4),
+        0 2px 0 var(--gold-shadow),
+        inset 0 1px 1px rgba(255, 255, 255, 0.6);
     }
 
     .hidden-select {
@@ -578,56 +583,56 @@
       border: 1.5px solid rgba(255, 255, 255, 0.08);
       font-size: 0.95rem;
       color: #ffffff;
-      background: #0b1120;
-      box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.5);
+      background: #09090d;
+      box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.6);
       outline: none;
       transition: var(--transition);
     }
 
     .note-input:focus {
-      border-color: #38bdf8;
-      box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.5), 0 0 0 3px rgba(56, 189, 248, 0.15);
+      border-color: var(--gold-primary);
+      box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.6), 0 0 0 3px rgba(212, 175, 55, 0.18);
     }
 
     .note-input::placeholder {
-      color: #475569;
+      color: #52525b;
     }
 
-    /* 3D Master Submit Button */
+    /* 3D Master Submit Button - Solid Gold Bar */
     .submit-btn {
       width: 100%;
       padding: 15px;
       border: none;
       border-radius: 16px;
-      background: linear-gradient(135deg, #f59e0b 0%, #d97706 50%, #b45309 100%);
-      color: #ffffff;
+      background: var(--gold-gradient);
+      color: #120e03;
       font-size: 1.05rem;
       font-weight: 800;
       letter-spacing: 0.3px;
       cursor: pointer;
       box-shadow: 
-        0 10px 24px -4px rgba(217, 119, 6, 0.5),
-        0 4px 0 #78350f,
-        inset 0 1px 2px rgba(255, 255, 255, 0.4);
+        0 10px 24px -4px rgba(212, 175, 55, 0.45),
+        0 4px 0 var(--gold-shadow),
+        inset 0 1px 2px rgba(255, 255, 255, 0.6);
       transition: var(--transition);
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 8px;
-      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+      text-shadow: 0 1px 0 rgba(255, 255, 255, 0.3);
       margin-top: 4px;
     }
 
     .submit-btn:hover {
-      filter: brightness(1.05);
+      filter: brightness(1.06);
     }
 
     .submit-btn:active {
       transform: translateY(3px);
       box-shadow: 
-        0 4px 10px rgba(217, 119, 6, 0.4),
-        0 1px 0 #78350f,
-        inset 0 1px 2px rgba(255, 255, 255, 0.4);
+        0 4px 10px rgba(212, 175, 55, 0.35),
+        0 1px 0 var(--gold-shadow),
+        inset 0 1px 2px rgba(255, 255, 255, 0.6);
     }
 
     /* 6. List Section */
@@ -657,19 +662,19 @@
 
     .item-count-badge {
       font-size: 0.74rem;
-      font-weight: 700;
-      background: #1e293b;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      color: #38bdf8;
+      font-weight: 800;
+      background: #181820;
+      border: 1px solid rgba(212, 175, 55, 0.3);
+      color: #fde047;
       padding: 2px 8px;
       border-radius: 12px;
-      box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.1);
+      box-shadow: inset 0 1px 1px rgba(212, 175, 55, 0.15);
     }
 
     .delete-all-btn {
       background: none;
       border: none;
-      color: #64748b;
+      color: var(--text-dim);
       font-size: 0.85rem;
       font-weight: 600;
       cursor: pointer;
@@ -692,12 +697,12 @@
 
     .filter-group {
       display: flex;
-      background: #0f172a;
+      background: #09090d;
       padding: 4px;
       border-radius: 12px;
-      border: 1px solid var(--card-border);
+      border: 1px solid rgba(212, 175, 55, 0.15);
       gap: 4px;
-      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5);
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.6);
     }
 
     .filter-btn {
@@ -715,9 +720,10 @@
     }
 
     .filter-btn.active {
-      background: linear-gradient(180deg, #334155 0%, #1e293b 100%);
-      color: #ffffff;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.15);
+      background: linear-gradient(180deg, #272732 0%, #181820 100%);
+      color: #fef08a;
+      border: 1px solid rgba(212, 175, 55, 0.3);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(254, 240, 138, 0.2);
     }
 
     .currency-filter-group {
@@ -732,19 +738,20 @@
       font-weight: 700;
       border-radius: 8px;
       border: 1px solid rgba(255, 255, 255, 0.06);
-      background: #111827;
+      background: #101015;
       color: var(--text-dim);
       cursor: pointer;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2), inset 0 1px 1px rgba(255, 255, 255, 0.05);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.05);
       transition: var(--transition);
       text-align: center;
     }
 
     .curr-filter-btn.active {
-      background: linear-gradient(180deg, #0284c7 0%, #0369a1 100%);
-      border-color: #38bdf8;
-      color: #ffffff;
-      box-shadow: 0 3px 8px rgba(2, 132, 199, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.3);
+      background: var(--gold-gradient);
+      border-color: #fde047;
+      color: #141005;
+      font-weight: 800;
+      box-shadow: 0 3px 8px rgba(212, 175, 55, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.5);
     }
 
     /* 3D Items Feed */
@@ -759,9 +766,9 @@
       padding: 44px 20px;
       color: var(--text-dim);
       font-size: 0.95rem;
-      background: rgba(15, 23, 42, 0.5);
+      background: rgba(16, 16, 22, 0.6);
       border-radius: 20px;
-      border: 1.5px dashed rgba(255, 255, 255, 0.1);
+      border: 1.5px dashed rgba(212, 175, 55, 0.15);
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -770,7 +777,7 @@
 
     .empty-state-icon {
       font-size: 2.4rem;
-      filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.4));
+      filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.5));
     }
 
     /* 3D Floating Transaction Card */
@@ -778,24 +785,24 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background: linear-gradient(180deg, #1e293b 0%, #141f32 100%);
+      background: linear-gradient(180deg, #191922 0%, #111117 100%);
       border: 1px solid rgba(255, 255, 255, 0.08);
       border-radius: 16px;
       padding: 13px 15px;
       box-shadow: 
-        0 6px 14px rgba(0, 0, 0, 0.35),
-        0 2px 0 rgba(0, 0, 0, 0.4),
+        0 6px 14px rgba(0, 0, 0, 0.45),
+        0 2px 0 rgba(0, 0, 0, 0.5),
         inset 0 1px 1px rgba(255, 255, 255, 0.1);
       transition: var(--transition);
     }
 
     .item-card:hover {
-      border-color: rgba(255, 255, 255, 0.18);
+      border-color: rgba(212, 175, 55, 0.3);
       transform: translateY(-2px);
       box-shadow: 
-        0 10px 20px rgba(0, 0, 0, 0.45),
-        0 2px 0 rgba(0, 0, 0, 0.4),
-        inset 0 1px 1px rgba(255, 255, 255, 0.15);
+        0 10px 20px rgba(0, 0, 0, 0.55),
+        0 2px 0 rgba(0, 0, 0, 0.5),
+        inset 0 1px 1px rgba(212, 175, 55, 0.2);
     }
 
     .item-left {
@@ -818,17 +825,17 @@
       font-size: 1.3rem;
       flex-shrink: 0;
       box-shadow: 
-        0 4px 8px rgba(0, 0, 0, 0.3),
+        0 4px 8px rgba(0, 0, 0, 0.4),
         inset 0 1px 1px rgba(255, 255, 255, 0.25);
     }
 
     .item-icon-box.expense {
-      background: linear-gradient(135deg, rgba(239, 68, 68, 0.25) 0%, rgba(185, 28, 28, 0.35) 100%);
+      background: linear-gradient(135deg, rgba(239, 68, 68, 0.2) 0%, rgba(185, 28, 28, 0.3) 100%);
       border: 1px solid rgba(239, 68, 68, 0.4);
     }
 
     .item-icon-box.income {
-      background: linear-gradient(135deg, rgba(16, 185, 129, 0.25) 0%, rgba(5, 150, 105, 0.35) 100%);
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.2) 0%, rgba(5, 150, 105, 0.3) 100%);
       border: 1px solid rgba(16, 185, 129, 0.4);
     }
 
@@ -862,25 +869,25 @@
       font-size: 0.68rem;
       font-weight: 800;
       border-radius: 6px;
-      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
     }
 
     .currency-badge.lak {
-      background: rgba(99, 102, 241, 0.2);
-      color: #a5b4fc;
-      border: 1px solid rgba(99, 102, 241, 0.35);
+      background: rgba(212, 175, 55, 0.2);
+      color: #fde047;
+      border: 1px solid rgba(212, 175, 55, 0.4);
     }
 
     .currency-badge.thb {
       background: rgba(245, 158, 11, 0.2);
-      color: #fde047;
-      border: 1px solid rgba(245, 158, 11, 0.35);
+      color: #fbbf24;
+      border: 1px solid rgba(245, 158, 11, 0.4);
     }
 
     .currency-badge.usd {
       background: rgba(16, 185, 129, 0.2);
       color: #6ee7b7;
-      border: 1px solid rgba(16, 185, 129, 0.35);
+      border: 1px solid rgba(16, 185, 129, 0.4);
     }
 
     .item-note {
@@ -920,14 +927,14 @@
       height: 30px;
       border-radius: 50%;
       border: 1px solid rgba(255, 255, 255, 0.08);
-      background: linear-gradient(180deg, #334155 0%, #1e293b 100%);
-      color: #94a3b8;
+      background: linear-gradient(180deg, #272732 0%, #14141a 100%);
+      color: #a1a1aa;
       display: flex;
       align-items: center;
       justify-content: center;
       font-size: 1.15rem;
       cursor: pointer;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.15);
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.1);
       transition: var(--transition);
       flex-shrink: 0;
     }
@@ -964,14 +971,14 @@
         <img src="logo.png" alt="Money Daily Logo" class="app-logo">
         <div class="app-title-group">
           <h1 class="header-title">ບັນທຶກລາຍຮັບ-ລາຍຈ່າຍ</h1>
-          <span class="header-subtitle">VIP Financial Tracker</span>
+          <span class="header-subtitle">BLACK TITANIUM EDITION</span>
         </div>
       </div>
       <div class="date-badge" id="currentMonthBadge">ເດືອນນີ້</div>
     </header>
 
-    <!-- 2. 3D VIP Hero Financial Card -->
-    <div class="vip-card">
+    <!-- 2. 3D Black Titanium & Champagne Gold Card -->
+    <div class="titanium-card">
       <!-- Currency Switcher for Summary -->
       <div class="summary-currency-tabs">
         <button type="button" class="summary-curr-tab active" data-curr="LAK">₭ ກີບ (LAK)</button>
@@ -1064,7 +1071,7 @@
       </div>
 
       <button type="submit" class="submit-btn">
-        <span>💾</span> ບັນທຶກລາຍການ (SAVE TRANSACTION)
+        <span>💳</span> ບັນທຶກລາຍການ (SAVE TRANSACTION)
       </button>
     </form>
 
@@ -1280,8 +1287,8 @@
         emptyDiv.className = 'empty-state';
         emptyDiv.innerHTML = `
           <span class="empty-state-icon">💳</span>
-          <strong style="color: #cbd5e1;">ຍັງບໍ່ມີລາຍການ</strong>
-          <span style="font-size:0.8rem; color:#64748b;">ບັນທຶກລາຍຮັບ ຫຼື ລາຍຈ່າຍຂອງທ່ານໄດ້ເລີຍ</span>
+          <strong style="color: #e5c07b;">ຍັງບໍ່ມີລາຍການ</strong>
+          <span style="font-size:0.8rem; color:#71717a;">ບັນທຶກລາຍຮັບ ຫຼື ລາຍຈ່າຍຂອງທ່ານໄດ້ເລີຍ</span>
         `;
         itemsContainer.appendChild(emptyDiv);
         return;

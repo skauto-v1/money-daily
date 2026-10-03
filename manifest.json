@@ -1,12 +1,12 @@
 {
   "name": "ບັນທຶກລາຍຮັບ-ລາຍຈ່າຍ",
   "short_name": "Money Daily",
-  "description": "ແອັບບັນທຶກລາຍຮັບ-ລາຍຈ່າຍ 3 ສະກຸນເງິນ",
+  "description": "ແອັບບັນທຶກລາຍຮັບ-ລາຍຈ່າຍ 3 ສະກຸນເງິນ (Black Titanium & Champagne Gold)",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#090d16",
-  "theme_color": "#090d16",
+  "background_color": "#08080a",
+  "theme_color": "#08080a",
   "orientation": "portrait-primary",
   "icons": [
     {
