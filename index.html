@@ -1411,6 +1411,46 @@
       background: rgba(56, 189, 248, 0.35);
     }
 
+    .item-slip-thumb {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      object-fit: cover;
+      border: 1.5px solid rgba(56, 189, 248, 0.5);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: var(--transition);
+      background: #09090d;
+    }
+
+    .item-slip-thumb:hover {
+      border-color: #38bdf8;
+      transform: scale(1.08);
+      box-shadow: 0 0 10px rgba(56, 189, 248, 0.5);
+    }
+
+    .btn-attach-slip-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      padding: 2px 7px;
+      font-size: 0.68rem;
+      font-weight: 700;
+      border-radius: 6px;
+      background: rgba(212, 175, 55, 0.1);
+      color: #e5c07b;
+      border: 1px dashed rgba(212, 175, 55, 0.35);
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .btn-attach-slip-item:hover {
+      background: rgba(212, 175, 55, 0.25);
+      border-color: #fde047;
+      color: #fde047;
+    }
+
     .item-note {
       font-size: 0.8rem;
       color: var(--text-dim);
@@ -1608,7 +1648,7 @@
           <h1 class="header-title">ບັນທຶກລາຍຮັບ-ລາຍຈ່າຍ</h1>
           <div style="display: flex; align-items: center; gap: 6px;">
             <span class="header-subtitle">BLACK TITANIUM EDITION</span>
-            <button type="button" id="btnForceAppUpdate" class="version-badge" title="ກົດເພື່ອອັບເດດແອັບ / ລ້າງແຄຊທັນທີ">v2.5 🔄</button>
+            <button type="button" id="btnForceAppUpdate" class="version-badge" title="ກົດເພື່ອອັບເດດແອັບ / ລ້າງແຄຊທັນທີ">v2.6 🔄</button>
           </div>
         </div>
       </div>
@@ -1997,19 +2037,41 @@
   </div>
 
   <!-- Full Slip Image Viewer Modal -->
+  <!-- Full Slip Image Viewer Modal -->
   <div id="slipViewerModal" class="modal-overlay" style="display: none;">
-    <div class="modal-card">
+    <div class="modal-card" style="max-width: 480px;">
       <div class="modal-header">
-        <div class="modal-title">
-          <span>🧾</span> ຮູບສະລິບ / ບິນ
+        <div>
+          <div class="modal-title">
+            <span>🧾</span> ຮູບສະລິບ / ໃບບິນ
+          </div>
+          <div id="slipViewerMeta" style="font-size: 0.76rem; color: #a1a1aa; margin-top: 3px;">ລາຍລະອຽດລາຍການ</div>
         </div>
         <button type="button" id="btnCloseSlipViewer" class="modal-close-btn">✕</button>
       </div>
-      <div class="modal-body" style="text-align: center;">
-        <img id="slipViewerImg" src="" alt="Full Slip" class="slip-full-image">
+      <div class="modal-body" style="text-align: center; padding: 14px 16px;">
+        <div style="background: #09090d; border-radius: 12px; padding: 6px; border: 1px solid rgba(255, 255, 255, 0.08); margin-bottom: 12px;">
+          <img id="slipViewerImg" src="" alt="Full Slip" class="slip-full-image" style="cursor: zoom-in;" title="ກົດເພື່ອເບິ່ງຮູບຂະໜາດເຕັມ">
+        </div>
+        
+        <div style="display: flex; gap: 8px;">
+          <button type="button" id="btnDownloadSlip" class="submit-btn" style="flex: 1; padding: 10px; font-size: 0.84rem; display: flex; align-items: center; justify-content: center; gap: 6px;">
+            <span>📥</span> ດາວໂຫຼດ (Save)
+          </button>
+          <button type="button" id="btnReplaceSlipTrigger" class="curr-btn" style="flex: 1; padding: 10px; font-size: 0.84rem; display: flex; align-items: center; justify-content: center; gap: 6px;">
+            <span>🔄</span> ປ່ຽນຮູບໃໝ່
+          </button>
+          <button type="button" id="btnDeleteSlip" class="curr-btn" style="padding: 10px 14px; font-size: 0.84rem; color: #ef4444; border-color: rgba(239, 68, 68, 0.4);" title="ລຶບສະລິບອອກ">
+            <span>🗑️</span>
+          </button>
+        </div>
+        <input type="file" id="replaceSlipFileInput" accept="image/*" style="display: none;">
       </div>
     </div>
   </div>
+
+  <!-- Hidden input for attaching slip to existing item from transaction list -->
+  <input type="file" id="itemAttachSlipInput" accept="image/*" style="display: none;">
 
   <!-- Exchange Rate Settings Modal -->
   <div id="rateModal" class="modal-overlay" style="display: none;">
@@ -2265,16 +2327,118 @@
       }
     }
 
-    // Load data from localStorage (Safely preserves existing data and slips)
-    function loadItems() {
+    // ==========================================
+    // INDEXEDDB SLIP STORAGE ENGINE (UNLIMITED)
+    // Protects from 5MB localStorage overflow & preserves 100% of receipts
+    // ==========================================
+    const SlipStorage = {
+      db: null,
+      async init() {
+        if (!('indexedDB' in window)) return null;
+        if (this.db) return this.db;
+        return new Promise((resolve) => {
+          try {
+            const req = indexedDB.open('MoneyDailySlipsDB', 1);
+            req.onupgradeneeded = (e) => {
+              const db = e.target.result;
+              if (!db.objectStoreNames.contains('slips')) {
+                db.createObjectStore('slips', { keyPath: 'id' });
+              }
+            };
+            req.onsuccess = (e) => {
+              this.db = e.target.result;
+              resolve(this.db);
+            };
+            req.onerror = (e) => {
+              console.warn('IndexedDB open error:', e);
+              resolve(null);
+            };
+          } catch (e) {
+            resolve(null);
+          }
+        });
+      },
+      async set(id, dataUrl) {
+        if (!dataUrl) return;
+        await this.init();
+        if (!this.db) return;
+        return new Promise((resolve) => {
+          try {
+            const tx = this.db.transaction('slips', 'readwrite');
+            tx.objectStore('slips').put({ id: String(id), dataUrl: dataUrl, updatedAt: Date.now() });
+            tx.oncomplete = () => resolve(true);
+            tx.onerror = () => resolve(false);
+          } catch (e) {
+            resolve(false);
+          }
+        });
+      },
+      async get(id) {
+        await this.init();
+        if (!this.db) return null;
+        return new Promise((resolve) => {
+          try {
+            const tx = this.db.transaction('slips', 'readonly');
+            const req = tx.objectStore('slips').get(String(id));
+            req.onsuccess = () => resolve(req.result ? req.result.dataUrl : null);
+            req.onerror = () => resolve(null);
+          } catch (e) {
+            resolve(null);
+          }
+        });
+      },
+      async delete(id) {
+        await this.init();
+        if (!this.db) return;
+        return new Promise((resolve) => {
+          try {
+            const tx = this.db.transaction('slips', 'readwrite');
+            tx.objectStore('slips').delete(String(id));
+            tx.oncomplete = () => resolve(true);
+            tx.onerror = () => resolve(false);
+          } catch (e) {
+            resolve(false);
+          }
+        });
+      },
+      async clear() {
+        await this.init();
+        if (!this.db) return;
+        try {
+          const tx = this.db.transaction('slips', 'readwrite');
+          tx.objectStore('slips').clear();
+        } catch (e) {}
+      },
+      async getAll() {
+        await this.init();
+        if (!this.db) return {};
+        return new Promise((resolve) => {
+          try {
+            const tx = this.db.transaction('slips', 'readonly');
+            const req = tx.objectStore('slips').getAll();
+            req.onsuccess = () => {
+              const res = {};
+              if (Array.isArray(req.result)) {
+                req.result.forEach(row => { res[row.id] = row.dataUrl; });
+              }
+              resolve(res);
+            };
+            req.onerror = () => resolve({});
+          } catch (e) {
+            resolve({});
+          }
+        });
+      }
+    };
+
+    // Load data from localStorage and IndexedDB
+    async function loadItems() {
       try {
         const stored = localStorage.getItem('moneyItems');
         if (stored) {
           items = JSON.parse(stored);
           items.forEach(item => {
             if (!item.currency) item.currency = 'LAK';
-            // If historical transaction has no rateToLak, we DO NOT GUESS!
-            // Leave rateToLak undefined so system flags it as "ລໍຖ້າປ້ອນອັດຕາ"
           });
         } else {
           items = [];
@@ -2285,25 +2449,67 @@
 
       loadRates();
 
-      // Pre-fill API key input if stored
       const savedKey = localStorage.getItem('geminiApiKey');
       if (savedKey) {
         geminiApiKeyInput.value = savedKey;
       }
+
+      // Restore full slips from IndexedDB
+      try {
+        const dbSlips = await SlipStorage.getAll();
+        let changed = false;
+        items.forEach(item => {
+          const storedSlip = dbSlips[String(item.id)];
+          if (storedSlip) {
+            if (!item.slip || item.slip === true) {
+              item.slip = storedSlip;
+              changed = true;
+            }
+          } else if (item.slip && typeof item.slip === 'string' && item.slip.startsWith('data:')) {
+            // Mirror to IndexedDB
+            SlipStorage.set(item.id, item.slip);
+          }
+        });
+        if (changed) {
+          renderList();
+        }
+      } catch (e) {
+        console.warn('Slip restoration from IndexedDB error:', e);
+      }
     }
 
-    // Save data to localStorage
+    // Save data to localStorage & IndexedDB with quota protection
     function saveItems() {
+      // 1. Asynchronously persist all slips to IndexedDB
+      if (Array.isArray(items)) {
+        items.forEach(item => {
+          if (item.slip && typeof item.slip === 'string' && item.slip.startsWith('data:')) {
+            SlipStorage.set(item.id, item.slip);
+          }
+        });
+      }
+
+      // 2. Persist to localStorage with auto fallback if quota exceeded
       try {
         localStorage.setItem('moneyItems', JSON.stringify(items));
       } catch (e) {
-        console.error('Storage error:', e);
-        alert('⚠️ ພື້ນທີ່ບັນທຶກເຕັມ ກະລຸນາລຶບລາຍການເກົ່າອອກບາງສ່ວນ');
+        console.warn('localStorage full, saving items with slip references in IndexedDB:', e);
+        try {
+          // If 5MB limit hit, store slip reference boolean in localStorage while keeping full image in IndexedDB
+          const slimItems = items.map(item => ({
+            ...item,
+            slip: item.slip ? (typeof item.slip === 'string' && item.slip.length > 500 ? true : item.slip) : null
+          }));
+          localStorage.setItem('moneyItems', JSON.stringify(slimItems));
+        } catch (e2) {
+          console.error('Critical storage error:', e2);
+          alert('⚠️ ພື້ນທີ່ບັນທຶກເຕັມ ກະລຸນາສຳຮອງຂໍ້ມູນ (Export) ແລ້ວລຶບລາຍການເກົ່າອອກບາງສ່ວນ');
+        }
       }
     }
 
     // Robust Image Loader & Compressor (Supports JPEG, PNG, HEIC, Camera Capture)
-    async function compressImage(file, maxWidth = 720, quality = 0.65) {
+    async function compressImage(file, maxWidth = 800, quality = 0.70) {
       if (!file) return null;
 
       // 1. Try createImageBitmap if available (Fastest, low memory, handles orientation)
@@ -2312,9 +2518,14 @@
           const bitmap = await createImageBitmap(file);
           let width = bitmap.width;
           let height = bitmap.height;
-          if (width > maxWidth) {
-            height = Math.round((height * maxWidth) / width);
-            width = maxWidth;
+          if (width > maxWidth || height > maxWidth) {
+            if (width > height) {
+              height = Math.round((height * maxWidth) / width);
+              width = maxWidth;
+            } else {
+              width = Math.round((width * maxWidth) / height);
+              height = maxWidth;
+            }
           }
           const canvas = document.createElement('canvas');
           canvas.width = width;
@@ -2323,7 +2534,7 @@
           ctx.drawImage(bitmap, 0, 0, width, height);
           const dataUrl = canvas.toDataURL('image/jpeg', quality);
           bitmap.close();
-          if (dataUrl && dataUrl.length > 50) {
+          if (dataUrl && dataUrl.length > 100) {
             return dataUrl;
           }
         } catch (bitmapErr) {
@@ -2341,9 +2552,14 @@
             try {
               let width = img.naturalWidth || img.width || 600;
               let height = img.naturalHeight || img.height || 400;
-              if (width > maxWidth) {
-                height = Math.round((height * maxWidth) / width);
-                width = maxWidth;
+              if (width > maxWidth || height > maxWidth) {
+                if (width > height) {
+                  height = Math.round((height * maxWidth) / width);
+                  width = maxWidth;
+                } else {
+                  width = Math.round((width * maxWidth) / height);
+                  height = maxWidth;
+                }
               }
               const canvas = document.createElement('canvas');
               canvas.width = width;
@@ -2557,7 +2773,7 @@
         currBadge.textContent = currText;
         headerLine.appendChild(currBadge);
 
-        // Slip tag if slip attached
+        // Slip tag or Attach button
         if (item.slip) {
           const slipTag = document.createElement('span');
           slipTag.className = 'item-slip-tag';
@@ -2565,9 +2781,21 @@
           slipTag.title = 'ກົດເພື່ອເບິ່ງຮູບສະລິບ';
           slipTag.addEventListener('click', (e) => {
             e.stopPropagation();
-            viewSlip(item.slip);
+            viewSlip(item);
           });
           headerLine.appendChild(slipTag);
+        } else {
+          const attachBtn = document.createElement('button');
+          attachBtn.type = 'button';
+          attachBtn.className = 'btn-attach-slip-item';
+          attachBtn.innerHTML = '📷 ແນບສະລິບ';
+          attachBtn.title = 'ແນບຮູບສະລິບໃສ່ລາຍການນີ້';
+          attachBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            targetAttachItemId = item.id;
+            itemAttachSlipInput.click();
+          });
+          headerLine.appendChild(attachBtn);
         }
 
         detailsDiv.appendChild(headerLine);
@@ -2584,6 +2812,20 @@
         // Right side
         const rightDiv = document.createElement('div');
         rightDiv.className = 'item-right';
+
+        // Slip Thumbnail Preview
+        if (item.slip && typeof item.slip === 'string' && item.slip.startsWith('data:')) {
+          const thumb = document.createElement('img');
+          thumb.className = 'item-slip-thumb';
+          thumb.src = item.slip;
+          thumb.alt = 'Slip';
+          thumb.title = 'ກົດເພື່ອເບິ່ງຮູບສະລິບຂະໜາດເຕັມ';
+          thumb.addEventListener('click', (e) => {
+            e.stopPropagation();
+            viewSlip(item);
+          });
+          rightDiv.appendChild(thumb);
+        }
 
         const amountSpan = document.createElement('span');
         amountSpan.className = `item-amount ${item.type}`;
@@ -2631,27 +2873,164 @@
       });
     }
 
-    // View slip full image in modal
-    function viewSlip(dataUrl) {
-      slipViewerImg.src = dataUrl;
+    // View slip full image in modal with actions
+    let currentViewingItem = null;
+    let currentViewingSlipDataUrl = null;
+    const slipViewerMeta = document.getElementById('slipViewerMeta');
+    const btnDownloadSlip = document.getElementById('btnDownloadSlip');
+    const btnReplaceSlipTrigger = document.getElementById('btnReplaceSlipTrigger');
+    const replaceSlipFileInput = document.getElementById('replaceSlipFileInput');
+    const btnDeleteSlip = document.getElementById('btnDeleteSlip');
+    const itemAttachSlipInput = document.getElementById('itemAttachSlipInput');
+    let targetAttachItemId = null;
+
+    async function viewSlip(itemOrDataUrl) {
+      if (!itemOrDataUrl) return;
+
+      if (typeof itemOrDataUrl === 'string') {
+        currentViewingItem = null;
+        currentViewingSlipDataUrl = itemOrDataUrl;
+        slipViewerImg.src = itemOrDataUrl;
+        if (slipViewerMeta) slipViewerMeta.textContent = 'ຮູບສະລິບ / ໃບບິນ';
+      } else {
+        const item = itemOrDataUrl;
+        currentViewingItem = item;
+        let dataUrl = item.slip;
+        if (!dataUrl || dataUrl === true) {
+          dataUrl = await SlipStorage.get(item.id);
+          if (dataUrl) item.slip = dataUrl;
+        }
+        currentViewingSlipDataUrl = dataUrl;
+        slipViewerImg.src = dataUrl || '';
+        if (slipViewerMeta) {
+          const typeName = item.type === 'income' ? 'ລາຍຮັບ' : 'ລາຍຈ່າຍ';
+          const dateStr = item.date ? new Date(item.date).toLocaleDateString('lo-LA') : '';
+          slipViewerMeta.textContent = `${typeName}: ${formatCurrency(item.amount, item.currency || 'LAK')} • ${item.category || ''} (${dateStr})`;
+        }
+      }
       slipViewerModal.style.display = 'flex';
     }
+
+    // Slip Modal Handlers
+    if (btnDownloadSlip) {
+      btnDownloadSlip.addEventListener('click', () => {
+        if (!currentViewingSlipDataUrl) return;
+        const a = document.createElement('a');
+        a.href = currentViewingSlipDataUrl;
+        a.download = `slip-${currentViewingItem ? currentViewingItem.id : Date.now()}.jpg`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+      });
+    }
+
+    if (btnReplaceSlipTrigger && replaceSlipFileInput) {
+      btnReplaceSlipTrigger.addEventListener('click', () => {
+        replaceSlipFileInput.click();
+      });
+
+      replaceSlipFileInput.addEventListener('change', async (e) => {
+        const file = e.target.files && e.target.files[0];
+        if (!file || !currentViewingItem) return;
+
+        try {
+          const compressed = await compressImage(file, 800, 0.70);
+          if (!compressed) throw new Error('ບໍ່ສາມາດປະມວນຜົນຮູບໄດ້');
+
+          currentViewingItem.slip = compressed;
+          currentViewingSlipDataUrl = compressed;
+          slipViewerImg.src = compressed;
+          await SlipStorage.set(currentViewingItem.id, compressed);
+          saveItems();
+          syncPushLocalServer();
+          renderList();
+          alert('✅ ປ່ຽນຮູບສະລິບໃໝ່ຮຽບຮ້ອຍແລ້ວ!');
+        } catch (err) {
+          alert('⚠️ ປ່ຽນຮູບບໍ່ສຳເລັດ: ' + err.message);
+        } finally {
+          replaceSlipFileInput.value = '';
+        }
+      });
+    }
+
+    if (btnDeleteSlip) {
+      btnDeleteSlip.addEventListener('click', async () => {
+        if (!currentViewingItem) {
+          slipViewerModal.style.display = 'none';
+          return;
+        }
+        if (confirm('ຕ້ອງການລຶບຮູບສະລິບນີ້ອອກຈາກລາຍການບໍ່? (ຂໍ້ມູນຍອດເງິນຈະຍັງຄົງຢູ່)')) {
+          await SlipStorage.delete(currentViewingItem.id);
+          currentViewingItem.slip = null;
+          saveItems();
+          syncPushLocalServer();
+          renderList();
+          slipViewerModal.style.display = 'none';
+          alert('🗑️ ລຶບຮູບສະລິບອອກຮຽບຮ້ອຍແລ້ວ');
+        }
+      });
+    }
+
+    if (itemAttachSlipInput) {
+      itemAttachSlipInput.addEventListener('change', async (e) => {
+        const file = e.target.files && e.target.files[0];
+        if (!file || !targetAttachItemId) return;
+
+        const targetItem = items.find(i => i.id === targetAttachItemId);
+        if (!targetItem) return;
+
+        try {
+          const compressed = await compressImage(file, 800, 0.70);
+          if (!compressed) throw new Error('ບໍ່ສາມາດປະມວນຜົນຮູບໄດ້');
+
+          targetItem.slip = compressed;
+          await SlipStorage.set(targetItem.id, compressed);
+          saveItems();
+          syncPushLocalServer();
+          renderList();
+          alert('✅ ແນບສະລິບໃສ່ລາຍການຮຽບຮ້ອຍແລ້ວ!');
+        } catch (err) {
+          alert('⚠️ ແນບສະລິບບໍ່ສຳເລັດ: ' + err.message);
+        } finally {
+          itemAttachSlipInput.value = '';
+          targetAttachItemId = null;
+        }
+      });
+    }
+
+    // Toggle zoom on image tap
+    slipViewerImg.addEventListener('click', () => {
+      if (slipViewerImg.style.maxHeight === 'none') {
+        slipViewerImg.style.maxHeight = '65vh';
+        slipViewerImg.style.cursor = 'zoom-in';
+      } else {
+        slipViewerImg.style.maxHeight = 'none';
+        slipViewerImg.style.cursor = 'zoom-out';
+      }
+    });
 
     btnCloseSlipViewer.addEventListener('click', () => {
       slipViewerModal.style.display = 'none';
       slipViewerImg.src = '';
+      slipViewerImg.style.maxHeight = '65vh';
+      currentViewingItem = null;
+      currentViewingSlipDataUrl = null;
     });
 
     slipViewerModal.addEventListener('click', (e) => {
       if (e.target === slipViewerModal) {
         slipViewerModal.style.display = 'none';
         slipViewerImg.src = '';
+        slipViewerImg.style.maxHeight = '65vh';
+        currentViewingItem = null;
+        currentViewingSlipDataUrl = null;
       }
     });
 
     // Delete single item
-    function deleteItem(id) {
+    async function deleteItem(id) {
       items = items.filter(item => item.id !== id);
+      await SlipStorage.delete(id);
       saveItems();
       syncPushLocalServer();
       renderSummary();
@@ -2659,10 +3038,11 @@
     }
 
     // Delete all items
-    btnDeleteAll.addEventListener('click', () => {
+    btnDeleteAll.addEventListener('click', async () => {
       if (items.length === 0) return;
       if (confirm('ລຶບລາຍການທັງໝົດແມ່ນບໍ່?')) {
         items = [];
+        await SlipStorage.clear();
         saveItems();
         syncPushLocalServer();
         renderSummary();
@@ -3357,26 +3737,40 @@ Extract the transaction details into strict JSON format with NO markdown wrappin
       lastServerTimestamp: 0
     };
 
-    // 1. Export JSON
-    function exportBackupJson() {
-      const data = {
-        app: 'MoneyDaily',
-        version: '2.0',
-        exportedAt: new Date().toISOString(),
-        exchangeRates: exchangeRates,
-        items: items
-      };
-      const jsonStr = JSON.stringify(data, null, 2);
-      const blob = new Blob([jsonStr], { type: 'application/json' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      const dateStr = new Date().toISOString().slice(0, 10);
-      a.href = url;
-      a.download = `money-daily-backup-${dateStr}.json`;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
+    // 1. Export JSON (Includes all full slips from IndexedDB)
+    async function exportBackupJson() {
+      try {
+        const dbSlips = await SlipStorage.getAll();
+        const exportItems = items.map(item => {
+          const fullSlip = dbSlips[String(item.id)] || item.slip;
+          return {
+            ...item,
+            slip: (typeof fullSlip === 'string' && fullSlip.startsWith('data:')) ? fullSlip : (item.slip || null)
+          };
+        });
+
+        const data = {
+          app: 'MoneyDaily',
+          version: '2.0',
+          exportedAt: new Date().toISOString(),
+          exchangeRates: exchangeRates,
+          items: exportItems
+        };
+        const jsonStr = JSON.stringify(data, null, 2);
+        const blob = new Blob([jsonStr], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        const dateStr = new Date().toISOString().slice(0, 10);
+        a.href = url;
+        a.download = `money-daily-backup-${dateStr}.json`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      } catch (err) {
+        console.error('Export error:', err);
+        alert('⚠️ ບໍ່ສາມາດສົ່ງອອກໄຟລ໌ໄດ້: ' + err.message);
+      }
     }
 
     if (btnExportJson) {
@@ -3394,7 +3788,7 @@ Extract the transaction details into strict JSON format with NO markdown wrappin
         if (!file) return;
 
         const reader = new FileReader();
-        reader.onload = (evt) => {
+        reader.onload = async (evt) => {
           try {
             const parsed = JSON.parse(evt.target.result);
             const importedItems = parsed.items || (Array.isArray(parsed) ? parsed : null);
@@ -3411,17 +3805,25 @@ Extract the transaction details into strict JSON format with NO markdown wrappin
             if (isMerge) {
               const existingIds = new Set(items.map(i => i.id));
               let addedCount = 0;
-              importedItems.forEach(item => {
+              for (const item of importedItems) {
                 if (!existingIds.has(item.id)) {
                   items.push(item);
                   existingIds.add(item.id);
                   addedCount++;
+                  if (item.slip && typeof item.slip === 'string' && item.slip.startsWith('data:')) {
+                    await SlipStorage.set(item.id, item.slip);
+                  }
                 }
-              });
+              }
               items.sort((a, b) => new Date(b.date || b.id) - new Date(a.date || a.id));
               alert(`✅ ລວມຂໍ້ມູນສຳເລັດ! ເພີ່ມໃໝ່ ${addedCount} ລາຍການ (ລວມທັງໝົດ ${items.length} ລາຍການ)`);
             } else {
               items = importedItems;
+              for (const item of importedItems) {
+                if (item.slip && typeof item.slip === 'string' && item.slip.startsWith('data:')) {
+                  await SlipStorage.set(item.id, item.slip);
+                }
+              }
               alert(`✅ ນຳເຂົ້າຂໍ້ມູນສຳເລັດ! ຂຽນທັບທັງໝົດ ${items.length} ລາຍການ`);
             }
 
@@ -3716,7 +4118,7 @@ Extract the transaction details into strict JSON format with NO markdown wrappin
     // Register Service Worker for PWA installation with auto-update
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./sw.js?v=25').then((reg) => {
+        navigator.serviceWorker.register('./sw.js?v=26').then((reg) => {
           // Immediately check for update on server
           reg.update();
           reg.onupdatefound = () => {
@@ -3765,7 +4167,7 @@ Extract the transaction details into strict JSON format with NO markdown wrappin
         } catch (e) {
           console.warn('Cache clear error:', e);
         }
-        const cacheBuster = 'v=25&ts=' + Date.now();
+        const cacheBuster = 'v=26&ts=' + Date.now();
         const base = window.location.origin + window.location.pathname;
         window.location.replace(base + '?' + cacheBuster);
       }
