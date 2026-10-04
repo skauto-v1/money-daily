@@ -90,7 +90,7 @@
       border-radius: 28px;
       border: 1px solid rgba(212, 175, 55, 0.15);
       box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.9), 0 0 35px rgba(212, 175, 55, 0.04);
-      padding: 24px 20px;
+      padding: 20px 18px 88px 18px;
       position: relative;
     }
 
@@ -113,7 +113,7 @@
         background: var(--bg-titanium) !important;
         min-height: 100vh !important;
         min-height: 100dvh !important;
-        padding: max(16px, env(safe-area-inset-top)) max(18px, env(safe-area-inset-right)) max(28px, env(safe-area-inset-bottom)) max(18px, env(safe-area-inset-left)) !important;
+        padding: max(16px, env(safe-area-inset-top)) max(18px, env(safe-area-inset-right)) max(92px, calc(76px + env(safe-area-inset-bottom))) max(18px, env(safe-area-inset-left)) !important;
         display: flex;
         flex-direction: column;
       }
@@ -1729,6 +1729,382 @@
       0%, 100% { opacity: 1; }
       50% { opacity: 0.6; }
     }
+
+    /* Single Page App Views */
+    .app-view {
+      display: none;
+      animation: fadeIn 0.22s ease forwards;
+    }
+
+    .app-view.active {
+      display: block;
+    }
+
+    /* View Header */
+    .view-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid rgba(212, 175, 55, 0.15);
+      gap: 10px;
+    }
+
+    .view-title {
+      font-size: 1.02rem;
+      font-weight: 800;
+      color: #ffffff;
+      letter-spacing: -0.2px;
+      margin: 0;
+    }
+
+    .btn-back-home {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #e4e4e7;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: var(--transition);
+      white-space: nowrap;
+    }
+
+    .btn-back-home:hover {
+      background: rgba(212, 175, 55, 0.2);
+      border-color: rgba(212, 175, 55, 0.4);
+      color: #fde047;
+      transform: translateX(-2px);
+    }
+
+    /* Quick Action Menu Grid on Home */
+    .quick-actions-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin: 16px 0 20px 0;
+    }
+
+    .quick-action-btn {
+      background: linear-gradient(145deg, rgba(28, 28, 38, 0.95), rgba(18, 18, 24, 0.95));
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 16px;
+      padding: 14px 12px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 4px;
+      cursor: pointer;
+      text-align: left;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+      position: relative;
+      overflow: hidden;
+      width: 100%;
+    }
+
+    .quick-action-btn:active {
+      transform: scale(0.97);
+    }
+
+    .quick-action-btn.gold {
+      border-color: rgba(212, 175, 55, 0.35);
+      background: linear-gradient(145deg, rgba(38, 32, 20, 0.95), rgba(20, 18, 12, 0.98));
+    }
+    .quick-action-btn.gold .quick-action-icon {
+      background: rgba(212, 175, 55, 0.2);
+      color: #fde047;
+    }
+
+    .quick-action-btn.cyan {
+      border-color: rgba(6, 182, 212, 0.3);
+      background: linear-gradient(145deg, rgba(14, 34, 42, 0.95), rgba(10, 20, 26, 0.98));
+    }
+    .quick-action-btn.cyan .quick-action-icon {
+      background: rgba(6, 182, 212, 0.2);
+      color: #22d3ee;
+    }
+
+    .quick-action-btn.purple {
+      border-color: rgba(168, 85, 247, 0.3);
+      background: linear-gradient(145deg, rgba(32, 20, 42, 0.95), rgba(18, 12, 26, 0.98));
+    }
+    .quick-action-btn.purple .quick-action-icon {
+      background: rgba(168, 85, 247, 0.2);
+      color: #c084fc;
+    }
+
+    .quick-action-btn.emerald {
+      border-color: rgba(16, 185, 129, 0.3);
+      background: linear-gradient(145deg, rgba(14, 38, 28, 0.95), rgba(10, 24, 18, 0.98));
+    }
+    .quick-action-btn.emerald .quick-action-icon {
+      background: rgba(16, 185, 129, 0.2);
+      color: #34d399;
+    }
+
+    .quick-action-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      margin-bottom: 4px;
+    }
+
+    .quick-action-text {
+      font-size: 0.9rem;
+      font-weight: 800;
+      color: #ffffff;
+      line-height: 1.2;
+    }
+
+    .quick-action-sub {
+      font-size: 0.72rem;
+      color: #a1a1aa;
+    }
+
+    /* Recent Section on Home */
+    .recent-section {
+      margin-top: 10px;
+    }
+
+    .recent-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      padding: 0 4px;
+    }
+
+    .recent-title-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .recent-title {
+      font-size: 0.92rem;
+      font-weight: 800;
+      color: #f4f4f5;
+    }
+
+    .recent-badge {
+      background: rgba(255, 255, 255, 0.08);
+      color: #a1a1aa;
+      font-size: 0.72rem;
+      padding: 2px 7px;
+      border-radius: 10px;
+      font-weight: 700;
+    }
+
+    .btn-view-all {
+      background: none;
+      border: none;
+      color: #fde047;
+      font-size: 0.8rem;
+      font-weight: 700;
+      cursor: pointer;
+      padding: 4px 8px;
+      border-radius: 8px;
+      transition: var(--transition);
+    }
+
+    .btn-view-all:hover {
+      background: rgba(212, 175, 55, 0.15);
+    }
+
+    /* Menu Grid on Menu View */
+    .menu-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .menu-item-tile {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      background: linear-gradient(145deg, rgba(26, 26, 34, 0.9), rgba(16, 16, 22, 0.9));
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 16px;
+      padding: 14px 16px;
+      cursor: pointer;
+      text-align: left;
+      transition: all 0.2s ease;
+      width: 100%;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+
+    .menu-item-tile:hover {
+      background: linear-gradient(145deg, rgba(36, 36, 48, 0.9), rgba(22, 22, 30, 0.9));
+      border-color: rgba(212, 175, 55, 0.35);
+      transform: translateY(-1px);
+    }
+
+    .menu-item-tile:active {
+      transform: scale(0.98);
+    }
+
+    .menu-item-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 13px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.35rem;
+      flex-shrink: 0;
+    }
+
+    .menu-item-info {
+      flex: 1;
+    }
+
+    .menu-item-title {
+      font-size: 0.92rem;
+      font-weight: 800;
+      color: #ffffff;
+      margin-bottom: 2px;
+      line-height: 1.25;
+    }
+
+    .menu-item-desc {
+      font-size: 0.74rem;
+      color: #a1a1aa;
+      line-height: 1.3;
+    }
+
+    .menu-item-arrow {
+      color: #71717a;
+      font-size: 1.1rem;
+      transition: transform 0.2s ease;
+    }
+
+    .menu-item-tile:hover .menu-item-arrow {
+      color: #fde047;
+      transform: translateX(3px);
+    }
+
+    /* Fixed Bottom Navigation Bar */
+    .bottom-nav-bar {
+      position: fixed;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: 480px;
+      background: rgba(14, 14, 18, 0.94);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border-top: 1px solid rgba(212, 175, 55, 0.22);
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      padding: 6px 12px max(8px, env(safe-area-inset-bottom)) 12px;
+      z-index: 1000;
+      box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.65);
+    }
+
+    .nav-item {
+      background: none;
+      border: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+      cursor: pointer;
+      padding: 6px 12px;
+      border-radius: 12px;
+      color: #71717a;
+      transition: all 0.2s ease;
+      position: relative;
+      min-width: 62px;
+    }
+
+    .nav-item:hover, .nav-item.active {
+      color: #fde047;
+    }
+
+    .nav-icon {
+      font-size: 1.25rem;
+      line-height: 1;
+      transition: transform 0.2s ease;
+    }
+
+    .nav-item.active .nav-icon {
+      transform: scale(1.15);
+    }
+
+    .nav-label {
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.2px;
+    }
+
+    .nav-item-add {
+      margin-top: -20px;
+    }
+
+    .nav-fab-btn {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #fde047 0%, #d4af37 50%, #996515 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #121217;
+      font-size: 1.4rem;
+      font-weight: 900;
+      box-shadow: 0 4px 18px rgba(212, 175, 55, 0.55), inset 0 2px 2px rgba(255, 255, 255, 0.5);
+      transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease;
+    }
+
+    .nav-item-add:active .nav-fab-btn {
+      transform: scale(0.92);
+    }
+
+    .nav-item-add.active .nav-fab-btn {
+      box-shadow: 0 0 24px rgba(253, 224, 71, 0.85), inset 0 2px 2px rgba(255, 255, 255, 0.6);
+      transform: scale(1.05);
+    }
+
+    /* Save Feedback Toast */
+    .save-toast {
+      background: rgba(16, 185, 129, 0.2);
+      border: 1px solid rgba(16, 185, 129, 0.5);
+      color: #34d399;
+      padding: 12px 16px;
+      border-radius: 14px;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      animation: fadeIn 0.3s ease;
+    }
+    .save-toast-actions {
+      display: flex;
+      gap: 8px;
+    }
+    .save-toast-btn {
+      background: rgba(16, 185, 129, 0.3);
+      border: 1px solid rgba(16, 185, 129, 0.6);
+      color: #ffffff;
+      padding: 4px 10px;
+      border-radius: 8px;
+      font-size: 0.76rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
@@ -1748,61 +2124,116 @@
           <h1 class="header-title">ບັນທຶກລາຍຮັບ-ລາຍຈ່າຍ</h1>
           <div style="display: flex; align-items: center; gap: 6px;">
             <span class="header-subtitle">BLACK TITANIUM EDITION</span>
-            <button type="button" id="btnForceAppUpdate" class="version-badge" title="ກົດເພື່ອອັບເດດແອັບ / ລ້າງແຄຊທັນທີ">v2.7 🔄</button>
+            <button type="button" id="btnForceAppUpdate" class="version-badge" title="ກົດເພື່ອອັບເດດແອັບ / ລ້າງແຄຊທັນທີ">v2.8 🔄</button>
           </div>
         </div>
       </div>
       <div class="header-actions">
-        <button type="button" id="btnHeaderSync" class="btn-header-ai" style="background: rgba(16, 185, 129, 0.15); border-color: rgba(16, 185, 129, 0.4); color: #34d399;" title="ຊິ້ງ & ສຳຮອງຂໍ້ມູນ (Sync / Backup)">
-          <span>🔄</span> <span class="hide-on-tiny">ຊິ້ງ/ສຳຮອງ</span>
+        <button type="button" id="btnHeaderMenu" class="btn-header-ai" style="background: rgba(212, 175, 55, 0.18); border-color: rgba(212, 175, 55, 0.4); color: #fde047;" title="ເມນູ & ການຕັ້ງຄ່າ">
+          <span>☰</span> <span class="hide-on-tiny">ເມນູ</span>
         </button>
-        <button type="button" id="btnHeaderAi" class="btn-header-ai" title="ຕັ້ງຄ່າ AI">
-          <span>🤖</span> AI
+        <button type="button" id="btnHeaderSync" class="btn-header-ai" style="background: rgba(16, 185, 129, 0.15); border-color: rgba(16, 185, 129, 0.4); color: #34d399;" title="ຊິ້ງ & ສຳຮອງຂໍ້ມູນ (Sync / Backup)">
+          <span>🔄</span> <span class="hide-on-tiny">ຊິ້ງ</span>
         </button>
         <div class="date-badge" id="currentMonthBadge">ເດືອນນີ້</div>
       </div>
     </header>
 
-    <!-- 2. 3D Black Titanium & Champagne Gold Card -->
-    <div class="titanium-card">
-      <!-- Currency Switcher for Summary & Rate Config -->
-      <div class="summary-top-row">
-        <div class="summary-currency-tabs">
-          <button type="button" class="summary-curr-tab active" data-curr="TOTAL">🌐 ລວມທຸກສະກຸນ</button>
-          <button type="button" class="summary-curr-tab" data-curr="LAK">₭ ກີບ</button>
-          <button type="button" class="summary-curr-tab" data-curr="THB">฿ ບາດ</button>
-          <button type="button" class="summary-curr-tab" data-curr="USD">$ ໂດລາ</button>
+    <!-- ==================== VIEW 1: HOME (ໜ້າຫຼັກ) ==================== -->
+    <main id="viewHome" class="app-view active">
+      <!-- 2. 3D Black Titanium & Champagne Gold Card -->
+      <div class="titanium-card">
+        <!-- Currency Switcher for Summary & Rate Config -->
+        <div class="summary-top-row">
+          <div class="summary-currency-tabs">
+            <button type="button" class="summary-curr-tab active" data-curr="TOTAL">🌐 ລວມທຸກສະກຸນ</button>
+            <button type="button" class="summary-curr-tab" data-curr="LAK">₭ ກີບ</button>
+            <button type="button" class="summary-curr-tab" data-curr="THB">฿ ບາດ</button>
+            <button type="button" class="summary-curr-tab" data-curr="USD">$ ໂດລາ</button>
+          </div>
+          <button type="button" id="btnOpenRateModal" class="rate-badge-btn" title="ກົດເພື່ອຕັ້ງຄ່າອັດຕາແລກປ່ຽນ">
+            <span>💱</span> <span id="rateSummaryBadgeText" class="rate-badge-val">1฿=650₭ | 1$=22,000₭</span>
+          </button>
         </div>
-        <button type="button" id="btnOpenRateModal" class="rate-badge-btn" title="ກົດເພື່ອຕັ້ງຄ່າອັດຕາແລກປ່ຽນ">
-          <span>💱</span> <span id="rateSummaryBadgeText" class="rate-badge-val">1฿=650₭ | 1$=22,000₭</span>
+
+        <div class="balance-section">
+          <div class="balance-label" id="balanceLabel">ຍອດຄົງເຫຼືອລວມທຸກສະກຸນ (ແປງເປັນກີບ)</div>
+          <div class="balance-amount" id="summaryBalance">0 ₭</div>
+          <div id="totalBreakdownRow" class="total-breakdown-row" style="display: flex;">
+            <span id="bdLAK">₭ 0</span> • <span id="bdTHB">฿ 0</span> • <span id="bdUSD">$ 0</span>
+          </div>
+        </div>
+
+        <div class="summary-stats-grid">
+          <div class="stat-pill">
+            <span class="stat-title"><span class="stat-indicator income">↑</span> ລາຍຮັບເດືອນນີ້</span>
+            <span class="stat-val" id="summaryIncome">0 ₭</span>
+          </div>
+          <div class="stat-pill">
+            <span class="stat-title"><span class="stat-indicator expense">↓</span> ລາຍຈ່າຍເດືອນນີ້</span>
+            <span class="stat-val" id="summaryExpense">0 ₭</span>
+          </div>
+        </div>
+
+        <!-- Pending Rate Warning Banner inside Summary Card -->
+        <div id="summaryPendingAlert" class="summary-pending-alert" style="display: none;">
+          <span id="summaryPendingText">⚠️ ມີ 0 ລາຍການລໍຖ້າປ້ອນອັດຕາແລກປ່ຽນ (ຍັງບໍ່ໄດ້ລວມໃນຍອດ)</span>
+          <button type="button" id="btnFilterPendingRate" class="badge-pending-rate" style="margin: 0; background: #f59e0b; color: #18181b;">ກວດເບິ່ງ</button>
+        </div>
+      </div>
+
+      <!-- Quick Action Menu Grid on Home -->
+      <div class="quick-actions-grid">
+        <button type="button" class="quick-action-btn gold" id="quickBtnAdd">
+          <div class="quick-action-icon">➕</div>
+          <span class="quick-action-text">ບັນທຶກລາຍການ</span>
+          <span class="quick-action-sub">ລາຍຮັບ / ລາຍຈ່າຍ</span>
+        </button>
+        <button type="button" class="quick-action-btn cyan" id="quickBtnSlip">
+          <div class="quick-action-icon">📷</div>
+          <span class="quick-action-text">ສະແກນສະລິບ</span>
+          <span class="quick-action-sub">AI ອ່ານອັດຕະໂນມັດ</span>
+        </button>
+        <button type="button" class="quick-action-btn purple" id="quickBtnHistory">
+          <div class="quick-action-icon">📜</div>
+          <span class="quick-action-text">ປະຫວັດລາຍການ</span>
+          <span class="quick-action-sub" id="quickHistorySub">0 ລາຍການ</span>
+        </button>
+        <button type="button" class="quick-action-btn emerald" id="quickBtnSync">
+          <div class="quick-action-icon">🔄</div>
+          <span class="quick-action-text">ຊິ້ງ & ສຳຮອງ</span>
+          <span class="quick-action-sub">Cloud / ເຊີເວີ</span>
         </button>
       </div>
 
-      <div class="balance-section">
-        <div class="balance-label" id="balanceLabel">ຍອດຄົງເຫຼືອລວມທຸກສະກຸນ (ແປງເປັນກີບ)</div>
-        <div class="balance-amount" id="summaryBalance">0 ₭</div>
-        <div id="totalBreakdownRow" class="total-breakdown-row" style="display: flex;">
-          <span id="bdLAK">₭ 0</span> • <span id="bdTHB">฿ 0</span> • <span id="bdUSD">$ 0</span>
+      <!-- Recent Transactions Section on Home -->
+      <div class="recent-section">
+        <div class="recent-header">
+          <div class="recent-title-group">
+            <span class="recent-title">⚡ ລາຍການຫຼ້າສຸດ</span>
+            <span class="recent-badge" id="recentCountBadge">0</span>
+          </div>
+          <button type="button" class="btn-view-all" id="btnViewAllHistory">
+            ເບິ່ງທັງໝົດ ➔
+          </button>
         </div>
+        <div id="recentItemsContainer" class="items-list"></div>
+      </div>
+    </main>
+
+    <!-- ==================== VIEW 2: ADD (ໜ້າບັນທຶກ) ==================== -->
+    <section id="viewAdd" class="app-view">
+      <div class="view-header">
+        <button type="button" class="btn-back-home" data-back-to="home">← ໜ້າຫຼັກ</button>
+        <h2 class="view-title">ບັນທຶກລາຍການ (RECORD)</h2>
       </div>
 
-      <div class="summary-stats-grid">
-        <div class="stat-pill">
-          <span class="stat-title"><span class="stat-indicator income">↑</span> ລາຍຮັບເດືອນນີ້</span>
-          <span class="stat-val" id="summaryIncome">0 ₭</span>
-        </div>
-        <div class="stat-pill">
-          <span class="stat-title"><span class="stat-indicator expense">↓</span> ລາຍຈ່າຍເດືອນນີ້</span>
-          <span class="stat-val" id="summaryExpense">0 ₭</span>
+      <div id="saveToastAlert" style="display: none;" class="save-toast">
+        <span id="saveToastMsg">🎉 ບັນທຶກລາຍການສຳເລັດແລ້ວ!</span>
+        <div class="save-toast-actions">
+          <button type="button" class="save-toast-btn" id="btnToastViewHistory">ເບິ່ງປະຫວັດ ➔</button>
         </div>
       </div>
-
-      <!-- Pending Rate Warning Banner inside Summary Card -->
-      <div id="summaryPendingAlert" class="summary-pending-alert" style="display: none;">
-        <span id="summaryPendingText">⚠️ ມີ 0 ລາຍການລໍຖ້າປ້ອນອັດຕາແລກປ່ຽນ (ຍັງບໍ່ໄດ້ລວມໃນຍອດ)</span>
-        <button type="button" id="btnFilterPendingRate" class="badge-pending-rate" style="margin: 0; background: #f59e0b; color: #18181b;">ກວດເບິ່ງ</button>
-      </div>
-    </div>
 
     <!-- 3. 3D Transaction Type & Direct Slip Attachment Buttons -->
     <div class="type-segmented-control">
@@ -1961,12 +2392,20 @@
         <span>💳</span> ບັນທຶກລາຍການ (SAVE TRANSACTION)
       </button>
     </form>
+  </section>
+
+  <!-- ==================== VIEW 3: HISTORY (ໜ້າປະຫວັດ) ==================== -->
+  <section id="viewHistory" class="app-view">
+    <div class="view-header">
+      <button type="button" class="btn-back-home" data-back-to="home">← ໜ້າຫຼັກ</button>
+      <h2 class="view-title">ປະຫວັດລາຍການ (TRANSACTIONS)</h2>
+    </div>
 
     <!-- 6. List Section -->
     <div class="list-section">
       <div class="list-header">
         <div class="list-title-wrap">
-          <span class="list-title">ປະຫວັດລາຍການ (TRANSACTIONS)</span>
+          <span class="list-title">ລາຍການທັງໝົດ</span>
           <span class="item-count-badge" id="itemCountBadge">0</span>
         </div>
         <button type="button" id="btnDeleteAll" class="delete-all-btn">ລຶບທັງໝົດ</button>
@@ -1991,7 +2430,100 @@
       <!-- Items List -->
       <div id="itemsContainer" class="items-list"></div>
     </div>
-  </div>
+  </section>
+
+  <!-- ==================== VIEW 4: MENU (ໜ້າເມນູ & ຕັ້ງຄ່າ) ==================== -->
+  <section id="viewMenu" class="app-view">
+    <div class="view-header">
+      <button type="button" class="btn-back-home" data-back-to="home">← ໜ້າຫຼັກ</button>
+      <h2 class="view-title">ເມນູ & ການຕັ້ງຄ່າ (MENU)</h2>
+    </div>
+
+    <div class="menu-grid">
+      <!-- 1. Sync & Backup -->
+      <div class="menu-item-tile" id="btnMenuSync">
+        <div class="menu-item-icon" style="color: #34d399; background: rgba(16, 185, 129, 0.15);">🔄</div>
+        <div class="menu-item-info">
+          <div class="menu-item-title">ຊິ້ງ & ສຳຮອງຂໍ້ມູນ (Sync / Backup)</div>
+          <div class="menu-item-desc">Cloud Sync, Local Server Sync, Backup & Restore JSON</div>
+        </div>
+        <span class="menu-item-arrow">➔</span>
+      </div>
+
+      <!-- 2. Exchange Rates -->
+      <div class="menu-item-tile" id="btnMenuRates">
+        <div class="menu-item-icon" style="color: #fde047; background: rgba(212, 175, 55, 0.15);">💱</div>
+        <div class="menu-item-info">
+          <div class="menu-item-title">ຕັ້ງຄ່າອັດຕາແລກປ່ຽນ (Exchange Rates)</div>
+          <div class="menu-item-desc">ກຳນົດອັດຕາແລກປ່ຽນ ₭ ກີບ, ฿ ບາດ, $ ໂດລາ ຫຼື ດຶງອັດຕາສົດ</div>
+        </div>
+        <span class="menu-item-arrow">➔</span>
+      </div>
+
+      <!-- 3. Category Manager -->
+      <div class="menu-item-tile" id="btnMenuCategories">
+        <div class="menu-item-icon" style="color: #60a5fa; background: rgba(59, 130, 246, 0.15);">🏷️</div>
+        <div class="menu-item-info">
+          <div class="menu-item-title">ຈັດການໝວດໝູ່ (Categories)</div>
+          <div class="menu-item-desc">ເພີ່ມ, ແກ້ໄຂ, ຫຼື ລຶບໝວດໝູ່ລາຍຮັບ ແລະ ລາຍຈ່າຍ</div>
+        </div>
+        <span class="menu-item-arrow">➔</span>
+      </div>
+
+      <!-- 4. Gemini AI Settings -->
+      <div class="menu-item-tile" id="btnMenuAi">
+        <div class="menu-item-icon" style="color: #c084fc; background: rgba(168, 85, 247, 0.15);">🤖</div>
+        <div class="menu-item-info">
+          <div class="menu-item-title">ຕັ້ງຄ່າ Gemini AI API Key</div>
+          <div class="menu-item-desc">ໃສ່ Google Gemini API Key ສຳລັບອ່ານສະລິບອັດຕະໂນມັດ</div>
+        </div>
+        <span class="menu-item-arrow">➔</span>
+      </div>
+
+      <!-- 5. Install PWA -->
+      <div class="menu-item-tile" id="btnMenuInstall">
+        <div class="menu-item-icon" style="color: #38bdf8; background: rgba(56, 189, 248, 0.15);">📲</div>
+        <div class="menu-item-info">
+          <div class="menu-item-title">ຕິດຕັ້ງແອັບລົງໜ້າຈໍມືຖື (Install App)</div>
+          <div class="menu-item-desc">ຕິດຕັ້ງແບບ PWA ໄວ້ເທິງໜ້າຈໍມືຖື ໃຊ້ໄດ້ສະດວກຄືແອັບແທ້</div>
+        </div>
+        <span class="menu-item-arrow">➔</span>
+      </div>
+
+      <!-- 6. App Update / Clear Cache -->
+      <div class="menu-item-tile" id="btnMenuUpdate">
+        <div class="menu-item-icon" style="color: #fb923c; background: rgba(251, 146, 60, 0.15);">⚡</div>
+        <div class="menu-item-info">
+          <div class="menu-item-title">ອັບເດດແອັບ / ລ້າງແຄຊ (Force Update)</div>
+          <div class="menu-item-desc">ເວີຊັນປັດຈຸບັນ v2.8 • ກົດເພື່ອດາວໂຫຼດເວີຊັນໃໝ່ລ່າສຸດທັນທີ</div>
+        </div>
+        <span class="menu-item-arrow">➔</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Fixed Bottom Navigation Bar -->
+  <nav class="bottom-nav-bar" id="bottomNavBar">
+    <button type="button" class="nav-item active" data-tab="home" id="navTabHome" title="ໜ້າຫຼັກ">
+      <span class="nav-icon">🏠</span>
+      <span class="nav-label">ໜ້າຫຼັກ</span>
+    </button>
+    <button type="button" class="nav-item nav-item-add" data-tab="add" id="navTabAdd" title="ບັນທຶກລາຍການ">
+      <div class="nav-fab-btn">
+        <span>➕</span>
+      </div>
+      <span class="nav-label">ບັນທຶກ</span>
+    </button>
+    <button type="button" class="nav-item" data-tab="history" id="navTabHistory" title="ປະຫວັດລາຍການ">
+      <span class="nav-icon">📜</span>
+      <span class="nav-label">ປະຫວັດ</span>
+    </button>
+    <button type="button" class="nav-item" data-tab="menu" id="navTabMenu" title="ເມນູ">
+      <span class="nav-icon">⚙️</span>
+      <span class="nav-label">ເມນູ</span>
+    </button>
+  </nav>
+</div>
 
   <!-- AI Key Settings Modal -->
   <div id="aiModal" class="modal-overlay" style="display: none;">
@@ -3122,164 +3654,203 @@
       }
     }
 
-    // Render Items List
-    function renderList() {
-      itemsContainer.innerHTML = '';
+    // Create Item Card DOM Element
+    function createItemCard(item) {
+      const card = document.createElement('div');
+      card.className = 'item-card';
 
-      const filteredItems = items.filter(item => {
-        if (currentPendingFilter) {
-          return !hasValidRate(item);
+      const leftDiv = document.createElement('div');
+      leftDiv.className = 'item-left';
+
+      // 3D Category Icon Box
+      const iconBox = document.createElement('div');
+      iconBox.className = `item-icon-box ${item.type}`;
+      iconBox.textContent = CATEGORY_ICONS[item.category] || (item.type === 'income' ? '💵' : '💸');
+      leftDiv.appendChild(iconBox);
+
+      // Details
+      const detailsDiv = document.createElement('div');
+      detailsDiv.className = 'item-details';
+
+      const headerLine = document.createElement('div');
+      headerLine.className = 'item-header-line';
+
+      const catSpan = document.createElement('span');
+      catSpan.className = 'item-category';
+      catSpan.textContent = item.category;
+      headerLine.appendChild(catSpan);
+
+      const currBadge = document.createElement('span');
+      const curr = (item.currency || 'LAK').toLowerCase();
+      currBadge.className = `currency-badge ${curr}`;
+      const currText = item.currency === 'THB' ? '฿ ບາດ' : (item.currency === 'USD' ? '$ ໂດລາ' : '₭ ກີບ');
+      currBadge.textContent = currText;
+      headerLine.appendChild(currBadge);
+
+      // Slip tag or Attach button
+      if (item.slip) {
+        const slipTag = document.createElement('span');
+        slipTag.className = 'item-slip-tag';
+        slipTag.innerHTML = '🧾 ສະລິບ';
+        slipTag.title = 'ກົດເພື່ອເບິ່ງຮູບສະລິບ';
+        slipTag.addEventListener('click', (e) => {
+          e.stopPropagation();
+          viewSlip(item);
+        });
+        headerLine.appendChild(slipTag);
+      } else {
+        const attachBtn = document.createElement('button');
+        attachBtn.type = 'button';
+        attachBtn.className = 'btn-attach-slip-item';
+        attachBtn.innerHTML = '📷 ແນບສະລິບ';
+        attachBtn.title = 'ແນບຮູບສະລິບໃສ່ລາຍການນີ້';
+        attachBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          targetAttachItemId = item.id;
+          itemAttachSlipInput.click();
+        });
+        headerLine.appendChild(attachBtn);
+      }
+
+      detailsDiv.appendChild(headerLine);
+
+      if (item.note && item.note.trim()) {
+        const noteSpan = document.createElement('span');
+        noteSpan.className = 'item-note';
+        noteSpan.textContent = item.note.trim();
+        detailsDiv.appendChild(noteSpan);
+      }
+
+      leftDiv.appendChild(detailsDiv);
+
+      // Right side
+      const rightDiv = document.createElement('div');
+      rightDiv.className = 'item-right';
+
+      // Slip Thumbnail Preview
+      if (item.slip && typeof item.slip === 'string' && item.slip.startsWith('data:')) {
+        const thumb = document.createElement('img');
+        thumb.className = 'item-slip-thumb';
+        thumb.src = item.slip;
+        thumb.alt = 'Slip';
+        thumb.title = 'ກົດເພື່ອເບິ່ງຮູບສະລິບຂະໜາດເຕັມ';
+        thumb.addEventListener('click', (e) => {
+          e.stopPropagation();
+          viewSlip(item);
+        });
+        rightDiv.appendChild(thumb);
+      }
+
+      const amountSpan = document.createElement('span');
+      amountSpan.className = `item-amount ${item.type}`;
+      const prefix = item.type === 'income' ? '+ ' : '- ';
+      amountSpan.textContent = `${prefix}${formatCurrency(item.amount, item.currency || 'LAK')}`;
+      rightDiv.appendChild(amountSpan);
+
+      if (item.currency && item.currency !== 'LAK') {
+        if (hasValidRate(item)) {
+          const equivLAK = Math.round(Number(item.amount) * Number(item.rateToLak));
+          const equivSpan = document.createElement('span');
+          equivSpan.className = 'item-equiv';
+          equivSpan.textContent = `≈ ${prefix}${equivLAK.toLocaleString('lo-LA')} ₭`;
+          equivSpan.title = `ອັດຕາແລກປ່ຽນ: 1 ${item.currency} = ${Number(item.rateToLak).toLocaleString('lo-LA')} ₭`;
+          rightDiv.appendChild(equivSpan);
+        } else {
+          // Missing rate on old transaction - DO NOT GUESS!
+          const pendingBtn = document.createElement('button');
+          pendingBtn.type = 'button';
+          pendingBtn.className = 'badge-pending-rate';
+          pendingBtn.innerHTML = '⚠️ ລໍຖ້າປ້ອນອັດຕາ';
+          pendingBtn.title = 'ກົດເພື່ອປ້ອນອັດຕາແລກປ່ຽນສຳລັບລາຍການນີ້';
+          pendingBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            openSingleItemRateModal(item);
+          });
+          rightDiv.appendChild(pendingBtn);
         }
-        const matchesType = currentFilter === 'all' || item.type === currentFilter;
-        const itemCurr = item.currency || 'LAK';
-        const matchesCurr = currentCurrencyFilter === 'all' || itemCurr === currentCurrencyFilter;
-        return matchesType && matchesCurr;
+      }
+
+      const delBtn = document.createElement('button');
+      delBtn.type = 'button';
+      delBtn.className = 'delete-item-btn';
+      delBtn.innerHTML = '&times;';
+      delBtn.title = 'ລຶບລາຍການນີ້';
+      delBtn.addEventListener('click', () => {
+        deleteItem(item.id);
       });
+      rightDiv.appendChild(delBtn);
 
-      itemCountBadge.textContent = filteredItems.length;
+      card.appendChild(leftDiv);
+      card.appendChild(rightDiv);
 
-      if (filteredItems.length === 0) {
+      return card;
+    }
+
+    // Render Recent Items on Home View
+    function renderRecentItems() {
+      const recentContainer = document.getElementById('recentItemsContainer');
+      if (!recentContainer) return;
+      recentContainer.innerHTML = '';
+
+      const totalCount = items.length;
+      const recentBadge = document.getElementById('recentCountBadge');
+      const quickHistorySub = document.getElementById('quickHistorySub');
+      if (recentBadge) recentBadge.textContent = totalCount;
+      if (quickHistorySub) quickHistorySub.textContent = `${totalCount} ລາຍການ`;
+
+      if (totalCount === 0) {
         const emptyDiv = document.createElement('div');
         emptyDiv.className = 'empty-state';
+        emptyDiv.style.padding = '22px 14px';
         emptyDiv.innerHTML = `
-          <span class="empty-state-icon">💳</span>
-          <strong style="color: #e5c07b;">${currentPendingFilter ? 'ບໍ່ມີລາຍການທີ່ຄ້າງປ້ອນອັດຕາ' : 'ຍັງບໍ່ມີລາຍການ'}</strong>
-          <span style="font-size:0.8rem; color:#71717a;">${currentPendingFilter ? 'ທຸກລາຍການມີອັດຕາແລກປ່ຽນຄົບຖ້ວນແລ້ວ' : 'ບັນທຶກລາຍຮັບ ຫຼື ລາຍຈ່າຍຂອງທ່ານໄດ້ເລີຍ'}</span>
+          <span class="empty-state-icon" style="font-size: 1.8rem;">💳</span>
+          <strong style="color: #e5c07b; font-size: 0.88rem;">ຍັງບໍ່ມີລາຍການເທື່ອ</strong>
+          <span style="font-size: 0.76rem; color: #71717a;">ກົດປຸ່ມ "➕ ບັນທຶກລາຍການ" ເພື່ອເລີ່ມຕົ້ນ</span>
         `;
-        itemsContainer.appendChild(emptyDiv);
+        recentContainer.appendChild(emptyDiv);
         return;
       }
 
-      filteredItems.forEach(item => {
-        const card = document.createElement('div');
-        card.className = 'item-card';
-
-        const leftDiv = document.createElement('div');
-        leftDiv.className = 'item-left';
-
-        // 3D Category Icon Box
-        const iconBox = document.createElement('div');
-        iconBox.className = `item-icon-box ${item.type}`;
-        iconBox.textContent = CATEGORY_ICONS[item.category] || (item.type === 'income' ? '💵' : '💸');
-        leftDiv.appendChild(iconBox);
-
-        // Details
-        const detailsDiv = document.createElement('div');
-        detailsDiv.className = 'item-details';
-
-        const headerLine = document.createElement('div');
-        headerLine.className = 'item-header-line';
-
-        const catSpan = document.createElement('span');
-        catSpan.className = 'item-category';
-        catSpan.textContent = item.category;
-        headerLine.appendChild(catSpan);
-
-        const currBadge = document.createElement('span');
-        const curr = (item.currency || 'LAK').toLowerCase();
-        currBadge.className = `currency-badge ${curr}`;
-        const currText = item.currency === 'THB' ? '฿ ບາດ' : (item.currency === 'USD' ? '$ ໂດລາ' : '₭ ກີບ');
-        currBadge.textContent = currText;
-        headerLine.appendChild(currBadge);
-
-        // Slip tag or Attach button
-        if (item.slip) {
-          const slipTag = document.createElement('span');
-          slipTag.className = 'item-slip-tag';
-          slipTag.innerHTML = '🧾 ສະລິບ';
-          slipTag.title = 'ກົດເພື່ອເບິ່ງຮູບສະລິບ';
-          slipTag.addEventListener('click', (e) => {
-            e.stopPropagation();
-            viewSlip(item);
-          });
-          headerLine.appendChild(slipTag);
-        } else {
-          const attachBtn = document.createElement('button');
-          attachBtn.type = 'button';
-          attachBtn.className = 'btn-attach-slip-item';
-          attachBtn.innerHTML = '📷 ແນບສະລິບ';
-          attachBtn.title = 'ແນບຮູບສະລິບໃສ່ລາຍການນີ້';
-          attachBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            targetAttachItemId = item.id;
-            itemAttachSlipInput.click();
-          });
-          headerLine.appendChild(attachBtn);
-        }
-
-        detailsDiv.appendChild(headerLine);
-
-        if (item.note && item.note.trim()) {
-          const noteSpan = document.createElement('span');
-          noteSpan.className = 'item-note';
-          noteSpan.textContent = item.note.trim();
-          detailsDiv.appendChild(noteSpan);
-        }
-
-        leftDiv.appendChild(detailsDiv);
-
-        // Right side
-        const rightDiv = document.createElement('div');
-        rightDiv.className = 'item-right';
-
-        // Slip Thumbnail Preview
-        if (item.slip && typeof item.slip === 'string' && item.slip.startsWith('data:')) {
-          const thumb = document.createElement('img');
-          thumb.className = 'item-slip-thumb';
-          thumb.src = item.slip;
-          thumb.alt = 'Slip';
-          thumb.title = 'ກົດເພື່ອເບິ່ງຮູບສະລິບຂະໜາດເຕັມ';
-          thumb.addEventListener('click', (e) => {
-            e.stopPropagation();
-            viewSlip(item);
-          });
-          rightDiv.appendChild(thumb);
-        }
-
-        const amountSpan = document.createElement('span');
-        amountSpan.className = `item-amount ${item.type}`;
-        const prefix = item.type === 'income' ? '+ ' : '- ';
-        amountSpan.textContent = `${prefix}${formatCurrency(item.amount, item.currency || 'LAK')}`;
-        rightDiv.appendChild(amountSpan);
-
-        if (item.currency && item.currency !== 'LAK') {
-          if (hasValidRate(item)) {
-            const equivLAK = Math.round(Number(item.amount) * Number(item.rateToLak));
-            const equivSpan = document.createElement('span');
-            equivSpan.className = 'item-equiv';
-            equivSpan.textContent = `≈ ${prefix}${equivLAK.toLocaleString('lo-LA')} ₭`;
-            equivSpan.title = `ອັດຕາແລກປ່ຽນ: 1 ${item.currency} = ${Number(item.rateToLak).toLocaleString('lo-LA')} ₭`;
-            rightDiv.appendChild(equivSpan);
-          } else {
-            // Missing rate on old transaction - DO NOT GUESS!
-            const pendingBtn = document.createElement('button');
-            pendingBtn.type = 'button';
-            pendingBtn.className = 'badge-pending-rate';
-            pendingBtn.innerHTML = '⚠️ ລໍຖ້າປ້ອນອັດຕາ';
-            pendingBtn.title = 'ກົດເພື່ອປ້ອນອັດຕາແລກປ່ຽນສຳລັບລາຍການນີ້';
-            pendingBtn.addEventListener('click', (e) => {
-              e.stopPropagation();
-              openSingleItemRateModal(item);
-            });
-            rightDiv.appendChild(pendingBtn);
-          }
-        }
-
-        const delBtn = document.createElement('button');
-        delBtn.type = 'button';
-        delBtn.className = 'delete-item-btn';
-        delBtn.innerHTML = '&times;';
-        delBtn.title = 'ລຶບລາຍການນີ້';
-        delBtn.addEventListener('click', () => {
-          deleteItem(item.id);
-        });
-        rightDiv.appendChild(delBtn);
-
-        card.appendChild(leftDiv);
-        card.appendChild(rightDiv);
-
-        itemsContainer.appendChild(card);
+      const recentItems = items.slice(0, 4);
+      recentItems.forEach(item => {
+        recentContainer.appendChild(createItemCard(item));
       });
+    }
+
+    // Render Full Filtered Items List
+    function renderList() {
+      if (itemsContainer) {
+        itemsContainer.innerHTML = '';
+
+        const filteredItems = items.filter(item => {
+          if (currentPendingFilter) {
+            return !hasValidRate(item);
+          }
+          const matchesType = currentFilter === 'all' || item.type === currentFilter;
+          const itemCurr = item.currency || 'LAK';
+          const matchesCurr = currentCurrencyFilter === 'all' || itemCurr === currentCurrencyFilter;
+          return matchesType && matchesCurr;
+        });
+
+        if (itemCountBadge) itemCountBadge.textContent = filteredItems.length;
+
+        if (filteredItems.length === 0) {
+          const emptyDiv = document.createElement('div');
+          emptyDiv.className = 'empty-state';
+          emptyDiv.innerHTML = `
+            <span class="empty-state-icon">💳</span>
+            <strong style="color: #e5c07b;">${currentPendingFilter ? 'ບໍ່ມີລາຍການທີ່ຄ້າງປ້ອນອັດຕາ' : 'ຍັງບໍ່ມີລາຍການ'}</strong>
+            <span style="font-size:0.8rem; color:#71717a;">${currentPendingFilter ? 'ທຸກລາຍການມີອັດຕາແລກປ່ຽນຄົບຖ້ວນແລ້ວ' : 'ບັນທຶກລາຍຮັບ ຫຼື ລາຍຈ່າຍຂອງທ່ານໄດ້ເລີຍ'}</span>
+          `;
+          itemsContainer.appendChild(emptyDiv);
+        } else {
+          filteredItems.forEach(item => {
+            itemsContainer.appendChild(createItemCard(item));
+          });
+        }
+      }
+
+      renderRecentItems();
     }
 
     // View slip full image in modal with actions
@@ -4053,6 +4624,9 @@ Extract the transaction details into strict JSON format with NO markdown wrappin
         btnFilterPendingRate.textContent = currentPendingFilter ? 'ສະແດງທັງໝົດ' : 'ກວດເບິ່ງ';
         btnFilterPendingRate.style.background = currentPendingFilter ? '#3b82f6' : '#f59e0b';
         renderList();
+        if (currentPendingFilter) {
+          switchTab('history');
+        }
       });
     }
 
@@ -4117,6 +4691,17 @@ Extract the transaction details into strict JSON format with NO markdown wrappin
       aiScanningIndicator.style.display = 'none';
       updateRateConvertedPreview();
       amountInput.focus();
+
+      // Show save feedback toast
+      const saveToast = document.getElementById('saveToastAlert');
+      const saveMsg = document.getElementById('saveToastMsg');
+      if (saveToast && saveMsg) {
+        saveMsg.textContent = `🎉 ບັນທຶກ${newItem.type === 'income' ? 'ລາຍຮັບ' : 'ລາຍຈ່າຍ'} ${formatCurrency(newItem.amount, newItem.currency)} ສຳເລັດ!`;
+        saveToast.style.display = 'flex';
+        setTimeout(() => {
+          saveToast.style.display = 'none';
+        }, 6000);
+      }
 
       // Re-render
       renderSummary();
@@ -4542,10 +5127,177 @@ Extract the transaction details into strict JSON format with NO markdown wrappin
       }
     }, 6000);
 
+    // ==========================================
+    // SINGLE PAGE APP (SPA) VIEW NAVIGATION
+    // ==========================================
+    const appViews = {
+      home: document.getElementById('viewHome'),
+      add: document.getElementById('viewAdd'),
+      history: document.getElementById('viewHistory'),
+      menu: document.getElementById('viewMenu')
+    };
+
+    const navTabs = {
+      home: document.getElementById('navTabHome'),
+      add: document.getElementById('navTabAdd'),
+      history: document.getElementById('navTabHistory'),
+      menu: document.getElementById('navTabMenu')
+    };
+
+    let currentTab = 'home';
+
+    function switchTab(tabName) {
+      if (!appViews[tabName]) return;
+      currentTab = tabName;
+
+      // 1. Toggle view visibility
+      Object.keys(appViews).forEach(key => {
+        if (appViews[key]) {
+          if (key === tabName) {
+            appViews[key].classList.add('active');
+          } else {
+            appViews[key].classList.remove('active');
+          }
+        }
+      });
+
+      // 2. Toggle bottom nav active indicator
+      Object.keys(navTabs).forEach(key => {
+        if (navTabs[key]) {
+          if (key === tabName) {
+            navTabs[key].classList.add('active');
+          } else {
+            navTabs[key].classList.remove('active');
+          }
+        }
+      });
+
+      // 3. Smooth scroll to top of view
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+
+      // 4. Tab specific refreshes
+      if (tabName === 'home') {
+        renderSummary();
+        renderList();
+      } else if (tabName === 'history') {
+        renderList();
+      } else if (tabName === 'add') {
+        updateCategories();
+        updateRateFormVisibility();
+        setTimeout(() => {
+          if (amountInput) amountInput.focus();
+        }, 150);
+      }
+    }
+
+    // Bottom Navigation Bar Listeners
+    if (navTabs.home) navTabs.home.addEventListener('click', () => switchTab('home'));
+    if (navTabs.add) navTabs.add.addEventListener('click', () => switchTab('add'));
+    if (navTabs.history) navTabs.history.addEventListener('click', () => switchTab('history'));
+    if (navTabs.menu) navTabs.menu.addEventListener('click', () => switchTab('menu'));
+
+    // Header Menu Button
+    const btnHeaderMenu = document.getElementById('btnHeaderMenu');
+    if (btnHeaderMenu) {
+      btnHeaderMenu.addEventListener('click', () => switchTab('menu'));
+    }
+
+    // All Back to Home buttons
+    document.querySelectorAll('.btn-back-home').forEach(btn => {
+      btn.addEventListener('click', () => switchTab('home'));
+    });
+
+    // Home Quick Action Menu Buttons
+    const quickBtnAdd = document.getElementById('quickBtnAdd');
+    if (quickBtnAdd) {
+      quickBtnAdd.addEventListener('click', () => switchTab('add'));
+    }
+
+    const quickBtnSlip = document.getElementById('quickBtnSlip');
+    if (quickBtnSlip) {
+      quickBtnSlip.addEventListener('click', () => {
+        switchTab('add');
+        if (slipFileInput) slipFileInput.click();
+      });
+    }
+
+    const quickBtnHistory = document.getElementById('quickBtnHistory');
+    if (quickBtnHistory) {
+      quickBtnHistory.addEventListener('click', () => switchTab('history'));
+    }
+
+    const quickBtnSync = document.getElementById('quickBtnSync');
+    if (quickBtnSync) {
+      quickBtnSync.addEventListener('click', () => {
+        if (syncModal) syncModal.style.display = 'flex';
+      });
+    }
+
+    const btnViewAllHistory = document.getElementById('btnViewAllHistory');
+    if (btnViewAllHistory) {
+      btnViewAllHistory.addEventListener('click', () => switchTab('history'));
+    }
+
+    // Menu View Tiles
+    const btnMenuSync = document.getElementById('btnMenuSync');
+    if (btnMenuSync) {
+      btnMenuSync.addEventListener('click', () => {
+        if (syncModal) syncModal.style.display = 'flex';
+      });
+    }
+
+    const btnMenuRates = document.getElementById('btnMenuRates');
+    if (btnMenuRates) {
+      btnMenuRates.addEventListener('click', () => {
+        openRateModal();
+      });
+    }
+
+    const btnMenuCategories = document.getElementById('btnMenuCategories');
+    if (btnMenuCategories) {
+      btnMenuCategories.addEventListener('click', () => {
+        openCategoryModal(currentType);
+      });
+    }
+
+    const btnMenuAi = document.getElementById('btnMenuAi');
+    if (btnMenuAi) {
+      btnMenuAi.addEventListener('click', () => {
+        if (aiModal) aiModal.style.display = 'flex';
+      });
+    }
+
+    const btnMenuInstall = document.getElementById('btnMenuInstall');
+    if (btnMenuInstall) {
+      btnMenuInstall.addEventListener('click', async () => {
+        if (deferredPrompt) {
+          deferredPrompt.prompt();
+          const { outcome } = await deferredPrompt.userChoice;
+          if (outcome === 'accepted') {
+            if (installBanner) installBanner.style.display = 'none';
+          }
+          deferredPrompt = null;
+        } else {
+          alert('📲 ວິທີຕິດຕັ້ງແອັບ:\n- ໃນ iPhone/iPad: ກົດປຸ່ມ Share (ແບ່ງປັນ) ➔ ເລືອກ "Add to Home Screen" (ເພີ່ມລົງໜ້າຈໍໂຮມ)\n- ໃນ Android: ກົດປຸ່ມ 3 ຈ້ຳ (⋮) ➔ ເລືອກ "Install app" ຫຼື "Add to Home screen"');
+        }
+      });
+    }
+
+    const btnMenuUpdate = document.getElementById('btnMenuUpdate');
+    if (btnMenuUpdate) {
+      btnMenuUpdate.addEventListener('click', forceAppUpdate);
+    }
+
+    // Save Toast Button to View History
+    const btnToastViewHistory = document.getElementById('btnToastViewHistory');
+    if (btnToastViewHistory) {
+      btnToastViewHistory.addEventListener('click', () => switchTab('history'));
+    }
+
     // Register Service Worker for PWA installation with auto-update
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./sw.js?v=27').then((reg) => {
+        navigator.serviceWorker.register('./sw.js?v=28').then((reg) => {
           // Immediately check for update on server
           reg.update();
           reg.onupdatefound = () => {
@@ -4594,7 +5346,7 @@ Extract the transaction details into strict JSON format with NO markdown wrappin
         } catch (e) {
           console.warn('Cache clear error:', e);
         }
-        const cacheBuster = 'v=26&ts=' + Date.now();
+        const cacheBuster = 'v=28&ts=' + Date.now();
         const base = window.location.origin + window.location.pathname;
         window.location.replace(base + '?' + cacheBuster);
       }
@@ -4643,6 +5395,7 @@ Extract the transaction details into strict JSON format with NO markdown wrappin
     renderSummary();
     renderList();
     checkLocalServerSync();
+    switchTab('home');
   </script>
 </body>
 </html>
