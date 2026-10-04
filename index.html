@@ -287,21 +287,42 @@
       border: 1px solid rgba(212, 175, 55, 0.15);
       box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.6);
       gap: 4px;
-      margin-bottom: 16px;
+      margin-bottom: 12px;
+    }
+
+    .summary-top-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+    }
+
+    .summary-currency-tabs {
+      display: flex;
+      background: #0d0d12;
+      padding: 4px;
+      border-radius: 12px;
+      border: 1px solid rgba(212, 175, 55, 0.2);
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.6);
+      flex: 1;
+      min-width: 200px;
     }
 
     .summary-curr-tab {
       flex: 1;
-      padding: 7px 0;
+      padding: 7px 4px;
       border: none;
       background: transparent;
       color: rgba(255, 255, 255, 0.6);
-      font-size: 0.84rem;
+      font-size: 0.8rem;
       font-weight: 700;
       border-radius: 9px;
       cursor: pointer;
       transition: var(--transition);
       text-align: center;
+      white-space: nowrap;
     }
 
     .summary-curr-tab.active {
@@ -309,6 +330,38 @@
       color: #141005;
       font-weight: 800;
       box-shadow: 0 4px 12px rgba(212, 175, 55, 0.4), 0 2px 0 var(--gold-shadow), inset 0 1px 1px rgba(255, 255, 255, 0.6);
+    }
+
+    .rate-badge-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(212, 175, 55, 0.1);
+      border: 1px solid rgba(212, 175, 55, 0.35);
+      border-radius: 20px;
+      padding: 6px 12px;
+      font-size: 0.74rem;
+      font-weight: 700;
+      color: #fde047;
+      cursor: pointer;
+      transition: var(--transition);
+      white-space: nowrap;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
+    }
+
+    .rate-badge-btn:hover {
+      background: rgba(212, 175, 55, 0.2);
+      border-color: #fde047;
+      transform: translateY(-1px);
+    }
+
+    .rate-badge-btn:active {
+      transform: translateY(1px);
+    }
+
+    .rate-badge-val {
+      color: #ffffff;
+      font-weight: 800;
     }
 
     .balance-section {
@@ -334,6 +387,68 @@
       letter-spacing: -0.5px;
       line-height: 1.1;
       filter: drop-shadow(0 3px 12px rgba(212, 175, 55, 0.25));
+    }
+
+    .total-breakdown-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 6px;
+      font-size: 0.76rem;
+      color: #71717a;
+      flex-wrap: wrap;
+    }
+
+    .total-breakdown-row span {
+      color: #e5c07b;
+      font-weight: 700;
+    }
+
+    .item-equiv {
+      font-size: 0.72rem;
+      color: #a1a1aa;
+      font-weight: 600;
+      margin-top: 2px;
+      display: block;
+      text-align: right;
+    }
+
+    .summary-pending-alert {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      background: rgba(245, 158, 11, 0.15);
+      border: 1px solid rgba(245, 158, 11, 0.4);
+      border-radius: 12px;
+      padding: 8px 12px;
+      margin-top: 12px;
+      font-size: 0.78rem;
+      color: #fbbf24;
+      font-weight: 600;
+    }
+
+    .badge-pending-rate {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: rgba(245, 158, 11, 0.18);
+      border: 1px solid rgba(245, 158, 11, 0.5);
+      color: #fbbf24;
+      border-radius: 6px;
+      padding: 3px 8px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 3px;
+      transition: var(--transition);
+      white-space: nowrap;
+    }
+
+    .badge-pending-rate:hover {
+      background: #f59e0b;
+      color: #18181b;
     }
 
     .summary-stats-grid {
@@ -1384,16 +1499,25 @@
 
     <!-- 2. 3D Black Titanium & Champagne Gold Card -->
     <div class="titanium-card">
-      <!-- Currency Switcher for Summary -->
-      <div class="summary-currency-tabs">
-        <button type="button" class="summary-curr-tab active" data-curr="LAK">₭ ກີບ (LAK)</button>
-        <button type="button" class="summary-curr-tab" data-curr="THB">฿ ບາດ (THB)</button>
-        <button type="button" class="summary-curr-tab" data-curr="USD">$ ໂດລາ (USD)</button>
+      <!-- Currency Switcher for Summary & Rate Config -->
+      <div class="summary-top-row">
+        <div class="summary-currency-tabs">
+          <button type="button" class="summary-curr-tab active" data-curr="TOTAL">🌐 ລວມທຸກສະກຸນ</button>
+          <button type="button" class="summary-curr-tab" data-curr="LAK">₭ ກີບ</button>
+          <button type="button" class="summary-curr-tab" data-curr="THB">฿ ບາດ</button>
+          <button type="button" class="summary-curr-tab" data-curr="USD">$ ໂດລາ</button>
+        </div>
+        <button type="button" id="btnOpenRateModal" class="rate-badge-btn" title="ກົດເພື່ອຕັ້ງຄ່າອັດຕາແລກປ່ຽນ">
+          <span>💱</span> <span id="rateSummaryBadgeText" class="rate-badge-val">1฿=650₭ | 1$=22,000₭</span>
+        </button>
       </div>
 
       <div class="balance-section">
-        <div class="balance-label">ຍອດຄົງເຫຼືອເດືອນນີ້ (BALANCE)</div>
+        <div class="balance-label" id="balanceLabel">ຍອດຄົງເຫຼືອລວມທຸກສະກຸນ (ແປງເປັນກີບ)</div>
         <div class="balance-amount" id="summaryBalance">0 ₭</div>
+        <div id="totalBreakdownRow" class="total-breakdown-row" style="display: flex;">
+          <span id="bdLAK">₭ 0</span> • <span id="bdTHB">฿ 0</span> • <span id="bdUSD">$ 0</span>
+        </div>
       </div>
 
       <div class="summary-stats-grid">
@@ -1405,6 +1529,12 @@
           <span class="stat-title"><span class="stat-indicator expense">↓</span> ລາຍຈ່າຍເດືອນນີ້</span>
           <span class="stat-val" id="summaryExpense">0 ₭</span>
         </div>
+      </div>
+
+      <!-- Pending Rate Warning Banner inside Summary Card -->
+      <div id="summaryPendingAlert" class="summary-pending-alert" style="display: none;">
+        <span id="summaryPendingText">⚠️ ມີ 0 ລາຍການລໍຖ້າປ້ອນອັດຕາແລກປ່ຽນ (ຍັງບໍ່ໄດ້ລວມໃນຍອດ)</span>
+        <button type="button" id="btnFilterPendingRate" class="badge-pending-rate" style="margin: 0; background: #f59e0b; color: #18181b;">ກວດເບິ່ງ</button>
       </div>
     </div>
 
@@ -1491,6 +1621,27 @@
             required
             autocomplete="off"
             inputmode="decimal"
+          >
+        </div>
+      </div>
+
+      <!-- Exchange Rate Input (Shown for THB or USD) -->
+      <div id="rateFormGroup" class="form-group" style="display: none;">
+        <div class="form-group-label">
+          <span id="rateFormLabel">ອັດຕາແລກປ່ຽນ (1 THB = ? LAK)</span>
+          <span id="rateConvertedPreview" style="font-size: 0.82rem; color: #fde047; font-weight: 800;">≈ 0 ₭</span>
+        </div>
+        <div class="amount-input-wrapper">
+          <span class="currency-indicator">₭</span>
+          <input 
+            type="number" 
+            id="itemRateInput" 
+            class="amount-input" 
+            min="1" 
+            step="1" 
+            placeholder="650"
+            autocomplete="off"
+            inputmode="numeric"
           >
         </div>
       </div>
@@ -1618,6 +1769,90 @@
         <img id="slipViewerImg" src="" alt="Full Slip" class="slip-full-image">
       </div>
     </div>
+  <!-- Exchange Rate Settings Modal -->
+  <div id="rateModal" class="modal-overlay" style="display: none;">
+    <div class="modal-card" style="max-width: 440px;">
+      <div class="modal-header">
+        <div class="modal-title">
+          <span>💱</span> ຕັ້ງຄ່າອັດຕາແລກປ່ຽນ (RATES)
+        </div>
+        <button type="button" id="btnCloseRateModal" class="modal-close-btn">✕</button>
+      </div>
+      <div class="modal-body">
+        <div style="background: rgba(212, 175, 55, 0.08); border: 1px solid rgba(212, 175, 55, 0.25); border-radius: 12px; padding: 12px; margin-bottom: 14px;">
+          <div style="font-size: 0.86rem; font-weight: 800; color: #fde047; margin-bottom: 4px;">
+            💡 ລະບົບຄິດໄລ່ຍອດລວມທຸກສະກຸນເງິນ
+          </div>
+          <p style="font-size: 0.8rem; color: #d4d4d8; line-height: 1.5; margin: 0;">
+            ກຳນົດອັດຕາແລກປ່ຽນເພື່ອໃຫ້ແອັບແປງເງິນ <strong>ບາດ (THB)</strong> ແລະ <strong>ໂດລາ (USD)</strong> ມາລວມຍອດເປັນ <strong>ກີບ (LAK)</strong> ອັດຕະໂນມັດ.
+          </p>
+        </div>
+
+        <div class="form-group" style="margin-bottom: 14px;">
+          <label style="font-size: 0.82rem; font-weight: 700; color: #38bdf8;">1 ບາດ (THB) = ? ກີບ (LAK)</label>
+          <div class="amount-input-wrapper">
+            <span class="currency-indicator">₭</span>
+            <input type="number" id="rateThbInput" class="amount-input" step="1" min="1" placeholder="650">
+          </div>
+        </div>
+
+        <div class="form-group" style="margin-bottom: 16px;">
+          <label style="font-size: 0.82rem; font-weight: 700; color: #4ade80;">1 ໂດລາ (USD) = ? ກີບ (LAK)</label>
+          <div class="amount-input-wrapper">
+            <span class="currency-indicator">₭</span>
+            <input type="number" id="rateUsdInput" class="amount-input" step="10" min="1" placeholder="22000">
+          </div>
+        </div>
+
+        <div style="margin-bottom: 14px;">
+          <button type="button" id="btnFetchLiveRates" class="get-api-key-btn" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);">
+            🔄 ດຶງເລດຕະຫຼາດລ່າສຸດອັດຕະໂນມັດ (Live Rate)
+          </button>
+        </div>
+
+        <div id="rateFetchStatus" style="font-size: 0.76rem; text-align: center; color: #71717a; margin-bottom: 14px;">
+          ທ່ານສາມາດພິມເລດຮ້ານແລກປ່ຽນ ຫຼື ເລດທະນາຄານເອງໄດ້ຕາມສະດວກ
+        </div>
+
+        <button type="button" id="btnSaveRates" class="submit-btn" style="padding: 12px; font-size: 0.95rem;">
+          💾 ບັນທຶກອັດຕາແລກປ່ຽນ
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal for entering rate on old transactions without rate -->
+  <div id="itemRateModal" class="modal-overlay" style="display: none;">
+    <div class="modal-card" style="max-width: 400px;">
+      <div class="modal-header">
+        <div class="modal-title">
+          <span>⚠️</span> ປ້ອນອັດຕາແລກປ່ຽນລາຍການນີ້
+        </div>
+        <button type="button" id="btnCloseItemRateModal" class="modal-close-btn">✕</button>
+      </div>
+      <div class="modal-body">
+        <div style="background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.35); border-radius: 12px; padding: 12px; margin-bottom: 14px;">
+          <div id="itemRateModalItemInfo" style="font-size: 0.9rem; font-weight: 800; color: #fbbf24; margin-bottom: 4px;">
+            ລາຍການ: 0.00
+          </div>
+          <div style="font-size: 0.78rem; color: #a1a1aa;">
+            ລາຍການນີ້ບັນທຶກໄວ້ກ່ອນໜ້າໂດຍບໍ່ມີອັດຕາແລກປ່ຽນ ກະລຸນາປ້ອນອັດຕາເພື່ອໃຫ້ລະບົບຄຳນວນຍອດລວມເປັນກີບ (ຫ້າມລະບົບເດົາເອງ).
+          </div>
+        </div>
+
+        <div class="form-group" style="margin-bottom: 16px;">
+          <label style="font-size: 0.82rem; font-weight: 700; color: #fde047;" id="itemRateModalLabel">1 THB = ? LAK</label>
+          <div class="amount-input-wrapper">
+            <span class="currency-indicator">₭</span>
+            <input type="number" id="singleItemRateInput" class="amount-input" min="1" step="1" placeholder="ປ້ອນອັດຕາແລກປ່ຽນ...">
+          </div>
+        </div>
+
+        <button type="button" id="btnSaveSingleItemRate" class="submit-btn" style="padding: 12px; font-size: 0.95rem;">
+          💾 ບັນທຶກອັດຕາແລກປ່ຽນລາຍການນີ້
+        </button>
+      </div>
+    </div>
   </div>
 
   <script>
@@ -1650,12 +1885,19 @@
     // State
     let currentType = 'expense';       // 'expense' | 'income'
     let currentCurrency = 'LAK';       // 'LAK' | 'THB' | 'USD'
-    let summaryCurrency = 'LAK';       // Which currency to show in summary
+    let summaryCurrency = 'TOTAL';     // 'TOTAL' (All in LAK) | 'LAK' | 'THB' | 'USD'
     let currentCategory = '';          // Selected category
     let currentFilter = 'all';         // 'all' | 'income' | 'expense'
     let currentCurrencyFilter = 'all'; // 'all' | 'LAK' | 'THB' | 'USD'
+    let currentPendingFilter = false;  // Filter for items missing exchange rate
     let currentSlipDataUrl = null;     // Attached slip base64
     let items = [];
+
+    // Exchange Rates State (Defaults: 1 THB = 650 LAK, 1 USD = 22,000 LAK)
+    let exchangeRates = {
+      THB: 650,
+      USD: 22000
+    };
 
     // DOM Elements
     const btnExpense = document.getElementById('btnExpense');
@@ -1670,6 +1912,14 @@
     const summaryIncome = document.getElementById('summaryIncome');
     const summaryExpense = document.getElementById('summaryExpense');
     const summaryBalance = document.getElementById('summaryBalance');
+    const balanceLabel = document.getElementById('balanceLabel');
+    const totalBreakdownRow = document.getElementById('totalBreakdownRow');
+    const bdLAK = document.getElementById('bdLAK');
+    const bdTHB = document.getElementById('bdTHB');
+    const bdUSD = document.getElementById('bdUSD');
+    const summaryPendingAlert = document.getElementById('summaryPendingAlert');
+    const summaryPendingText = document.getElementById('summaryPendingText');
+    const btnFilterPendingRate = document.getElementById('btnFilterPendingRate');
     const itemsContainer = document.getElementById('itemsContainer');
     const itemCountBadge = document.getElementById('itemCountBadge');
     const btnDeleteAll = document.getElementById('btnDeleteAll');
@@ -1679,6 +1929,12 @@
     const summaryCurrTabs = document.querySelectorAll('.summary-curr-tab');
     const currentMonthBadge = document.getElementById('currentMonthBadge');
 
+    // Rate in Form Elements
+    const rateFormGroup = document.getElementById('rateFormGroup');
+    const rateFormLabel = document.getElementById('rateFormLabel');
+    const rateConvertedPreview = document.getElementById('rateConvertedPreview');
+    const itemRateInput = document.getElementById('itemRateInput');
+
     // Slip & AI Elements
     const slipFileInput = document.getElementById('slipFileInput');
     const slipPreviewCard = document.getElementById('slipPreviewCard');
@@ -1687,6 +1943,26 @@
     const btnScanSlip = document.getElementById('btnScanSlip');
     const btnRemoveSlip = document.getElementById('btnRemoveSlip');
     const aiScanningIndicator = document.getElementById('aiScanningIndicator');
+
+    // Global Rate Modal Elements
+    const rateModal = document.getElementById('rateModal');
+    const btnOpenRateModal = document.getElementById('btnOpenRateModal');
+    const btnCloseRateModal = document.getElementById('btnCloseRateModal');
+    const rateThbInput = document.getElementById('rateThbInput');
+    const rateUsdInput = document.getElementById('rateUsdInput');
+    const btnFetchLiveRates = document.getElementById('btnFetchLiveRates');
+    const btnSaveRates = document.getElementById('btnSaveRates');
+    const rateSummaryBadgeText = document.getElementById('rateSummaryBadgeText');
+    const rateFetchStatus = document.getElementById('rateFetchStatus');
+
+    // Single Historical Item Rate Modal Elements
+    let activeRateEditingItemId = null;
+    const itemRateModal = document.getElementById('itemRateModal');
+    const btnCloseItemRateModal = document.getElementById('btnCloseItemRateModal');
+    const itemRateModalItemInfo = document.getElementById('itemRateModalItemInfo');
+    const itemRateModalLabel = document.getElementById('itemRateModalLabel');
+    const singleItemRateInput = document.getElementById('singleItemRateInput');
+    const btnSaveSingleItemRate = document.getElementById('btnSaveSingleItemRate');
 
     // Modals Elements
     const aiModal = document.getElementById('aiModal');
@@ -1719,7 +1995,33 @@
       }
     }
 
-    // Load data from localStorage
+    // Rates persistence
+    function loadRates() {
+      try {
+        const saved = localStorage.getItem('moneyExchangeRates');
+        if (saved) {
+          const parsed = JSON.parse(saved);
+          if (parsed.THB && !isNaN(parsed.THB)) exchangeRates.THB = Number(parsed.THB);
+          if (parsed.USD && !isNaN(parsed.USD)) exchangeRates.USD = Number(parsed.USD);
+        }
+      } catch (e) {
+        console.error('Error loading rates:', e);
+      }
+      updateRateBadge();
+    }
+
+    function saveRates() {
+      localStorage.setItem('moneyExchangeRates', JSON.stringify(exchangeRates));
+      updateRateBadge();
+    }
+
+    function updateRateBadge() {
+      if (rateSummaryBadgeText) {
+        rateSummaryBadgeText.textContent = `1฿=${exchangeRates.THB.toLocaleString('lo-LA')}₭ | 1$=${exchangeRates.USD.toLocaleString('lo-LA')}₭`;
+      }
+    }
+
+    // Load data from localStorage (Safely preserves existing data and slips)
     function loadItems() {
       try {
         const stored = localStorage.getItem('moneyItems');
@@ -1727,6 +2029,8 @@
           items = JSON.parse(stored);
           items.forEach(item => {
             if (!item.currency) item.currency = 'LAK';
+            // If historical transaction has no rateToLak, we DO NOT GUESS!
+            // Leave rateToLak undefined so system flags it as "ລໍຖ້າປ້ອນອັດຕາ"
           });
         } else {
           items = [];
@@ -1734,6 +2038,8 @@
       } catch (e) {
         items = [];
       }
+
+      loadRates();
 
       // Pre-fill API key input if stored
       const savedKey = localStorage.getItem('geminiApiKey');
@@ -1814,35 +2120,97 @@
       });
     }
 
-    // Update Summary Box for Current Month
+    function hasValidRate(item) {
+      if (!item.currency || item.currency === 'LAK') return true;
+      return item.rateToLak !== undefined && item.rateToLak !== null && !isNaN(item.rateToLak) && Number(item.rateToLak) > 0;
+    }
+
+    // Update Summary Box for Current Month (Consolidated in LAK)
     function renderSummary() {
       const now = new Date();
       const currentYear = now.getFullYear();
       const currentMonth = now.getMonth();
 
-      let totalIncome = 0;
-      let totalExpense = 0;
+      let totalIncomeLak = 0;
+      let totalExpenseLak = 0;
+      let pendingRateCount = 0;
+
+      // Currency breakdowns (raw amounts)
+      let breakdownNet = { LAK: 0, THB: 0, USD: 0 };
 
       items.forEach(item => {
         const itemCurr = item.currency || 'LAK';
-        if (itemCurr !== summaryCurrency) return;
-
         const itemDate = new Date(item.date);
         if (itemDate.getFullYear() === currentYear && itemDate.getMonth() === currentMonth) {
           const val = Number(item.amount) || 0;
+
+          // Raw currency tracking
           if (item.type === 'income') {
-            totalIncome += val;
+            breakdownNet[itemCurr] = (breakdownNet[itemCurr] || 0) + val;
           } else if (item.type === 'expense') {
-            totalExpense += val;
+            breakdownNet[itemCurr] = (breakdownNet[itemCurr] || 0) - val;
+          }
+
+          if (summaryCurrency === 'TOTAL') {
+            if (hasValidRate(item)) {
+              const rate = itemCurr === 'LAK' ? 1 : Number(item.rateToLak);
+              const valLak = val * rate;
+              if (item.type === 'income') {
+                totalIncomeLak += valLak;
+              } else if (item.type === 'expense') {
+                totalExpenseLak += valLak;
+              }
+            } else {
+              // Old item without exchange rate - DO NOT GUESS!
+              pendingRateCount++;
+            }
+          } else {
+            // Viewing specific currency tab (LAK, THB, USD)
+            if (itemCurr === summaryCurrency) {
+              if (item.type === 'income') {
+                totalIncomeLak += val;
+              } else if (item.type === 'expense') {
+                totalExpenseLak += val;
+              }
+            }
           }
         }
       });
 
-      const balance = totalIncome - totalExpense;
+      const netBalance = totalIncomeLak - totalExpenseLak;
 
-      summaryIncome.textContent = formatCurrency(totalIncome, summaryCurrency);
-      summaryExpense.textContent = formatCurrency(totalExpense, summaryCurrency);
-      summaryBalance.textContent = formatCurrency(balance, summaryCurrency);
+      if (summaryCurrency === 'TOTAL') {
+        balanceLabel.textContent = 'ຍອດຄົງເຫຼືອສຸດທິ (NET BALANCE IN LAK)';
+        summaryBalance.textContent = formatCurrency(Math.round(netBalance), 'LAK');
+        summaryIncome.textContent = formatCurrency(Math.round(totalIncomeLak), 'LAK');
+        summaryExpense.textContent = formatCurrency(Math.round(totalExpenseLak), 'LAK');
+
+        if (totalBreakdownRow) {
+          totalBreakdownRow.style.display = 'flex';
+          bdLAK.textContent = `₭ ${(breakdownNet.LAK || 0).toLocaleString('lo-LA')}`;
+          bdTHB.textContent = `฿ ${(breakdownNet.THB || 0).toLocaleString('th-TH')}`;
+          bdUSD.textContent = `$ ${(breakdownNet.USD || 0).toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 2 })}`;
+        }
+      } else {
+        balanceLabel.textContent = `ຍອດຄົງເຫຼືອ (${CURRENCY_CONFIG[summaryCurrency].name})`;
+        summaryBalance.textContent = formatCurrency(netBalance, summaryCurrency);
+        summaryIncome.textContent = formatCurrency(totalIncomeLak, summaryCurrency);
+        summaryExpense.textContent = formatCurrency(totalExpenseLak, summaryCurrency);
+
+        if (totalBreakdownRow) {
+          totalBreakdownRow.style.display = 'none';
+        }
+      }
+
+      // Warning alert for items missing exchange rate
+      if (summaryPendingAlert) {
+        if (pendingRateCount > 0 && summaryCurrency === 'TOTAL') {
+          summaryPendingText.textContent = `⚠️ ມີ ${pendingRateCount} ລາຍການລໍຖ້າປ້ອນອັດຕາແລກປ່ຽນ (ຍັງບໍ່ໄດ້ລວມໃນຍອດ)`;
+          summaryPendingAlert.style.display = 'flex';
+        } else {
+          summaryPendingAlert.style.display = 'none';
+        }
+      }
     }
 
     // Render Items List
@@ -1850,6 +2218,9 @@
       itemsContainer.innerHTML = '';
 
       const filteredItems = items.filter(item => {
+        if (currentPendingFilter) {
+          return !hasValidRate(item);
+        }
         const matchesType = currentFilter === 'all' || item.type === currentFilter;
         const itemCurr = item.currency || 'LAK';
         const matchesCurr = currentCurrencyFilter === 'all' || itemCurr === currentCurrencyFilter;
@@ -1863,8 +2234,8 @@
         emptyDiv.className = 'empty-state';
         emptyDiv.innerHTML = `
           <span class="empty-state-icon">💳</span>
-          <strong style="color: #e5c07b;">ຍັງບໍ່ມີລາຍການ</strong>
-          <span style="font-size:0.8rem; color:#71717a;">ບັນທຶກລາຍຮັບ ຫຼື ລາຍຈ່າຍຂອງທ່ານໄດ້ເລີຍ</span>
+          <strong style="color: #e5c07b;">${currentPendingFilter ? 'ບໍ່ມີລາຍການທີ່ຄ້າງປ້ອນອັດຕາ' : 'ຍັງບໍ່ມີລາຍການ'}</strong>
+          <span style="font-size:0.8rem; color:#71717a;">${currentPendingFilter ? 'ທຸກລາຍການມີອັດຕາແລກປ່ຽນຄົບຖ້ວນແລ້ວ' : 'ບັນທຶກລາຍຮັບ ຫຼື ລາຍຈ່າຍຂອງທ່ານໄດ້ເລີຍ'}</span>
         `;
         itemsContainer.appendChild(emptyDiv);
         return;
@@ -1935,6 +2306,29 @@
         const prefix = item.type === 'income' ? '+ ' : '- ';
         amountSpan.textContent = `${prefix}${formatCurrency(item.amount, item.currency || 'LAK')}`;
         rightDiv.appendChild(amountSpan);
+
+        if (item.currency && item.currency !== 'LAK') {
+          if (hasValidRate(item)) {
+            const equivLAK = Math.round(Number(item.amount) * Number(item.rateToLak));
+            const equivSpan = document.createElement('span');
+            equivSpan.className = 'item-equiv';
+            equivSpan.textContent = `≈ ${prefix}${equivLAK.toLocaleString('lo-LA')} ₭`;
+            equivSpan.title = `ອັດຕາແລກປ່ຽນ: 1 ${item.currency} = ${Number(item.rateToLak).toLocaleString('lo-LA')} ₭`;
+            rightDiv.appendChild(equivSpan);
+          } else {
+            // Missing rate on old transaction - DO NOT GUESS!
+            const pendingBtn = document.createElement('button');
+            pendingBtn.type = 'button';
+            pendingBtn.className = 'badge-pending-rate';
+            pendingBtn.innerHTML = '⚠️ ລໍຖ້າປ້ອນອັດຕາ';
+            pendingBtn.title = 'ກົດເພື່ອປ້ອນອັດຕາແລກປ່ຽນສຳລັບລາຍການນີ້';
+            pendingBtn.addEventListener('click', (e) => {
+              e.stopPropagation();
+              openSingleItemRateModal(item);
+            });
+            rightDiv.appendChild(pendingBtn);
+          }
+        }
 
         const delBtn = document.createElement('button');
         delBtn.type = 'button';
@@ -2017,16 +2411,55 @@
       });
     });
 
-    // Form Currency Selector
+    // Form Currency Selector with Rate Control
+    function setFormCurrency(curr) {
+      currentCurrency = curr;
+      formCurrButtons.forEach(b => {
+        b.classList.toggle('active', b.getAttribute('data-curr') === currentCurrency);
+      });
+      amountLabel.textContent = CURRENCY_CONFIG[currentCurrency].label;
+      currencyIndicator.textContent = CURRENCY_CONFIG[currentCurrency].symbol;
+
+      if (currentCurrency === 'LAK') {
+        rateFormGroup.style.display = 'none';
+        itemRateInput.value = '1';
+        rateConvertedPreview.textContent = '';
+      } else if (currentCurrency === 'THB') {
+        rateFormGroup.style.display = 'flex';
+        rateFormLabel.textContent = 'ອັດຕາແລກປ່ຽນ (1 ບາດ THB = ? ກີບ)';
+        itemRateInput.value = exchangeRates.THB || 650;
+        updateRateConvertedPreview();
+      } else if (currentCurrency === 'USD') {
+        rateFormGroup.style.display = 'flex';
+        rateFormLabel.textContent = 'ອັດຕາແລກປ່ຽນ (1 ໂດລາ USD = ? ກີບ)';
+        itemRateInput.value = exchangeRates.USD || 22000;
+        updateRateConvertedPreview();
+      }
+    }
+
     formCurrButtons.forEach(btn => {
       btn.addEventListener('click', () => {
-        formCurrButtons.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        currentCurrency = btn.getAttribute('data-curr');
-        amountLabel.textContent = CURRENCY_CONFIG[currentCurrency].label;
-        currencyIndicator.textContent = CURRENCY_CONFIG[currentCurrency].symbol;
+        setFormCurrency(btn.getAttribute('data-curr'));
       });
     });
+
+    function updateRateConvertedPreview() {
+      if (currentCurrency === 'LAK') {
+        rateConvertedPreview.textContent = '';
+        return;
+      }
+      const amt = parseFloat(amountInput.value) || 0;
+      const rate = parseFloat(itemRateInput.value) || 0;
+      if (amt > 0 && rate > 0) {
+        const valLAK = Math.round(amt * rate);
+        rateConvertedPreview.textContent = `≈ ${valLAK.toLocaleString('lo-LA')} ₭`;
+      } else {
+        rateConvertedPreview.textContent = '≈ 0 ₭';
+      }
+    }
+
+    amountInput.addEventListener('input', updateRateConvertedPreview);
+    itemRateInput.addEventListener('input', updateRateConvertedPreview);
 
     // Type Filters
     filterButtons.forEach(btn => {
@@ -2296,6 +2729,144 @@ Extract the transaction details into strict JSON format with NO markdown wrappin
       }
     });
 
+    // Rate Modal Handlers
+    if (btnOpenRateModal) {
+      btnOpenRateModal.addEventListener('click', () => {
+        rateThbInput.value = exchangeRates.THB || 650;
+        rateUsdInput.value = exchangeRates.USD || 22000;
+        rateFetchStatus.textContent = 'ທ່ານສາມາດພິມເລດຮ້ານແລກປ່ຽນ ຫຼື ເລດທະນາຄານເອງໄດ້ຕາມສະດວກ';
+        rateModal.style.display = 'flex';
+      });
+    }
+
+    if (btnCloseRateModal) {
+      btnCloseRateModal.addEventListener('click', () => {
+        rateModal.style.display = 'none';
+      });
+    }
+
+    if (rateModal) {
+      rateModal.addEventListener('click', (e) => {
+        if (e.target === rateModal) {
+          rateModal.style.display = 'none';
+        }
+      });
+    }
+
+    if (btnSaveRates) {
+      btnSaveRates.addEventListener('click', () => {
+        const thb = parseFloat(rateThbInput.value);
+        const usd = parseFloat(rateUsdInput.value);
+        if (isNaN(thb) || thb <= 0 || isNaN(usd) || usd <= 0) {
+          alert('⚠️ ກະລຸນາປ້ອນອັດຕາແລກປ່ຽນທີ່ຖືກຕ້ອງ (> 0)');
+          return;
+        }
+        exchangeRates.THB = Math.round(thb);
+        exchangeRates.USD = Math.round(usd);
+        saveRates();
+
+        // Update form input if currently on THB or USD
+        if (currentCurrency === 'THB') {
+          itemRateInput.value = exchangeRates.THB;
+        } else if (currentCurrency === 'USD') {
+          itemRateInput.value = exchangeRates.USD;
+        }
+        updateRateConvertedPreview();
+
+        rateModal.style.display = 'none';
+        renderSummary();
+        alert(`✅ ບັນທຶກອັດຕາແລກປ່ຽນແລ້ວ!\n• 1 THB = ${exchangeRates.THB.toLocaleString('lo-LA')} ₭\n• 1 USD = ${exchangeRates.USD.toLocaleString('lo-LA')} ₭\n\n📌 ໝາຍເຫດ: ລາຍການເກົ່າທີ່ບັນທຶກແລ້ວຈະຮັກສາອັດຕາເດີມ ບໍ່ມີການປ່ຽນແປງຍອดย້ອນຫຼັງ`);
+      });
+    }
+
+    if (btnFetchLiveRates) {
+      btnFetchLiveRates.addEventListener('click', async () => {
+        rateFetchStatus.textContent = '⏳ ກຳລັງດຶງຂໍ້ມູນເລດຕະຫຼາດ...';
+        btnFetchLiveRates.disabled = true;
+        try {
+          const res = await fetch('https://open.er-api.com/v6/latest/USD');
+          const data = await res.json();
+          if (data && data.rates && data.rates.LAK) {
+            const usdLak = Math.round(data.rates.LAK);
+            rateUsdInput.value = usdLak;
+            if (data.rates.THB) {
+              const thbLak = Math.round(data.rates.LAK / data.rates.THB);
+              rateThbInput.value = thbLak;
+            }
+            rateFetchStatus.innerHTML = '<span style="color: #34d399; font-weight: 700;">✨ ດຶງເລດຕະຫຼາດສາກົນສຳເລັດ! ທ່ານສາມາດແກ້ໄຂຕົວເລກໄດ້ຕາມຕ້ອງການ</span>';
+          } else {
+            throw new Error('ບໍ່ພົບຂໍ້ມູນອັດຕາ LAK');
+          }
+        } catch (err) {
+          console.error('Fetch rate error:', err);
+          rateFetchStatus.innerHTML = '<span style="color: #f87171;">⚠️ ບໍ່ສາມາດດຶງເລດອັດຕະໂນມັດໄດ້ ກະລຸນາພິມຕົວເລກເອງ</span>';
+        } finally {
+          btnFetchLiveRates.disabled = false;
+        }
+      });
+    }
+
+    // Single Item Historical Rate Modal Handlers
+    function openSingleItemRateModal(item) {
+      activeRateEditingItemId = item.id;
+      const curr = item.currency || 'THB';
+      const currSymbol = curr === 'THB' ? '฿ ບາດ' : '$ ໂດລາ';
+      itemRateModalItemInfo.textContent = `${item.type === 'income' ? '📈 ລາຍຮັບ' : '📉 ລາຍຈ່າຍ'}: ${formatCurrency(item.amount, curr)} (${item.category} ${item.note ? '- ' + item.note : ''})`;
+      itemRateModalLabel.textContent = `ອັດຕາແລກປ່ຽນ (1 ${currSymbol} = ? ກີບ LAK):`;
+      singleItemRateInput.value = exchangeRates[curr] || (curr === 'THB' ? 650 : 22000);
+      itemRateModal.style.display = 'flex';
+      singleItemRateInput.focus();
+    }
+
+    if (btnCloseItemRateModal) {
+      btnCloseItemRateModal.addEventListener('click', () => {
+        itemRateModal.style.display = 'none';
+        activeRateEditingItemId = null;
+      });
+    }
+
+    if (itemRateModal) {
+      itemRateModal.addEventListener('click', (e) => {
+        if (e.target === itemRateModal) {
+          itemRateModal.style.display = 'none';
+          activeRateEditingItemId = null;
+        }
+      });
+    }
+
+    if (btnSaveSingleItemRate) {
+      btnSaveSingleItemRate.addEventListener('click', () => {
+        if (!activeRateEditingItemId) return;
+        const rateVal = parseFloat(singleItemRateInput.value);
+        if (isNaN(rateVal) || rateVal <= 0) {
+          alert('⚠️ ກະລຸນາໃສ່ອັດຕາແລກປ່ຽນທີ່ຖືກຕ້ອງ (> 0)');
+          return;
+        }
+
+        const target = items.find(i => i.id === activeRateEditingItemId);
+        if (target) {
+          target.rateToLak = rateVal;
+          target.amountLak = Math.round(Number(target.amount) * rateVal);
+          saveItems();
+          renderSummary();
+          renderList();
+          alert(`✅ ບັນທຶກອັດຕາແລກປ່ຽນສຳລັບລາຍການນີ້ແລ້ວ!\n(1 ${target.currency} = ${rateVal.toLocaleString('lo-LA')} ₭)`);
+        }
+        itemRateModal.style.display = 'none';
+        activeRateEditingItemId = null;
+      });
+    }
+
+    // Filter items missing exchange rate
+    if (btnFilterPendingRate) {
+      btnFilterPendingRate.addEventListener('click', () => {
+        currentPendingFilter = !currentPendingFilter;
+        btnFilterPendingRate.textContent = currentPendingFilter ? 'ສະແດງທັງໝົດ' : 'ກວດເບິ່ງ';
+        btnFilterPendingRate.style.background = currentPendingFilter ? '#3b82f6' : '#f59e0b';
+        renderList();
+      });
+    }
+
     // Form Submit
     entryForm.addEventListener('submit', (e) => {
       e.preventDefault();
@@ -2306,11 +2877,35 @@ Extract the transaction details into strict JSON format with NO markdown wrappin
         return;
       }
 
+      // Determine rate for this transaction
+      let rateToLak = 1;
+      if (currentCurrency === 'THB') {
+        const customRate = parseFloat(itemRateInput.value);
+        rateToLak = (!isNaN(customRate) && customRate > 0) ? customRate : (exchangeRates.THB || 650);
+        // Persist as current default for future convenience
+        if (rateToLak !== exchangeRates.THB) {
+          exchangeRates.THB = rateToLak;
+          saveRates();
+        }
+      } else if (currentCurrency === 'USD') {
+        const customRate = parseFloat(itemRateInput.value);
+        rateToLak = (!isNaN(customRate) && customRate > 0) ? customRate : (exchangeRates.USD || 22000);
+        // Persist as current default for future convenience
+        if (rateToLak !== exchangeRates.USD) {
+          exchangeRates.USD = rateToLak;
+          saveRates();
+        }
+      }
+
+      const amountLak = currentCurrency === 'LAK' ? Math.round(amountVal) : Math.round(amountVal * rateToLak);
+
       const newItem = {
         id: Date.now(),
         type: currentType,
         currency: currentCurrency,
         amount: amountVal,
+        rateToLak: rateToLak,
+        amountLak: amountLak,
         category: currentCategory || (CATEGORIES[currentType][0]),
         note: noteInput.value.trim(),
         slip: currentSlipDataUrl, // Attached slip image
@@ -2328,17 +2923,8 @@ Extract the transaction details into strict JSON format with NO markdown wrappin
       slipFileInput.value = '';
       slipPreviewCard.style.display = 'none';
       aiScanningIndicator.style.display = 'none';
+      updateRateConvertedPreview();
       amountInput.focus();
-
-      // Automatically switch summary to the currency just added
-      summaryCurrency = currentCurrency;
-      summaryCurrTabs.forEach(tab => {
-        if (tab.getAttribute('data-curr') === summaryCurrency) {
-          tab.classList.add('active');
-        } else {
-          tab.classList.remove('active');
-        }
-      });
 
       // Re-render
       renderSummary();
