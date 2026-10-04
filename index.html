@@ -3585,10 +3585,24 @@ Extract the transaction details into strict JSON format with NO markdown wrappin
       }
     }, 6000);
 
-    // Register Service Worker for PWA installation
+    // Register Service Worker for PWA installation with auto-update
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./sw.js').catch(err => {
+        navigator.serviceWorker.register('./sw.js?v=21').then((reg) => {
+          // Immediately check for update on server
+          reg.update();
+          reg.onupdatefound = () => {
+            const installing = reg.installing;
+            if (installing) {
+              installing.onstatechange = () => {
+                if (installing.state === 'installed' && navigator.serviceWorker.controller) {
+                  console.log('New version installed, reloading...');
+                  window.location.reload();
+                }
+              };
+            }
+          };
+        }).catch(err => {
           console.log('SW registration error:', err);
         });
       });
