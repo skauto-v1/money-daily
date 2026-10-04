@@ -2124,7 +2124,7 @@
           <h1 class="header-title">ບັນທຶກລາຍຮັບ-ລາຍຈ່າຍ</h1>
           <div style="display: flex; align-items: center; gap: 6px;">
             <span class="header-subtitle">BLACK TITANIUM EDITION</span>
-            <button type="button" id="btnForceAppUpdate" class="version-badge" title="ກົດເພື່ອອັບເດດແອັບ / ລ້າງແຄຊທັນທີ">v2.8 🔄</button>
+            <button type="button" id="btnForceAppUpdate" class="version-badge" title="ກົດເພື່ອອັບເດດແອັບ / ລ້າງແຄຊທັນທີ">v2.9 🔄</button>
           </div>
         </div>
       </div>
@@ -2134,6 +2134,9 @@
         </button>
         <button type="button" id="btnHeaderSync" class="btn-header-ai" style="background: rgba(16, 185, 129, 0.15); border-color: rgba(16, 185, 129, 0.4); color: #34d399;" title="ຊິ້ງ & ສຳຮອງຂໍ້ມູນ (Sync / Backup)">
           <span>🔄</span> <span class="hide-on-tiny">ຊິ້ງ</span>
+        </button>
+        <button type="button" id="btnHeaderAi" class="btn-header-ai" title="ຕັ້ງຄ່າ AI">
+          <span>🤖</span> AI
         </button>
         <div class="date-badge" id="currentMonthBadge">ເດືອນນີ້</div>
       </div>
@@ -2495,7 +2498,7 @@
         <div class="menu-item-icon" style="color: #fb923c; background: rgba(251, 146, 60, 0.15);">⚡</div>
         <div class="menu-item-info">
           <div class="menu-item-title">ອັບເດດແອັບ / ລ້າງແຄຊ (Force Update)</div>
-          <div class="menu-item-desc">ເວີຊັນປັດຈຸບັນ v2.8 • ກົດເພື່ອດາວໂຫຼດເວີຊັນໃໝ່ລ່າສຸດທັນທີ</div>
+          <div class="menu-item-desc">ເວີຊັນປັດຈຸບັນ v2.9 • ກົດເພື່ອດາວໂຫຼດເວີຊັນໃໝ່ລ່າສຸດທັນທີ</div>
         </div>
         <span class="menu-item-arrow">➔</span>
       </div>
@@ -2953,7 +2956,67 @@
       USD: 22000
     };
 
-    // DOM Elements
+    // DOM Elements & SPA Navigation
+    const appViews = {
+      home: document.getElementById('viewHome'),
+      add: document.getElementById('viewAdd'),
+      history: document.getElementById('viewHistory'),
+      menu: document.getElementById('viewMenu')
+    };
+
+    const navTabs = {
+      home: document.getElementById('navTabHome'),
+      add: document.getElementById('navTabAdd'),
+      history: document.getElementById('navTabHistory'),
+      menu: document.getElementById('navTabMenu')
+    };
+
+    let currentTab = 'home';
+
+    function switchTab(tabName) {
+      if (!appViews || !appViews[tabName]) return;
+      currentTab = tabName;
+
+      // 1. Toggle view visibility
+      Object.keys(appViews).forEach(key => {
+        if (appViews[key]) {
+          if (key === tabName) {
+            appViews[key].classList.add('active');
+          } else {
+            appViews[key].classList.remove('active');
+          }
+        }
+      });
+
+      // 2. Toggle bottom nav active indicator
+      Object.keys(navTabs).forEach(key => {
+        if (navTabs[key]) {
+          if (key === tabName) {
+            navTabs[key].classList.add('active');
+          } else {
+            navTabs[key].classList.remove('active');
+          }
+        }
+      });
+
+      // 3. Smooth scroll to top of view
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+
+      // 4. Tab specific refreshes
+      if (tabName === 'home') {
+        renderSummary();
+        renderList();
+      } else if (tabName === 'history') {
+        renderList();
+      } else if (tabName === 'add') {
+        updateCategories();
+        updateRateFormVisibility();
+        setTimeout(() => {
+          if (amountInput) amountInput.focus();
+        }, 150);
+      }
+    }
+
     const btnExpense = document.getElementById('btnExpense');
     const btnIncome = document.getElementById('btnIncome');
     const categoryChipsContainer = document.getElementById('categoryChipsContainer');
@@ -4457,7 +4520,9 @@ Extract the transaction details into strict JSON format with NO markdown wrappin
       });
     }
 
-    btnHeaderAi.addEventListener('click', openAiModal);
+    if (btnHeaderAi) {
+      btnHeaderAi.addEventListener('click', openAiModal);
+    }
     if (btnOpenAiSettings) {
       btnOpenAiSettings.addEventListener('click', openAiModal);
     }
@@ -5128,68 +5193,8 @@ Extract the transaction details into strict JSON format with NO markdown wrappin
     }, 6000);
 
     // ==========================================
-    // SINGLE PAGE APP (SPA) VIEW NAVIGATION
+    // SPA NAVIGATION EVENT LISTENERS
     // ==========================================
-    const appViews = {
-      home: document.getElementById('viewHome'),
-      add: document.getElementById('viewAdd'),
-      history: document.getElementById('viewHistory'),
-      menu: document.getElementById('viewMenu')
-    };
-
-    const navTabs = {
-      home: document.getElementById('navTabHome'),
-      add: document.getElementById('navTabAdd'),
-      history: document.getElementById('navTabHistory'),
-      menu: document.getElementById('navTabMenu')
-    };
-
-    let currentTab = 'home';
-
-    function switchTab(tabName) {
-      if (!appViews[tabName]) return;
-      currentTab = tabName;
-
-      // 1. Toggle view visibility
-      Object.keys(appViews).forEach(key => {
-        if (appViews[key]) {
-          if (key === tabName) {
-            appViews[key].classList.add('active');
-          } else {
-            appViews[key].classList.remove('active');
-          }
-        }
-      });
-
-      // 2. Toggle bottom nav active indicator
-      Object.keys(navTabs).forEach(key => {
-        if (navTabs[key]) {
-          if (key === tabName) {
-            navTabs[key].classList.add('active');
-          } else {
-            navTabs[key].classList.remove('active');
-          }
-        }
-      });
-
-      // 3. Smooth scroll to top of view
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-
-      // 4. Tab specific refreshes
-      if (tabName === 'home') {
-        renderSummary();
-        renderList();
-      } else if (tabName === 'history') {
-        renderList();
-      } else if (tabName === 'add') {
-        updateCategories();
-        updateRateFormVisibility();
-        setTimeout(() => {
-          if (amountInput) amountInput.focus();
-        }, 150);
-      }
-    }
-
     // Bottom Navigation Bar Listeners
     if (navTabs.home) navTabs.home.addEventListener('click', () => switchTab('home'));
     if (navTabs.add) navTabs.add.addEventListener('click', () => switchTab('add'));
@@ -5297,7 +5302,7 @@ Extract the transaction details into strict JSON format with NO markdown wrappin
     // Register Service Worker for PWA installation with auto-update
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./sw.js?v=28').then((reg) => {
+        navigator.serviceWorker.register('./sw.js?v=29').then((reg) => {
           // Immediately check for update on server
           reg.update();
           reg.onupdatefound = () => {
@@ -5346,7 +5351,7 @@ Extract the transaction details into strict JSON format with NO markdown wrappin
         } catch (e) {
           console.warn('Cache clear error:', e);
         }
-        const cacheBuster = 'v=28&ts=' + Date.now();
+        const cacheBuster = 'v=29&ts=' + Date.now();
         const base = window.location.origin + window.location.pathname;
         window.location.replace(base + '?' + cacheBuster);
       }
