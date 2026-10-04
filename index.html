@@ -2801,13 +2801,20 @@
 
     // AI Vision Function with Gemini Flash API (Auto model fallback)
     async function scanSlipWithAi(base64DataUrl) {
-      const apiKey = localStorage.getItem('geminiApiKey');
+      const apiKey = (localStorage.getItem('geminiApiKey') || '').trim();
       if (!apiKey) {
         openAiModal();
         return;
       }
 
-      const base64Data = base64DataUrl.split(',')[1];
+      let rawBase64 = base64DataUrl;
+      let detectedMime = 'image/jpeg';
+      if (base64DataUrl.includes(';base64,')) {
+        const parts = base64DataUrl.split(';base64,');
+        detectedMime = parts[0].replace('data:', '') || 'image/jpeg';
+        rawBase64 = parts[1];
+      }
+
       aiScanningIndicator.style.display = 'flex';
       btnScanSlip.disabled = true;
 
@@ -2821,60 +2828,75 @@ Extract the transaction details into strict JSON format with NO markdown wrappin
   "note": "short summary e.g. receiver name, sender, shop name or memo"
 }`;
 
-      // 1. Dynamically discover which models are enabled for this API Key
-      let candidateModels = [];
+      // Build target list with v1 (stable production) first, then v1beta
+      let targets = [
+        { version: 'v1', model: 'gemini-1.5-flash' },
+        { version: 'v1', model: 'gemini-1.5-pro' },
+        { version: 'v1beta', model: 'gemini-1.5-flash-latest' },
+        { version: 'v1beta', model: 'gemini-1.5-flash' },
+        { version: 'v1beta', model: 'gemini-2.0-flash' },
+        { version: 'v1beta', model: 'gemini-2.0-flash-exp' },
+        { version: 'v1beta', model: 'gemini-1.5-pro-latest' },
+        { version: 'v1beta', model: 'gemini-1.5-pro' }
+      ];
+
+      // Try discovering active models from user's key via v1 & v1beta
       try {
-        const listRes = await fetch(`https://generativelanguage.googleapis.com/v1beta/models?key=${apiKey}`);
-        const listData = await listRes.json();
-        if (listData && Array.isArray(listData.models)) {
-          const supported = listData.models
+        const [resV1, resBeta] = await Promise.allSettled([
+          fetch(`https://generativelanguage.googleapis.com/v1/models?key=${apiKey}`).then(r => r.json()),
+          fetch(`https://generativelanguage.googleapis.com/v1beta/models?key=${apiKey}`).then(r => r.json())
+        ]);
+
+        const discovered = [];
+        if (resV1.status === 'fulfilled' && resV1.value && Array.isArray(resV1.value.models)) {
+          resV1.value.models
             .filter(m => m.supportedGenerationMethods && m.supportedGenerationMethods.includes('generateContent'))
-            .map(m => m.name.replace(/^models\//, ''));
-          
-          // Sort to prioritize flash models first, then pro models
-          const flashModels = supported.filter(m => m.toLowerCase().includes('flash'));
-          const otherModels = supported.filter(m => !m.toLowerCase().includes('flash'));
-          candidateModels = [...flashModels, ...otherModels];
+            .forEach(m => discovered.push({ version: 'v1', model: m.name.replace(/^models\//, '') }));
         }
-      } catch (listErr) {
-        console.warn('Could not list models, using fallback list:', listErr);
+        if (resBeta.status === 'fulfilled' && resBeta.value && Array.isArray(resBeta.value.models)) {
+          resBeta.value.models
+            .filter(m => m.supportedGenerationMethods && m.supportedGenerationMethods.includes('generateContent'))
+            .forEach(m => discovered.push({ version: 'v1beta', model: m.name.replace(/^models\//, '') }));
+        }
+
+        if (discovered.length > 0) {
+          const flash = discovered.filter(t => t.model.toLowerCase().includes('flash'));
+          const others = discovered.filter(t => !t.model.toLowerCase().includes('flash'));
+          targets = [...flash, ...others, ...targets];
+        }
+      } catch (discErr) {
+        console.warn('Model discovery warning:', discErr);
       }
 
-      if (candidateModels.length === 0) {
-        candidateModels = [
-          'gemini-1.5-flash-latest',
-          'gemini-1.5-flash',
-          'gemini-2.0-flash',
-          'gemini-2.0-flash-exp',
-          'gemini-1.5-pro-latest',
-          'gemini-1.5-pro',
-          'gemini-pro-vision'
-        ];
+      // Deduplicate targets
+      const seen = new Set();
+      const uniqueTargets = [];
+      for (const t of targets) {
+        const key = `${t.version}/${t.model}`;
+        if (!seen.has(key)) {
+          seen.add(key);
+          uniqueTargets.push(t);
+        }
       }
 
       let lastError = null;
       let success = false;
 
-      for (const model of candidateModels) {
+      for (const target of uniqueTargets) {
         try {
-          const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
+          const url = `https://generativelanguage.googleapis.com/${target.version}/models/${target.model}:generateContent?key=${apiKey}`;
           
           const bodyPayload = {
             contents: [{
               parts: [
                 { text: prompt },
-                { inlineData: { mimeType: 'image/jpeg', data: base64Data } }
+                { inlineData: { mimeType: detectedMime, data: rawBase64 } }
               ]
             }],
             generationConfig: {
               temperature: 0.1
             }
           };
-
-          // If model supports JSON responseMimeType
-          if (model.includes('1.5') || model.includes('2.0') || model.includes('flash')) {
-            bodyPayload.generationConfig.responseMimeType = 'application/json';
-          }
 
           const response = await fetch(url, {
             method: 'POST',
@@ -2884,7 +2906,7 @@ Extract the transaction details into strict JSON format with NO markdown wrappin
 
           const json = await response.json();
           if (json.error) {
-            lastError = new Error(json.error.message || `Error calling ${model}`);
+            lastError = new Error(json.error.message || `Error calling ${target.model} (${target.version})`);
             continue;
           }
 
@@ -2928,7 +2950,7 @@ Extract the transaction details into strict JSON format with NO markdown wrappin
           updateRateConvertedPreview();
 
           success = true;
-          alert('✨ AI ອ່ານສະລິບສຳເລັດແລ້ວ! ຂໍ້ມູນຖືກປ້ອນລົງຟອມຮຽບຮ້ອຍ');
+          alert(`✨ AI ອ່ານສະລິບສຳເລັດແລ້ວ!\nຂໍ້ມູນຖືກປ້ອນລົງຟອມຮຽບຮ້ອຍ`);
           break;
         } catch (err) {
           lastError = err;
@@ -2982,14 +3004,32 @@ Extract the transaction details into strict JSON format with NO markdown wrappin
           return;
         }
         btnTestApiKey.disabled = true;
-        btnTestApiKey.textContent = '⏳...';
+        btnTestApiKey.textContent = '⏳ ກຳລັງກວດສອບ...';
         try {
-          const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models?key=${key}`);
-          const data = await res.json();
-          if (data.error) {
-            throw new Error(data.error.message || 'Key ບໍ່ຖືກຕ້ອງ');
+          let success = false;
+          let errMsg = '';
+          
+          try {
+            const res = await fetch(`https://generativelanguage.googleapis.com/v1/models?key=${key}`);
+            const data = await res.json();
+            if (!data.error) success = true;
+            else errMsg = data.error.message;
+          } catch (e) {
+            errMsg = e.message;
           }
-          alert('🎉 ສຳເລັດ! Gemini API Key ໃຊ້ງານໄດ້ປົກກະຕິ 100%');
+
+          if (!success) {
+            const resBeta = await fetch(`https://generativelanguage.googleapis.com/v1beta/models?key=${key}`);
+            const dataBeta = await resBeta.json();
+            if (!dataBeta.error) success = true;
+            else errMsg = dataBeta.error.message;
+          }
+
+          if (!success) {
+            throw new Error(errMsg || 'Key ບໍ່ຖືກຕ້ອງ ຫຼື ໝົດອາຍຸ');
+          }
+
+          alert('🎉 ສຳເລັດ! Gemini API Key ໃຊ້ງານໄດ້ປົກກະຕິ 100% ພ້ອມອ່ານສະລິບແລ້ວ');
           localStorage.setItem('geminiApiKey', key);
           if (aiKeyStatusBadge) {
             aiKeyStatusBadge.innerHTML = '<span style="color: #34d399; font-weight: 700;">✅ ເຊື່ອມຕໍ່ Gemini AI ແລ້ວ (ພ້ອມໃຊ້ງານ)</span>';
@@ -3622,7 +3662,7 @@ Extract the transaction details into strict JSON format with NO markdown wrappin
     // Register Service Worker for PWA installation with auto-update
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./sw.js?v=22').then((reg) => {
+        navigator.serviceWorker.register('./sw.js?v=23').then((reg) => {
           // Immediately check for update on server
           reg.update();
           reg.onupdatefound = () => {
