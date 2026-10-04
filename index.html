@@ -252,6 +252,26 @@
       background: rgba(212, 175, 55, 0.25);
     }
 
+    .version-badge {
+      background: rgba(212, 175, 55, 0.15);
+      border: 1px solid rgba(212, 175, 55, 0.4);
+      color: #fde047;
+      font-size: 0.65rem;
+      font-weight: 800;
+      padding: 1px 6px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: var(--transition);
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+    }
+
+    .version-badge:hover {
+      background: var(--gold-gradient);
+      color: #141005;
+    }
+
     /* 2. 3D Black Titanium & Champagne Gold Card */
     .titanium-card {
       background: linear-gradient(145deg, #1c1c24 0%, #121218 55%, #08080b 100%);
@@ -1586,7 +1606,10 @@
         <img src="logo.png" alt="Money Daily Logo" class="app-logo">
         <div class="app-title-group">
           <h1 class="header-title">ບັນທຶກລາຍຮັບ-ລາຍຈ່າຍ</h1>
-          <span class="header-subtitle">BLACK TITANIUM EDITION</span>
+          <div style="display: flex; align-items: center; gap: 6px;">
+            <span class="header-subtitle">BLACK TITANIUM EDITION</span>
+            <button type="button" id="btnForceAppUpdate" class="version-badge" title="ກົດເພື່ອອັບເດດແອັບ / ລ້າງແຄຊທັນທີ">v2.5 🔄</button>
+          </div>
         </div>
       </div>
       <div class="header-actions">
@@ -1957,6 +1980,18 @@
           </label>
         </div>
 
+        <!-- 3. Force App Update & Clear Cache -->
+        <div style="background: rgba(245, 158, 11, 0.06); border: 1px solid rgba(245, 158, 11, 0.25); border-radius: 14px; padding: 14px; margin-top: 14px;">
+          <div style="font-size: 0.88rem; font-weight: 800; color: #fbbf24; margin-bottom: 6px; display: flex; align-items: center; gap: 6px;">
+            <span>🔄</span> 3. ອັບເດດແອັບ & ລ້າງແຄຊ (Clear Cache & Update)
+          </div>
+          <p style="font-size: 0.78rem; color: #a1a1aa; line-height: 1.4; margin-bottom: 10px;">
+            ຫາກໜ້າຈໍມືຖືຍັງບໍ່ອັບເດດ ຫຼື AI ຍັງຄ້າງເວີຊັນເກົ່າ ສາມາດກົດປຸ່ມນີ້ເພື່ອລ້າງແຄຊ ແລະ ດຶງເວີຊັນໃໝ່ລ່າສຸດທັນທີ (ຂໍ້ມູນບໍ່ຫາຍ).
+          </p>
+          <button type="button" id="btnClearCacheReload" class="curr-btn" style="width: 100%; padding: 10px; font-size: 0.84rem; font-weight: 700; color: #fde047; border-color: rgba(245, 158, 11, 0.4);">
+            ⚡ ລ້າງແຄຊ & ອັບເດດແອັບດຽວນີ້ (Force Reload)
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -2828,15 +2863,17 @@ Extract the transaction details into strict JSON format with NO markdown wrappin
   "note": "short summary e.g. receiver name, sender, shop name or memo"
 }`;
 
-      // Build target list with v1 (stable production) first, then v1beta
+      // Build target list prioritizing Gemini 2.0 & 2.5 Flash
       let targets = [
-        { version: 'v1', model: 'gemini-1.5-flash' },
-        { version: 'v1', model: 'gemini-1.5-pro' },
-        { version: 'v1beta', model: 'gemini-1.5-flash-latest' },
-        { version: 'v1beta', model: 'gemini-1.5-flash' },
         { version: 'v1beta', model: 'gemini-2.0-flash' },
+        { version: 'v1', model: 'gemini-2.0-flash' },
+        { version: 'v1beta', model: 'gemini-2.5-flash' },
+        { version: 'v1beta', model: 'gemini-2.0-flash-lite' },
+        { version: 'v1', model: 'gemini-2.5-flash' },
         { version: 'v1beta', model: 'gemini-2.0-flash-exp' },
-        { version: 'v1beta', model: 'gemini-1.5-pro-latest' },
+        { version: 'v1', model: 'gemini-1.5-flash' },
+        { version: 'v1beta', model: 'gemini-1.5-flash-latest' },
+        { version: 'v1', model: 'gemini-1.5-pro' },
         { version: 'v1beta', model: 'gemini-1.5-pro' }
       ];
 
@@ -2851,18 +2888,28 @@ Extract the transaction details into strict JSON format with NO markdown wrappin
         if (resV1.status === 'fulfilled' && resV1.value && Array.isArray(resV1.value.models)) {
           resV1.value.models
             .filter(m => m.supportedGenerationMethods && m.supportedGenerationMethods.includes('generateContent'))
-            .forEach(m => discovered.push({ version: 'v1', model: m.name.replace(/^models\//, '') }));
+            .forEach(m => {
+              const name = m.name.replace(/^models\//, '');
+              discovered.push({ version: 'v1', model: name });
+            });
         }
         if (resBeta.status === 'fulfilled' && resBeta.value && Array.isArray(resBeta.value.models)) {
           resBeta.value.models
             .filter(m => m.supportedGenerationMethods && m.supportedGenerationMethods.includes('generateContent'))
-            .forEach(m => discovered.push({ version: 'v1beta', model: m.name.replace(/^models\//, '') }));
+            .forEach(m => {
+              const name = m.name.replace(/^models\//, '');
+              // Exclude gemini-1.5-flash on v1beta because Google returns 404 for it
+              if (name !== 'gemini-1.5-flash') {
+                discovered.push({ version: 'v1beta', model: name });
+              }
+            });
         }
 
         if (discovered.length > 0) {
-          const flash = discovered.filter(t => t.model.toLowerCase().includes('flash'));
-          const others = discovered.filter(t => !t.model.toLowerCase().includes('flash'));
-          targets = [...flash, ...others, ...targets];
+          const flash2 = discovered.filter(t => (t.model.includes('2.0') || t.model.includes('2.5')) && t.model.includes('flash'));
+          const otherFlash = discovered.filter(t => t.model.includes('flash') && !flash2.includes(t));
+          const others = discovered.filter(t => !flash2.includes(t) && !otherFlash.includes(t));
+          targets = [...flash2, ...otherFlash, ...others, ...targets];
         }
       } catch (discErr) {
         console.warn('Model discovery warning:', discErr);
@@ -2950,7 +2997,8 @@ Extract the transaction details into strict JSON format with NO markdown wrappin
           updateRateConvertedPreview();
 
           success = true;
-          alert(`✨ AI ອ່ານສະລິບສຳເລັດແລ້ວ!\nຂໍ້ມູນຖືກປ້ອນລົງຟອມຮຽບຮ້ອຍ`);
+          const currSym = CURRENCY_CONFIG[parsed.currency] ? CURRENCY_CONFIG[parsed.currency].symbol : (parsed.currency || '');
+          alert(`✨ AI ອ່ານສະລິບສຳເລັດແລ້ວ!\nຍອດເງິນ: ${formatNumber(parsed.amount)} ${currSym}\nໝວດໝູ່: ${parsed.category || '-'}\nລາຍລະອຽດ: ${parsed.note || '-'}`);
           break;
         } catch (err) {
           lastError = err;
@@ -2959,7 +3007,13 @@ Extract the transaction details into strict JSON format with NO markdown wrappin
 
       if (!success) {
         console.error('AI Scan Error:', lastError);
-        alert('⚠️ ບໍ່ສາມາດອ່ານສະລິບໄດ້: ' + (lastError ? lastError.message : 'ກະລຸນາກວດສອບ API Key ຫຼື ລອງໃໝ່'));
+        let userMsg = lastError ? lastError.message : 'ກະລຸນາກວດສອບ API Key ຫຼື ລອງໃໝ່';
+        if (userMsg.includes('API_KEY_INVALID') || userMsg.includes('API key not valid')) {
+          userMsg = 'API Key ບໍ່ຖືກຕ້ອງ ກະລຸນາກວດສອບທີ່ປຸ່ມ [🤖 AI] ເທິງຫົວຂໍ້ແອັບ';
+        } else if (userMsg.includes('RESOURCE_EXHAUSTED') || userMsg.includes('quota')) {
+          userMsg = 'ໂຄຕ້າ API Key ເຕັມ (Quota Exceeded) ກະລຸນາສ້າງ Key ໃໝ່ ຫຼື ລອງໃໝ່ພາຍຫຼັງ';
+        }
+        alert('⚠️ ບໍ່ສາມາດອ່ານສະລິບໄດ້: ' + userMsg);
       }
 
       aiScanningIndicator.style.display = 'none';
@@ -3662,14 +3716,14 @@ Extract the transaction details into strict JSON format with NO markdown wrappin
     // Register Service Worker for PWA installation with auto-update
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./sw.js?v=23').then((reg) => {
+        navigator.serviceWorker.register('./sw.js?v=25').then((reg) => {
           // Immediately check for update on server
           reg.update();
           reg.onupdatefound = () => {
             const installing = reg.installing;
             if (installing) {
               installing.onstatechange = () => {
-                if (installing.state === 'installed' && navigator.serviceWorker.controller) {
+                if ((installing.state === 'installed' || installing.state === 'activated') && navigator.serviceWorker.controller) {
                   console.log('New version installed, reloading...');
                   window.location.reload();
                 }
@@ -3679,7 +3733,51 @@ Extract the transaction details into strict JSON format with NO markdown wrappin
         }).catch(err => {
           console.log('SW registration error:', err);
         });
+
+        // Controller change listener for instant reload
+        let refreshing = false;
+        navigator.serviceWorker.addEventListener('controllerchange', () => {
+          if (!refreshing) {
+            refreshing = true;
+            console.log('Service worker controller changed, reloading...');
+            window.location.reload();
+          }
+        });
       });
+    }
+
+    // Force App Update & Clear Cache Handler
+    async function forceAppUpdate() {
+      if (confirm('🔄 ຕ້ອງການລ້າງແຄຊ ແລະ ອັບເດດແອັບເວີຊັນລ່າສຸດທັນທີບໍ່?\n(ຂໍ້ມູນບັນທຶກທັງໝົດຈະຍັງຄົງຢູ່ຄືເກົ່າ ບໍ່ເສຍຫາຍ)')) {
+        try {
+          if ('serviceWorker' in navigator) {
+            const regs = await navigator.serviceWorker.getRegistrations();
+            for (const r of regs) {
+              await r.unregister();
+            }
+          }
+          if ('caches' in window) {
+            const keys = await caches.keys();
+            for (const k of keys) {
+              await caches.delete(k);
+            }
+          }
+        } catch (e) {
+          console.warn('Cache clear error:', e);
+        }
+        const cacheBuster = 'v=25&ts=' + Date.now();
+        const base = window.location.origin + window.location.pathname;
+        window.location.replace(base + '?' + cacheBuster);
+      }
+    }
+
+    const btnForceAppUpdate = document.getElementById('btnForceAppUpdate');
+    if (btnForceAppUpdate) {
+      btnForceAppUpdate.addEventListener('click', forceAppUpdate);
+    }
+    const btnClearCacheReload = document.getElementById('btnClearCacheReload');
+    if (btnClearCacheReload) {
+      btnClearCacheReload.addEventListener('click', forceAppUpdate);
     }
 
     // PWA install banner handling

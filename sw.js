@@ -1,4 +1,4 @@
-const CACHE_NAME = 'money-daily-v23';
+const CACHE_NAME = 'money-daily-v25';
 const ASSETS = [
   './',
   './index.html',
@@ -12,7 +12,17 @@ self.addEventListener('install', (event) => {
   self.skipWaiting();
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
-      return cache.addAll(ASSETS);
+      return Promise.all(
+        ASSETS.map((url) =>
+          fetch(url, { cache: 'reload' })
+            .then((res) => {
+              if (res.ok) return cache.put(url, res);
+            })
+            .catch((err) => {
+              console.warn('Pre-cache fetch error for', url, err);
+            })
+        )
+      );
     })
   );
 });
@@ -38,10 +48,10 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // Network-First for HTML navigation so users ALWAYS get the latest version immediately
+  // Network-First for HTML navigation with no-cache flag so users ALWAYS get the latest version immediately
   if (event.request.mode === 'navigate' || event.request.destination === 'document' || event.request.url.endsWith('.html') || event.request.url.endsWith('/')) {
     event.respondWith(
-      fetch(event.request)
+      fetch(event.request, { cache: 'no-cache' })
         .then((response) => {
           if (response && response.status === 200) {
             const copy = response.clone();
@@ -56,7 +66,7 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // Stale-While-Revalidate for other assets
+  // Stale-While-Revalidate for static assets
   event.respondWith(
     caches.match(event.request).then((cachedResponse) => {
       const fetchPromise = fetch(event.request).then((networkResponse) => {
